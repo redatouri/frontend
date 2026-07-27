@@ -31,14 +31,14 @@ export function ProductPlaceholder({
     >
       <defs>
         <linearGradient id="ph-bg" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#0D0D0F" />
-          <stop offset="100%" stopColor="#1E1E22" />
+          <stop offset="0%" stopColor="#FFFFFF" />
+          <stop offset="100%" stopColor="#F0F0F2" />
         </linearGradient>
         <pattern id="ph-grid" width="20" height="20" patternUnits="userSpaceOnUse">
           <path
             d="M 20 0 L 0 0 0 20"
             fill="none"
-            stroke="#27272A"
+            stroke="#E4E4E7"
             strokeWidth="0.5"
           />
         </pattern>
@@ -62,7 +62,7 @@ export function ProductPlaceholder({
           y="250"
           textAnchor="middle"
           fontSize="14"
-          fill="#A1A1AA"
+          fill="#52525B"
           fontFamily="system-ui, sans-serif"
         >
           {label}

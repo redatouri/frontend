@@ -36,7 +36,7 @@ export function CartButton({
         <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
       </svg>
       {mounted && count > 0 && (
-        <span className="absolute -end-0.5 -top-0.5 flex size-5 items-center justify-center rounded-full bg-accent text-xs font-bold text-bg-primary">
+        <span className="absolute -end-0.5 -top-0.5 flex size-5 items-center justify-center rounded-full bg-accent text-xs font-bold text-on-accent">
           {count > 9 ? "9+" : count}
         </span>
       )}

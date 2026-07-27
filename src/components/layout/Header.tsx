@@ -10,6 +10,7 @@ import { useTranslations } from "next-intl";
 import { ChevronDown } from "lucide-react";
 import { useRef, useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
+import { Logo } from "./Logo";
 
 interface HeaderProps {
   categories: Category[];
@@ -35,10 +36,24 @@ export function Header({ categories }: HeaderProps) {
   }, []);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-bg-primary/80 backdrop-blur-md">
-      <div className="container-page flex h-16 items-center justify-between md:h-[72px]">
-        <nav className="hidden items-center gap-6 lg:flex">
-          <Link href="/" className="text-sm text-text-secondary transition-colors hover:text-text-primary">
+    <header className="sticky top-0 z-40 border-b border-border/80 bg-white/95 backdrop-blur-md">
+      <div className="container-page flex h-16 items-center justify-between gap-3 md:h-[72px] lg:grid lg:grid-cols-[1fr_auto_1fr] lg:items-center">
+        <div className="flex min-w-0 items-center gap-2">
+          <MobileMenu categories={categories} />
+          <Link
+            href="/"
+            className="transition-opacity hover:opacity-90"
+            aria-label="Movie Cam home"
+          >
+            <Logo height={52} priority />
+          </Link>
+        </div>
+
+        <nav className="hidden items-center justify-center gap-8 lg:flex">
+          <Link
+            href="/"
+            className="text-sm font-medium text-text-secondary transition-colors hover:text-text-primary"
+          >
             {t("home")}
           </Link>
 
@@ -46,13 +61,15 @@ export function Header({ categories }: HeaderProps) {
             <button
               type="button"
               onClick={() => setCollectionsOpen(!collectionsOpen)}
-              className="flex items-center gap-1 text-sm text-text-secondary transition-colors hover:text-text-primary"
+              className="flex items-center gap-1 text-sm font-medium text-text-secondary transition-colors hover:text-text-primary"
             >
               {t("collections")}
-              <ChevronDown className={cn("size-4 transition-transform", collectionsOpen && "rotate-180")} />
+              <ChevronDown
+                className={cn("size-4 transition-transform", collectionsOpen && "rotate-180")}
+              />
             </button>
             {collectionsOpen && (
-              <div className="absolute start-0 top-full z-50 mt-2 min-w-[240px] rounded-xl border border-border bg-bg-elevated py-2 shadow-xl">
+              <div className="absolute start-1/2 top-full z-50 mt-2 min-w-[240px] -translate-x-1/2 rounded-xl border border-border bg-white py-2 shadow-xl">
                 <Link
                   href="/collections"
                   onClick={() => setCollectionsOpen(false)}
@@ -74,24 +91,22 @@ export function Header({ categories }: HeaderProps) {
             )}
           </div>
 
-          <Link href="/about" className="text-sm text-text-secondary transition-colors hover:text-text-primary">
+          <Link
+            href="/about"
+            className="text-sm font-medium text-text-secondary transition-colors hover:text-text-primary"
+          >
             {t("about")}
           </Link>
-          <Link href="/contact" className="text-sm text-text-secondary transition-colors hover:text-text-primary">
+          <Link
+            href="/contact"
+            className="text-sm font-medium text-text-secondary transition-colors hover:text-text-primary"
+          >
             {t("contact")}
           </Link>
         </nav>
 
-        <div className="flex items-center gap-1 sm:gap-2">
+        <div className="flex shrink-0 items-center justify-end gap-1 sm:gap-2 lg:justify-self-end">
           <LocaleSwitcher />
-          <Link
-            href="/"
-            className="flex size-10 items-center justify-center rounded-full bg-accent font-bold text-bg-primary transition-transform hover:scale-105"
-            aria-label="Moviecam home"
-          >
-            N
-          </Link>
-          <MobileMenu categories={categories} />
           <CartButton count={count} onClick={openCart} />
         </div>
       </div>

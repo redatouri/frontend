@@ -1,9 +1,10 @@
 import { Link } from "@/i18n/navigation";
 import { Separator } from "@/components/ui/Separator";
-import { getWhatsAppUrl } from "@/lib/utils";
 import type { Category } from "@/types/category";
 import { getTranslations } from "next-intl/server";
-import { Banknote, ShieldCheck, Truck } from "lucide-react";
+import { Banknote, Phone, ShieldCheck, Truck } from "lucide-react";
+import { Logo } from "./Logo";
+import { STORE } from "@/lib/store";
 
 interface FooterProps {
   categories: Category[];
@@ -18,20 +19,14 @@ export async function Footer({ categories }: FooterProps) {
       <div className="container-page py-12 md:py-16">
         <div className="grid gap-10 md:grid-cols-3">
           <div>
-            <div className="flex items-center gap-3">
-              <span className="flex size-10 items-center justify-center rounded-full bg-accent font-bold text-bg-primary">
-                N
-              </span>
-              <span className="font-display text-xl font-semibold">Moviecam</span>
-            </div>
+            <Logo height={64} />
             <p className="mt-4 max-w-xs text-sm text-text-secondary">{t("tagline")}</p>
             <a
-              href={getWhatsAppUrl()}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-4 inline-block text-sm text-accent hover:underline"
+              href={`tel:${STORE.phoneTel}`}
+              className="mt-4 inline-flex items-center gap-2 text-sm text-accent hover:underline"
             >
-              WhatsApp
+              <Phone className="size-4" />
+              {STORE.phone}
             </a>
           </div>
 
@@ -70,12 +65,10 @@ export async function Footer({ categories }: FooterProps) {
               </li>
               <li>
                 <a
-                  href={getWhatsAppUrl()}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href={`tel:${STORE.phoneTel}`}
                   className="text-sm text-text-secondary hover:text-accent"
                 >
-                  {t("whatsapp")}
+                  {STORE.phone}
                 </a>
               </li>
               <li>

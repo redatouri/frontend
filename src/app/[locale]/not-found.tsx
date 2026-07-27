@@ -11,7 +11,7 @@ export default async function NotFoundPage() {
       <p className="mt-2 text-text-secondary">{t("subtitle")}</p>
       <Link
         href="/"
-        className="mt-8 inline-flex h-12 items-center justify-center rounded-lg bg-accent px-6 text-sm font-semibold text-bg-primary hover:bg-accent-hover"
+        className="mt-8 inline-flex h-12 items-center justify-center rounded-lg bg-accent px-6 text-sm font-semibold text-on-accent hover:bg-accent-hover"
       >
         {t("cta")}
       </Link>

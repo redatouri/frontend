@@ -1,24 +1,25 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-bg-primary: #0d0d0f;
-  --color-bg-elevated: #161618;
-  --color-bg-subtle: #1e1e22;
-  --color-accent: #e8b923;
-  --color-accent-hover: #f5c842;
-  --color-accent-muted: #e8b92333;
-  --color-cyan: #00d4ff;
-  --color-text-primary: #fafafa;
-  --color-text-secondary: #a1a1aa;
+  --color-bg-primary: #ffffff;
+  --color-bg-elevated: #fafafa;
+  --color-bg-subtle: #f4f4f5;
+  --color-accent: #e31837;
+  --color-accent-hover: #c41230;
+  --color-accent-muted: #e3183714;
+  --color-cyan: #0891b2;
+  --color-text-primary: #111111;
+  --color-text-secondary: #52525b;
   --color-text-muted: #71717a;
-  --color-success: #22c55e;
-  --color-warning: #f59e0b;
-  --color-error: #ef4444;
-  --color-scarcity: #ff6b35;
-  --color-border: #27272a;
-  --color-border-focus: #e8b923;
-  --font-display: var(--font-space-grotesk), system-ui, sans-serif;
-  --font-body: var(--font-inter), system-ui, sans-serif;
+  --color-on-accent: #ffffff;
+  --color-success: #16a34a;
+  --color-warning: #d97706;
+  --color-error: #dc2626;
+  --color-scarcity: #ea580c;
+  --color-border: #e4e4e7;
+  --color-border-focus: #e31837;
+  --font-display: var(--font-open-sans), "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-body: var(--font-open-sans), "Helvetica Neue", Helvetica, Arial, sans-serif;
   --font-arabic: var(--font-tajawal), system-ui, sans-serif;
   --font-mono: var(--font-jetbrains), ui-monospace, monospace;
   --text-display-xl: clamp(2.5rem, 5vw, 4.5rem);
@@ -28,7 +29,7 @@
 }
 
 :root {
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 * {
@@ -58,21 +59,27 @@ h3,
 h4,
 .font-display {
   font-family: var(--font-display);
+  letter-spacing: -0.02em;
 }
 
 .text-display-xl {
   font-size: var(--text-display-xl);
   line-height: 1.05;
+  font-weight: 600;
+  letter-spacing: -0.03em;
 }
 
 .text-display-lg {
   font-size: var(--text-display-lg);
   line-height: 1.1;
+  font-weight: 600;
+  letter-spacing: -0.02em;
 }
 
 .text-heading-md {
   font-size: var(--text-heading-md);
   line-height: 1.3;
+  font-weight: 500;
 }
 
 .text-body-lg {
@@ -133,12 +140,9 @@ h4,
 }
 
 .gradient-hero {
-  background: linear-gradient(
-    135deg,
-    #0d0d0f 0%,
-    #161618 50%,
-    #1e1e22 100%
-  );
+  background:
+    radial-gradient(ellipse 80% 60% at 70% 20%, #e3183708 0%, transparent 60%),
+    linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
 }
 
 .text-balance {

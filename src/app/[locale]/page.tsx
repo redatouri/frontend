@@ -1,17 +1,18 @@
+import { CategoryCarousel } from "@/components/marketing/CategoryCarousel";
 import { ScrollReveal } from "@/components/marketing/ScrollReveal";
-import { AlternatingSection } from "@/components/marketing/AlternatingSection";
 import { HeroSection } from "@/components/marketing/HeroSection";
+import { ShowcaseBanner } from "@/components/marketing/ShowcaseBanner";
 import { ProductCard } from "@/components/product/ProductCard";
-import { ProductPlaceholder } from "@/components/ui/ProductPlaceholder";
 import { Link } from "@/i18n/navigation";
 import { getCategories } from "@/lib/api/categories";
+import { buildCategoryCarouselItems } from "@/lib/category-carousel";
 import { getProducts } from "@/lib/api/products";
-import { getWhatsAppUrl } from "@/lib/utils";
+import { HOME_IMAGES, HOME_SHOWCASES } from "@/lib/home-images";
+import { getMediaUrl } from "@/lib/utils";
 import {
   Banknote,
   Headphones,
   ShieldCheck,
-  Sparkles,
   Truck,
   Users,
 } from "lucide-react";
@@ -52,7 +53,7 @@ export default async function HomePage({
   const t = await getTranslations("home");
 
   const [categories, featured, bestSellers] = await Promise.all([
-    getCategories({ locale, top: true }),
+    getCategories({ locale }),
     getProducts({ locale, featured: true, limit: 6 }),
     getProducts({ locale, sort: "popular", limit: 8 }),
   ]);
@@ -67,6 +68,37 @@ export default async function HomePage({
   const products =
     bestSellers.items.length > 0 ? bestSellers.items : featured.items;
 
+  const carouselItems = buildCategoryCarouselItems(
+    categories,
+    {
+      lighting: t("categoryCarousel.lighting.overlay"),
+      memoryStorage: t("categoryCarousel.memoryStorage.overlay"),
+      batteriesPower: t("categoryCarousel.batteriesPower.overlay"),
+      bagsCases: t("categoryCarousel.bagsCases.overlay"),
+      filters: t("categoryCarousel.filters.overlay"),
+      accessories: t("categoryCarousel.accessories.overlay"),
+      cameras: t("categoryCarousel.cameras.overlay"),
+      lenses: t("categoryCarousel.lenses.overlay"),
+      audio: t("categoryCarousel.audio.overlay"),
+      stabilization: t("categoryCarousel.stabilization.overlay"),
+      studioPacks: t("categoryCarousel.studioPacks.overlay"),
+    },
+    {
+      lighting: t("categoryCarousel.lighting.label"),
+      memoryStorage: t("categoryCarousel.memoryStorage.label"),
+      batteriesPower: t("categoryCarousel.batteriesPower.label"),
+      bagsCases: t("categoryCarousel.bagsCases.label"),
+      filters: t("categoryCarousel.filters.label"),
+      accessories: t("categoryCarousel.accessories.label"),
+      cameras: t("categoryCarousel.cameras.label"),
+      lenses: t("categoryCarousel.lenses.label"),
+      audio: t("categoryCarousel.audio.label"),
+      stabilization: t("categoryCarousel.stabilization.label"),
+      studioPacks: t("categoryCarousel.studioPacks.label"),
+    },
+    (path) => getMediaUrl(path) ?? path,
+  );
+
   return (
     <>
       <HeroSection
@@ -74,57 +106,38 @@ export default async function HomePage({
         subtitle={t("heroSubtitle")}
         ctaPrimary={t("heroCtaPrimary")}
         ctaSecondary={t("heroCtaSecondary")}
+        imageSrc={HOME_IMAGES.hero.src}
+        imageAlt={HOME_IMAGES.hero.alt}
       />
 
-      <ScrollReveal className="border-y border-border bg-bg-elevated py-8">
-        <div className="container-page grid grid-cols-2 gap-6 md:grid-cols-4">
+      <ScrollReveal className="border-y border-border bg-white py-5">
+        <div className="container-page grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-6">
           {trustItems.map(({ icon: Icon, label }) => (
-            <div key={label} className="flex items-center gap-3">
-              <Icon className="size-5 shrink-0 text-accent" />
-              <span className="text-sm text-text-secondary">{label}</span>
+            <div key={label} className="flex items-center gap-3 rounded-lg px-2 py-1">
+              <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-accent-muted">
+                <Icon className="size-4 text-accent" />
+              </span>
+              <span className="text-sm font-medium text-text-secondary">{label}</span>
             </div>
           ))}
         </div>
       </ScrollReveal>
 
-      <section className="section-padding">
-        <div className="container-page">
-          <ScrollReveal>
-            <h2 className="font-display text-display-lg font-semibold">
-              {t("featuredCategories")}
-            </h2>
-          </ScrollReveal>
-          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {categories.map((cat, i) => (
-              <ScrollReveal key={cat.slug} delay={i * 0.1}>
-                <Link
-                  href={`/collections/${cat.slug}`}
-                  className="group block overflow-hidden rounded-2xl border border-border bg-bg-elevated transition-transform hover:scale-[1.02]"
-                >
-                  <div className="relative aspect-[16/10] bg-bg-subtle">
-                    <ProductPlaceholder category="camera" label={cat.name} />
-                  </div>
-                  <div className="p-5">
-                    <h3 className="font-display text-lg font-semibold group-hover:text-accent">
-                      {cat.name}
-                    </h3>
-                    <p className="mt-1 text-sm text-text-muted">
-                      {cat.product_count} produits
-                    </p>
-                  </div>
-                </Link>
-              </ScrollReveal>
-            ))}
-          </div>
-        </div>
-      </section>
+      <CategoryCarousel title={t("allCategories")} items={carouselItems} />
 
-      <AlternatingSection
-        title={t("flagshipTitle")}
-        description={t("flagshipSubtitle")}
-        imagePosition="left"
-        category="camera"
-      />
+      {HOME_SHOWCASES.map((showcase) => (
+        <ShowcaseBanner
+          key={showcase.id}
+          title={t(showcase.titleKey)}
+          subtitle={t(showcase.subtitleKey)}
+          cta={t(showcase.ctaKey)}
+          href={showcase.href}
+          imageSrc={showcase.image.src}
+          imageAlt={showcase.image.alt}
+          align={showcase.align}
+          theme={showcase.theme}
+        />
+      ))}
 
       <section className="section-padding bg-bg-elevated">
         <div className="container-page">
@@ -147,19 +160,6 @@ export default async function HomePage({
           </div>
         </div>
       </section>
-
-      <ScrollReveal className="container-page section-padding">
-        <div className="relative overflow-hidden rounded-3xl border border-accent/20 bg-gradient-to-br from-bg-elevated to-bg-subtle p-10 md:p-16">
-          <Sparkles className="absolute end-8 top-8 size-12 text-accent/30" />
-          <h2 className="font-display text-display-lg font-semibold">{t("studioPacks")}</h2>
-          <Link
-            href="/collections"
-            className="mt-6 inline-flex h-12 items-center justify-center rounded-lg bg-accent px-6 text-sm font-semibold text-bg-primary hover:bg-accent-hover"
-          >
-            {t("studioPacksCta")}
-          </Link>
-        </div>
-      </ScrollReveal>
 
       <section className="section-padding">
         <div className="container-page">
@@ -216,14 +216,12 @@ export default async function HomePage({
         <div className="rounded-2xl border border-border bg-bg-elevated p-8 text-center md:p-12">
           <h2 className="font-display text-xl font-semibold">{t("newsletterTitle")}</h2>
           <p className="mt-2 text-text-secondary">{t("newsletterSubtitle")}</p>
-          <a
-            href={getWhatsAppUrl()}
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link
+            href="/contact"
             className="mt-6 inline-flex h-12 items-center justify-center rounded-lg border border-accent px-6 text-sm font-semibold text-accent hover:bg-accent-muted"
           >
-            WhatsApp
-          </a>
+            0630960711
+          </Link>
         </div>
       </ScrollReveal>
     </>

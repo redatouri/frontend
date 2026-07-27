@@ -1,20 +1,17 @@
+import { getStoreCoordinates } from "@/lib/store";
+
 export function GoogleMapEmbed() {
-  const lat = process.env.NEXT_PUBLIC_STORE_LAT ?? "33.5731";
-  const lng = process.env.NEXT_PUBLIC_STORE_LNG ?? "-7.5898";
+  const { lat, lng } = getStoreCoordinates();
   const key = process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY;
 
-  if (!key) {
-    return (
-      <div className="flex h-[400px] items-center justify-center rounded-lg border border-border bg-bg-elevated text-text-secondary">
-        <p className="text-sm">Carte — configurez NEXT_PUBLIC_GOOGLE_MAPS_KEY</p>
-      </div>
-    );
-  }
+  const embedSrc = key
+    ? `https://www.google.com/maps/embed/v1/place?key=${key}&q=${lat},${lng}&zoom=15`
+    : `https://maps.google.com/maps?q=${lat},${lng}&hl=fr&z=15&output=embed`;
 
   return (
     <iframe
-      title="Moviecam store location"
-      src={`https://www.google.com/maps/embed/v1/place?key=${key}&q=${lat},${lng}&zoom=15`}
+      title="Movie Cam store location"
+      src={embedSrc}
       className="h-[400px] w-full rounded-lg border-0"
       loading="lazy"
       referrerPolicy="no-referrer-when-downgrade"

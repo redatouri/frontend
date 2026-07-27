@@ -6,6 +6,7 @@ const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 const nextConfig: NextConfig = {
   output: "standalone",
   images: {
+    formats: ["image/webp"],
     remotePatterns: [
       { protocol: "https", hostname: "api.moviecam.ma" },
       { protocol: "http", hostname: "localhost", port: "8000" },

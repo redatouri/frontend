@@ -1,7 +1,6 @@
 import { CartDrawer } from "@/components/layout/CartDrawer";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
-import { WhatsAppFab } from "@/components/layout/WhatsAppFab";
 import { Providers } from "@/components/providers/Providers";
 import { routing } from "@/i18n/routing";
 import { getCategories } from "@/lib/api/categories";
@@ -9,20 +8,16 @@ import { NextIntlClientProvider } from "next-intl";
 import { getMessages, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import {
-  Inter,
   JetBrains_Mono,
-  Space_Grotesk,
+  Open_Sans,
   Tajawal,
 } from "next/font/google";
 
-const spaceGrotesk = Space_Grotesk({
-  subsets: ["latin"],
-  variable: "--font-space-grotesk",
-});
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
+const openSans = Open_Sans({
+  subsets: ["latin", "latin-ext"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-open-sans",
+  display: "swap",
 });
 
 const tajawal = Tajawal({
@@ -61,7 +56,7 @@ export default async function LocaleLayout({
     <html
       lang={locale}
       dir={locale === "ar" ? "rtl" : "ltr"}
-      className={`${spaceGrotesk.variable} ${inter.variable} ${tajawal.variable} ${jetbrains.variable}`}
+      className={`${openSans.variable} ${tajawal.variable} ${jetbrains.variable}`}
     >
       <body>
         <NextIntlClientProvider messages={messages}>
@@ -70,7 +65,6 @@ export default async function LocaleLayout({
             <main className="min-h-[60vh]">{children}</main>
             <Footer categories={categories} />
             <CartDrawer />
-            <WhatsAppFab />
           </Providers>
         </NextIntlClientProvider>
       </body>
