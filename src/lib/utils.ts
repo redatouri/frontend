@@ -1,0 +1,22 @@
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
+
+export function getApiBaseUrl(): string {
+  return process.env.NEXT_PUBLIC_API_URL ?? "https://api.moviecam.ma";
+}
+
+export function getMediaUrl(path: string | null | undefined): string | null {
+  if (!path) return null;
+  if (path.startsWith("http")) return path;
+  return `${getApiBaseUrl()}${path.startsWith("/") ? path : `/${path}`}`;
+}
+
+export function getWhatsAppUrl(message?: string): string {
+  const number = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "212600000000";
+  const base = `https://wa.me/${number}`;
+  return message ? `${base}?text=${encodeURIComponent(message)}` : base;
+}

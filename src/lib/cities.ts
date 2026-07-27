@@ -1,0 +1,17 @@
+export const MOROCCAN_CITIES = [
+  "Casablanca",
+  "Rabat",
+  "Marrakech",
+  "Tanger",
+  "Fès",
+  "Agadir",
+  "Meknès",
+  "Oujda",
+  "Kenitra",
+  "Tétouan",
+  "Salé",
+  "Nador",
+  "Mohammedia",
+  "El Jadida",
+  "Autre",
+] as const;
