@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-bg-primary: #0d0d0f;
+  --color-bg-elevated: #161618;
+  --color-bg-subtle: #1e1e22;
+  --color-accent: #e8b923;
+  --color-text-primary: #fafafa;
+  --color-text-secondary: #a1a1aa;
+  --color-border: #27272a;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  font-family: Arial, Helvetica, sans-serif;
+}
