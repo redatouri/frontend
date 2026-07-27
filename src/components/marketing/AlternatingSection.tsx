@@ -12,6 +12,7 @@ interface AlternatingSectionProps {
   imageUrl?: string | null;
   imageAlt?: string;
   imagePosition?: "left" | "right";
+  imageAspect?: string;
   category?: "camera" | "audio" | "lighting" | "gimbal" | "lens" | "default";
   className?: string;
 }
@@ -22,11 +23,12 @@ export function AlternatingSection({
   imageUrl,
   imageAlt,
   imagePosition = "left",
+  imageAspect = "aspect-[4/3]",
   category = "default",
   className,
 }: AlternatingSectionProps) {
   const imageBlock = (
-    <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-bg-elevated">
+    <div className={cn("relative overflow-hidden rounded-2xl bg-bg-elevated", imageAspect)}>
       {imageUrl ? (
         <Image
           src={imageUrl}

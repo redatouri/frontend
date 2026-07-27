@@ -36,8 +36,10 @@ export default async function AboutPage({
       <AlternatingSection
         title={t("storyTitle")}
         description={t("storyBody")}
+        imageUrl="/about/store.webp"
+        imageAlt="Magasin Movie Cam à Agadir"
         imagePosition="left"
-        category="camera"
+        imageAspect="aspect-[3/4] max-h-[560px] w-full max-w-md mx-auto lg:mx-0"
       />
 
       <section className="section-padding">
