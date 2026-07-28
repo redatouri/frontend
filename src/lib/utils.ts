@@ -12,6 +12,9 @@ export function getApiBaseUrl(): string {
 export function getMediaUrl(path: string | null | undefined): string | null {
   if (!path) return null;
   if (path.startsWith("http")) return path;
+  if (path.startsWith("/products/") || path.startsWith("/home/") || path.startsWith("/about/") || path.startsWith("/brands/")) {
+    return path;
+  }
   return `${getApiBaseUrl()}${path.startsWith("/") ? path : `/${path}`}`;
 }
 

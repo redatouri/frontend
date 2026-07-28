@@ -118,7 +118,7 @@ export function CartDrawer() {
                             <Plus className="size-3" />
                           </button>
                         </div>
-                        <span className="text-sm font-semibold text-accent">
+                        <span className="text-sm font-semibold text-price">
                           {formatPrice(item.price * item.quantity, locale)}
                         </span>
                       </div>
@@ -162,7 +162,7 @@ export function CartDrawer() {
                         )}
                       </div>
                       <p className="mt-2 line-clamp-2 text-xs">{product.headline ?? product.name}</p>
-                      <p className="mt-1 text-xs font-semibold text-accent">
+                      <p className="mt-1 text-xs font-semibold text-price">
                         {formatPrice(product.default_offer.price, locale)}
                       </p>
                       <Button

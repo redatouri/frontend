@@ -1,7 +1,7 @@
 export const HOME_IMAGES = {
   hero: {
-    src: "/home/hero-gimbal.webp",
-    alt: "Stabilisateur gimbal DJI RS4",
+    src: "/home/hero-osmo-pocket-3.webp",
+    alt: "Dji osmo pocket 3 standard",
   },
   microphone: {
     src: "/home/showcase-microphone.webp",

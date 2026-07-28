@@ -38,7 +38,7 @@ export function OfferSelector({ offers, selectedId, onSelect }: OfferSelectorPro
               <div>
                 <p className="font-medium">{offer.label}</p>
                 <div className="mt-2 flex flex-wrap items-baseline gap-2">
-                  <span className="text-lg font-semibold text-accent">
+                  <span className="text-lg font-semibold text-price">
                     {formatPrice(offer.price, locale)}
                   </span>
                   {offer.compare_at_price && offer.compare_at_price > offer.price && (

@@ -181,7 +181,7 @@ export function CodCheckoutForm() {
           </ul>
           <div className="mt-4 flex justify-between border-t border-border pt-4 font-semibold">
             <span>Total</span>
-            <span className="text-accent">{formatPrice(total(), locale)}</span>
+            <span className="text-price">{formatPrice(total(), locale)}</span>
           </div>
         </div>
       </aside>

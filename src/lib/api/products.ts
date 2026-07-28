@@ -1,4 +1,5 @@
 import { api } from "./client";
+import { getDemoProduct, getDemoProducts, isDemoModeEnabled } from "@/lib/demo-products";
 import type {
   ProductDetail,
   ProductListItem,
@@ -20,6 +21,10 @@ export interface ProductQuery {
 export async function getProducts(
   params: ProductQuery,
 ): Promise<ProductListResponse> {
+  if (isDemoModeEnabled()) {
+    return getDemoProducts(params);
+  }
+
   try {
     const search = new URLSearchParams({ locale: params.locale });
     if (params.category) search.set("category", params.category);
@@ -33,6 +38,9 @@ export async function getProducts(
 
     return await api<ProductListResponse>(`/products?${search}`);
   } catch {
+    if (isDemoModeEnabled()) {
+      return getDemoProducts(params);
+    }
     return { items: [], total: 0, page: 1, limit: 20 };
   }
 }
@@ -41,9 +49,16 @@ export async function getProduct(
   slug: string,
   locale: string,
 ): Promise<ProductDetail | null> {
+  if (isDemoModeEnabled()) {
+    return getDemoProduct(slug);
+  }
+
   try {
     return await api<ProductDetail>(`/products/${slug}?locale=${locale}`);
   } catch {
+    if (isDemoModeEnabled()) {
+      return getDemoProduct(slug);
+    }
     return null;
   }
 }

@@ -18,8 +18,8 @@ export function HeroSection({
   subtitle,
   ctaPrimary,
   ctaSecondary,
-  imageSrc = "/home/hero-gimbal.webp",
-  imageAlt = "Stabilisateur gimbal professionnel",
+  imageSrc = "/home/hero-osmo-pocket-3.webp",
+  imageAlt = "Dji osmo pocket 3 standard",
 }: HeroSectionProps) {
   return (
     <section className="relative min-h-[92vh] w-full overflow-hidden bg-black">

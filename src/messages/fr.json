@@ -105,6 +105,9 @@
     "flagshipTitle": "L'équipement qui fait la différence",
     "flagshipSubtitle": "Des caméras hybrides aux stabilisateurs DJI — tout pour votre prochain tournage.",
     "bestSellers": "Best-sellers",
+    "brandsTitle": "Nos marques",
+    "brandLabel": "Marque",
+    "viewAllBrand": "Voir tout {brand}",
     "studioPacks": "Packs studio prêts à filmer",
     "studioPacksCta": "Découvrir les packs",
     "whyTitle": "Pourquoi Moviecam",
@@ -129,7 +132,10 @@
     "sortPopular": "Populaires",
     "sortPriceAsc": "Prix croissant",
     "sortPriceDesc": "Prix décroissant",
-    "sortNewest": "Nouveautés"
+    "sortNewest": "Nouveautés",
+    "brandsTitle": "Par marque",
+    "brandLabel": "Marque",
+    "viewAllBrand": "Voir tout {brand}"
   },
   "about": {
     "title": "Notre mission",

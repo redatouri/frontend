@@ -105,6 +105,9 @@
     "flagshipTitle": "Gear that makes the difference",
     "flagshipSubtitle": "From mirrorless cameras to DJI gimbals — everything for your next shoot.",
     "bestSellers": "Best-sellers",
+    "brandsTitle": "Our brands",
+    "brandLabel": "Brand",
+    "viewAllBrand": "View all {brand}",
     "studioPacks": "Ready-to-shoot studio packs",
     "studioPacksCta": "Explore packs",
     "whyTitle": "Why Moviecam",
@@ -129,7 +132,10 @@
     "sortPopular": "Popular",
     "sortPriceAsc": "Price: low to high",
     "sortPriceDesc": "Price: high to low",
-    "sortNewest": "Newest"
+    "sortNewest": "Newest",
+    "brandsTitle": "Shop by brand",
+    "brandLabel": "Brand",
+    "viewAllBrand": "View all {brand}"
   },
   "about": {
     "title": "Our mission",

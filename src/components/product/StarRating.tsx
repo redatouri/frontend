@@ -27,7 +27,7 @@ export function StarRating({
             className={cn(
               starSize,
               i < Math.round(rating)
-                ? "fill-accent text-accent"
+                ? "fill-rating text-rating"
                 : "fill-transparent text-border",
             )}
           />

@@ -1,8 +1,7 @@
-import { CategoryCarousel } from "@/components/marketing/CategoryCarousel";
+import { BrandShowcases } from "@/components/marketing/BrandShowcases";
 import { ScrollReveal } from "@/components/marketing/ScrollReveal";
-import { getCategories } from "@/lib/api/categories";
-import { buildCategoryCarouselItems } from "@/lib/category-carousel";
-import { getMediaUrl } from "@/lib/utils";
+import { getProducts } from "@/lib/api/products";
+import { groupProductsByBrand, normalizeBrandParam } from "@/lib/brands";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
@@ -18,45 +17,24 @@ export async function generateMetadata({
 
 export default async function CollectionsPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ locale: string }>;
+  searchParams: Promise<{ brand?: string }>;
 }) {
   const { locale } = await params;
+  const { brand: brandParam } = await searchParams;
   setRequestLocale(locale);
   const t = await getTranslations("collections");
-  const tHome = await getTranslations("home");
-  const categories = await getCategories({ locale });
 
-  const carouselItems = buildCategoryCarouselItems(
-    categories,
-    {
-      lighting: tHome("categoryCarousel.lighting.overlay"),
-      memoryStorage: tHome("categoryCarousel.memoryStorage.overlay"),
-      batteriesPower: tHome("categoryCarousel.batteriesPower.overlay"),
-      bagsCases: tHome("categoryCarousel.bagsCases.overlay"),
-      filters: tHome("categoryCarousel.filters.overlay"),
-      accessories: tHome("categoryCarousel.accessories.overlay"),
-      cameras: tHome("categoryCarousel.cameras.overlay"),
-      lenses: tHome("categoryCarousel.lenses.overlay"),
-      audio: tHome("categoryCarousel.audio.overlay"),
-      stabilization: tHome("categoryCarousel.stabilization.overlay"),
-      studioPacks: tHome("categoryCarousel.studioPacks.overlay"),
-    },
-    {
-      lighting: tHome("categoryCarousel.lighting.label"),
-      memoryStorage: tHome("categoryCarousel.memoryStorage.label"),
-      batteriesPower: tHome("categoryCarousel.batteriesPower.label"),
-      bagsCases: tHome("categoryCarousel.bagsCases.label"),
-      filters: tHome("categoryCarousel.filters.label"),
-      accessories: tHome("categoryCarousel.accessories.label"),
-      cameras: tHome("categoryCarousel.cameras.label"),
-      lenses: tHome("categoryCarousel.lenses.label"),
-      audio: tHome("categoryCarousel.audio.label"),
-      stabilization: tHome("categoryCarousel.stabilization.label"),
-      studioPacks: tHome("categoryCarousel.studioPacks.label"),
-    },
-    (path) => getMediaUrl(path) ?? path,
-  );
+  const allProducts = await getProducts({ locale, limit: 100 });
+
+  let brandGroups = groupProductsByBrand(allProducts.items);
+
+  if (brandParam) {
+    const brand = normalizeBrandParam(brandParam);
+    brandGroups = brandGroups.filter((group) => group.brand === brand);
+  }
 
   return (
     <>
@@ -69,7 +47,13 @@ export default async function CollectionsPage({
         </div>
       </section>
 
-      <CategoryCarousel title={tHome("allCategories")} items={carouselItems} />
+      <BrandShowcases
+        title={brandParam ? undefined : t("brandsTitle")}
+        groups={brandGroups}
+        brandLabel={t("brandLabel")}
+        viewAllLabel={(brand) => t("viewAllBrand", { brand })}
+        expanded={Boolean(brandParam)}
+      />
     </>
   );
 }

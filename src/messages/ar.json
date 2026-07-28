@@ -105,6 +105,9 @@
     "flagshipTitle": "المعدات التي تصنع الفرق",
     "flagshipSubtitle": "من الكاميرات الهجينة إلى مثبتات DJI — كل ما تحتاجه لتصويرك القادم.",
     "bestSellers": "الأكثر مبيعاً",
+    "brandsTitle": "علاماتنا",
+    "brandLabel": "العلامة",
+    "viewAllBrand": "عرض كل {brand}",
     "studioPacks": "باقات استوديو جاهزة",
     "studioPacksCta": "اكتشف الباقات",
     "whyTitle": "لماذا Moviecam",
@@ -129,7 +132,10 @@
     "sortPopular": "الأكثر شعبية",
     "sortPriceAsc": "السعر: تصاعدي",
     "sortPriceDesc": "السعر: تنازلي",
-    "sortNewest": "الأحدث"
+    "sortNewest": "الأحدث",
+    "brandsTitle": "حسب العلامة",
+    "brandLabel": "العلامة",
+    "viewAllBrand": "عرض كل {brand}"
   },
   "about": {
     "title": "مهمتنا",

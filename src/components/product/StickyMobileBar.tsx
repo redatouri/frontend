@@ -22,7 +22,7 @@ export function StickyMobileBar({ offer, onAddToCart, disabled }: StickyMobileBa
     <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-bg-primary/95 p-4 backdrop-blur-md lg:hidden">
       <div className="flex items-center gap-3">
         <div className="shrink-0">
-          <p className="text-lg font-semibold text-accent">
+          <p className="text-lg font-semibold text-price">
             {formatPrice(offer.price, locale)}
           </p>
         </div>

@@ -52,7 +52,7 @@ export function ProductCard({ product }: ProductCardProps) {
         />
 
         <Link href={`/products/${product.slug}`}>
-          <h3 className="mt-2 font-display text-heading-md font-semibold leading-snug transition-colors group-hover:text-accent">
+          <h3 className="mt-2 font-display text-heading-md font-semibold leading-snug transition-colors group-hover:text-text-primary">
             {product.headline ?? product.name}
           </h3>
         </Link>
@@ -64,7 +64,7 @@ export function ProductCard({ product }: ProductCardProps) {
         )}
 
         <div className="mt-3 flex flex-wrap items-baseline gap-2">
-          <span className="text-lg font-semibold text-accent">
+          <span className="text-lg font-semibold text-price">
             {formatPrice(offer.price, locale)}
           </span>
           {offer.compare_at_price && offer.compare_at_price > offer.price && (
@@ -78,7 +78,7 @@ export function ProductCard({ product }: ProductCardProps) {
 
         <Link
           href={`/products/${product.slug}#offers`}
-          className="mt-4 inline-flex h-10 w-full items-center justify-center rounded-lg border border-accent text-sm font-medium text-accent transition-colors hover:bg-accent-muted"
+          className="mt-4 inline-flex h-10 w-full items-center justify-center rounded-lg border border-text-primary text-sm font-medium text-text-primary transition-colors hover:bg-bg-subtle"
         >
           {t("viewOffer")}
         </Link>

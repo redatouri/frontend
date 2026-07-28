@@ -203,7 +203,7 @@ export function ProductPageClient({ product }: ProductPageClientProps) {
 
       <ScrollReveal className="container-page section-padding">
         <div className="rounded-2xl border border-accent/30 bg-accent-muted p-8 text-center">
-          <p className="text-2xl font-semibold text-accent">
+          <p className="text-2xl font-semibold text-price">
             {formatPrice(selectedOffer.price, locale)}
           </p>
           <Button
