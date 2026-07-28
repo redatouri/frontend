@@ -5,6 +5,8 @@ import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 
+export const dynamic = "force-dynamic";
+
 export async function generateMetadata({
   params,
 }: {

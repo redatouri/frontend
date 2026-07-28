@@ -36,7 +36,7 @@ export async function getProducts(
     if (params.max_price != null) search.set("max_price", String(params.max_price));
     if (params.in_stock != null) search.set("in_stock", String(params.in_stock));
 
-    return await api<ProductListResponse>(`/products?${search}`);
+    return await api<ProductListResponse>(`/products?${search}`, { cache: "no-store" });
   } catch {
     if (isDemoModeEnabled()) {
       return getDemoProducts(params);
@@ -54,7 +54,9 @@ export async function getProduct(
   }
 
   try {
-    return await api<ProductDetail>(`/products/${slug}?locale=${locale}`);
+    return await api<ProductDetail>(`/products/${slug}?locale=${locale}`, {
+      cache: "no-store",
+    });
   } catch {
     if (isDemoModeEnabled()) {
       return getDemoProduct(slug);

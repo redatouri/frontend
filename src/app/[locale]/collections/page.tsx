@@ -5,6 +5,8 @@ import { groupProductsByBrand, normalizeBrandParam } from "@/lib/brands";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
+export const dynamic = "force-dynamic";
+
 export async function generateMetadata({
   params,
 }: {

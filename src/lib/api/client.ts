@@ -12,11 +12,27 @@ export class ApiError extends Error {
   }
 }
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "https://api.moviecam.ma";
+function getApiBase(): string {
+  const configured =
+    process.env.API_URL ??
+    process.env.NEXT_PUBLIC_API_URL ??
+    "https://api.moviecam.ma";
+
+  const normalized = configured.replace(/\/$/, "");
+
+  if (
+    process.env.NODE_ENV === "production" &&
+    /localhost|127\.0\.0\.1/.test(normalized)
+  ) {
+    return "https://api.moviecam.ma";
+  }
+
+  return normalized;
+}
 
 export async function api<T>(path: string, options?: RequestInit): Promise<T> {
   const isServer = typeof window === "undefined";
-  const res = await fetch(`${API_BASE}/api/v1${path}`, {
+  const res = await fetch(`${getApiBase()}/api/v1${path}`, {
     ...options,
     headers: {
       "Content-Type": "application/json",
