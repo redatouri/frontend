@@ -45,7 +45,7 @@ export function Header({ categories }: HeaderProps) {
             className="transition-opacity hover:opacity-90"
             aria-label="Movie Cam home"
           >
-            <Logo height={52} priority />
+            <Logo height={42} priority />
           </Link>
         </div>
 

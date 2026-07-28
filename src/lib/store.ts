@@ -5,6 +5,8 @@ export const STORE = {
   lat: 30.3609346,
   lng: -9.5365017,
   mapsUrl: "https://maps.app.goo.gl/1awcRWQ3WJKMvHeL9",
+  instagramUrl: "https://www.instagram.com/movie_camshop",
+  instagramHandle: "@movie_camshop",
 } as const;
 
 export function getStoreCoordinates() {

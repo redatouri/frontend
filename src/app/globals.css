@@ -8,8 +8,8 @@
   --color-accent-hover: #c41230;
   --color-accent-muted: #e3183714;
   --color-price: #111111;
-  --color-rating: #ca8a04;
-  --color-rating-muted: #fef9c3;
+  --color-rating: #f59e0b;
+  --color-rating-muted: #fffbeb;
   --color-cyan: #0891b2;
   --color-text-primary: #111111;
   --color-text-secondary: #52525b;
@@ -144,7 +144,7 @@ h4,
 
 .gradient-hero {
   background:
-    radial-gradient(ellipse 80% 60% at 70% 20%, #e3183708 0%, transparent 60%),
+    radial-gradient(ellipse 80% 60% at 70% 20%, #11111108 0%, transparent 60%),
     linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
 }
 

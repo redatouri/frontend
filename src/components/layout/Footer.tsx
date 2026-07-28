@@ -28,6 +28,14 @@ export async function Footer({ categories }: FooterProps) {
               <Phone className="size-4" />
               {STORE.phone}
             </a>
+            <a
+              href={STORE.instagramUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-3 inline-flex items-center gap-2 text-sm text-text-secondary hover:text-accent"
+            >
+              Instagram · {STORE.instagramHandle}
+            </a>
           </div>
 
           <div>
@@ -83,25 +91,32 @@ export async function Footer({ categories }: FooterProps) {
 
         <Separator className="my-8" />
 
-        <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-          <div className="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent-muted px-4 py-2 text-sm text-accent">
-            <Banknote className="size-4" />
-            {t("codBadge")}
-          </div>
+        <div className="overflow-hidden rounded-2xl bg-text-primary shadow-lg ring-1 ring-black/10">
+          <div className="flex flex-col gap-5 px-5 py-5 md:flex-row md:items-center md:justify-between md:px-8 md:py-6">
+            <div className="inline-flex w-fit items-center gap-3 rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-white shadow-[0_8px_24px_rgba(227,24,55,0.35)]">
+              <span className="flex size-8 items-center justify-center rounded-full bg-white/15">
+                <Banknote className="size-4" aria-hidden />
+              </span>
+              {t("codBadge")}
+            </div>
 
-          <div className="flex flex-wrap gap-6 text-sm text-text-secondary">
-            <span className="flex items-center gap-2">
-              <ShieldCheck className="size-4 text-accent" />
-              {t("trustOriginal")}
-            </span>
-            <span className="flex items-center gap-2">
-              <ShieldCheck className="size-4 text-accent" />
-              {t("trustWarranty")}
-            </span>
-            <span className="flex items-center gap-2">
-              <Truck className="size-4 text-accent" />
-              {t("trustDelivery")}
-            </span>
+            <div className="grid gap-3 sm:grid-cols-3 sm:gap-6">
+              {[
+                { icon: ShieldCheck, label: t("trustOriginal") },
+                { icon: ShieldCheck, label: t("trustWarranty") },
+                { icon: Truck, label: t("trustDelivery") },
+              ].map(({ icon: Icon, label }) => (
+                <span
+                  key={label}
+                  className="flex items-center gap-3 text-sm font-medium text-white/90"
+                >
+                  <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-accent/20 ring-1 ring-accent/40">
+                    <Icon className="size-4 text-accent" aria-hidden />
+                  </span>
+                  {label}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
 

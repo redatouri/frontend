@@ -1,11 +1,11 @@
 import { BrandShowcases } from "@/components/marketing/BrandShowcases";
+import { InstagramSection } from "@/components/marketing/InstagramSection";
 import { ScrollReveal } from "@/components/marketing/ScrollReveal";
 import { HeroSection } from "@/components/marketing/HeroSection";
-import { ShowcaseBanner } from "@/components/marketing/ShowcaseBanner";
 import { Link } from "@/i18n/navigation";
 import { groupProductsByBrand } from "@/lib/brands";
 import { getProducts } from "@/lib/api/products";
-import { HOME_IMAGES, HOME_SHOWCASES } from "@/lib/home-images";
+import { HOME_IMAGES } from "@/lib/home-images";
 import {
   Banknote,
   Headphones,
@@ -66,11 +66,17 @@ export default async function HomePage({
     <>
       <HeroSection
         title={t("heroTitle")}
-        subtitle={t("heroSubtitle")}
         ctaPrimary={t("heroCtaPrimary")}
         ctaSecondary={t("heroCtaSecondary")}
-        imageSrc={HOME_IMAGES.hero.src}
-        imageAlt={HOME_IMAGES.hero.alt}
+        imageDesktop={HOME_IMAGES.hero.desktop.src}
+        imageMobile={HOME_IMAGES.hero.mobile.src}
+        imageAlt={HOME_IMAGES.hero.desktop.alt}
+      />
+
+      <InstagramSection
+        title={t("instagramTitle")}
+        subtitle={t("instagramSubtitle")}
+        cta={t("instagramCta")}
       />
 
       <ScrollReveal className="border-y border-border bg-white py-5">
@@ -118,20 +124,6 @@ export default async function HomePage({
         </div>
       </section>
 
-      {HOME_SHOWCASES.map((showcase) => (
-        <ShowcaseBanner
-          key={showcase.id}
-          title={t(showcase.titleKey)}
-          subtitle={t(showcase.subtitleKey)}
-          cta={t(showcase.ctaKey)}
-          href={showcase.href}
-          imageSrc={showcase.image.src}
-          imageAlt={showcase.image.alt}
-          align={showcase.align}
-          theme={showcase.theme}
-        />
-      ))}
-
       <ScrollReveal className="border-y border-border bg-bg-elevated section-padding">
         <div className="container-page text-center">
           <h2 className="font-display text-display-lg font-semibold">{t("testimonials")}</h2>
@@ -164,7 +156,7 @@ export default async function HomePage({
           <p className="mt-2 text-text-secondary">{t("newsletterSubtitle")}</p>
           <Link
             href="/contact"
-            className="mt-6 inline-flex h-12 items-center justify-center rounded-lg border border-accent px-6 text-sm font-semibold text-accent hover:bg-accent-muted"
+            className="mt-6 inline-flex h-12 items-center justify-center rounded-lg border border-text-primary px-6 text-sm font-semibold text-text-primary hover:bg-bg-subtle"
           >
             0630960711
           </Link>

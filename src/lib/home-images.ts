@@ -1,23 +1,16 @@
 export const HOME_IMAGES = {
   hero: {
-    src: "/home/hero-osmo-pocket-3.webp",
-    alt: "Dji osmo pocket 3 standard",
+    desktop: {
+      src: "/home/hero-desktop.webp",
+      alt: "Vidéaste professionnel en tournage sur les pistes",
+    },
+    mobile: {
+      src: "/home/hero-mobile.webp",
+      alt: "Vidéaste professionnel en tournage sur les pistes",
+    },
   },
   microphone: {
     src: "/home/showcase-microphone.webp",
     alt: "Microphone studio professionnel",
   },
 } as const;
-
-export const HOME_SHOWCASES = [
-  {
-    id: "microphone",
-    image: HOME_IMAGES.microphone,
-    href: "/collections/audio",
-    align: "center" as const,
-    theme: "dark" as const,
-    titleKey: "showcaseMicrophoneTitle",
-    subtitleKey: "showcaseMicrophoneSubtitle",
-    ctaKey: "showcaseMicrophoneCta",
-  },
-] as const;

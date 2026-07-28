@@ -33,7 +33,7 @@ export function MobileMenu({ categories }: MobileMenuProps) {
 
       <Sheet open={open} onClose={close} side="start">
         <div className="flex items-center justify-between border-b border-border px-4 py-4">
-          <Logo height={44} />
+          <Logo height={38} />
           <button
             type="button"
             onClick={close}

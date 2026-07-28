@@ -30,8 +30,8 @@ export function OfferSelector({ offers, selectedId, onSelect }: OfferSelectorPro
             className={cn(
               "relative rounded-xl border p-4 text-start transition-colors",
               selected
-                ? "border-accent bg-accent-muted"
-                : "border-border bg-bg-elevated hover:border-accent/50",
+                ? "border-text-primary bg-bg-subtle ring-1 ring-text-primary/10"
+                : "border-border bg-bg-elevated hover:border-text-primary/30",
             )}
           >
             <div className="flex items-start justify-between gap-2">
@@ -51,7 +51,7 @@ export function OfferSelector({ offers, selectedId, onSelect }: OfferSelectorPro
               <div
                 className={cn(
                   "mt-1 size-4 shrink-0 rounded-full border-2",
-                  selected ? "border-accent bg-accent" : "border-border",
+                  selected ? "border-text-primary bg-text-primary" : "border-border",
                 )}
               />
             </div>

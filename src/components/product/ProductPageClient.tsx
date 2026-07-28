@@ -7,13 +7,14 @@ import { ProductCard } from "@/components/product/ProductCard";
 import { ProductGallery } from "@/components/product/ProductGallery";
 import { ScarcityBadge } from "@/components/product/ScarcityBadge";
 import { StarRating } from "@/components/product/StarRating";
+import { ProductTrustBadges } from "@/components/product/ProductTrustBadges";
 import { StickyMobileBar } from "@/components/product/StickyMobileBar";
 import { Button } from "@/components/ui/Button";
 import { useCartStore } from "@/lib/stores/cart";
 import { formatPrice } from "@/lib/format";
 import { getMediaUrl } from "@/lib/utils";
 import type { ProductDetail, ProductOffer } from "@/types/product";
-import { Banknote, Minus, Package, Plus, ShieldCheck, Truck } from "lucide-react";
+import { Minus, Package, Plus } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { useMemo, useState } from "react";
 
@@ -124,17 +125,12 @@ export function ProductPageClient({ product }: ProductPageClientProps) {
               </Button>
             </div>
 
-            <div className="mt-4 flex flex-wrap gap-4 text-xs text-text-secondary">
-              <span className="flex items-center gap-1">
-                <Banknote className="size-3.5 text-accent" /> {t("cod")}
-              </span>
-              <span className="flex items-center gap-1">
-                <Truck className="size-3.5 text-accent" /> {t("delivery")}
-              </span>
-              <span className="flex items-center gap-1">
-                <ShieldCheck className="size-3.5 text-accent" /> {t("original")}
-              </span>
-            </div>
+            <ProductTrustBadges
+              className="mt-6"
+              cod={t("cod")}
+              chooseCarefully={t("chooseCarefully")}
+              delivery={t("delivery")}
+            />
           </div>
         </div>
       </section>
@@ -147,7 +143,7 @@ export function ProductPageClient({ product }: ProductPageClientProps) {
               key={spec.key}
               className="rounded-xl border border-border bg-bg-elevated p-5"
             >
-              <Package className="size-6 text-accent" />
+              <Package className="size-6 text-text-primary" />
               <h3 className="mt-3 font-medium">{spec.key}</h3>
               <p className="mt-1 text-sm text-text-secondary">{spec.value}</p>
             </div>
@@ -202,7 +198,7 @@ export function ProductPageClient({ product }: ProductPageClientProps) {
       )}
 
       <ScrollReveal className="container-page section-padding">
-        <div className="rounded-2xl border border-accent/30 bg-accent-muted p-8 text-center">
+        <div className="rounded-2xl border border-border bg-bg-subtle p-8 text-center">
           <p className="text-2xl font-semibold text-price">
             {formatPrice(selectedOffer.price, locale)}
           </p>
