@@ -24,6 +24,10 @@ function toNumber(value: unknown, fallback = 0): number {
 }
 
 function normalizeOffer(offer: ProductListItem["default_offer"]) {
+  if (!offer) {
+    throw new Error("Product offer is missing");
+  }
+
   return {
     ...offer,
     price: toNumber(offer.price),
@@ -33,22 +37,48 @@ function normalizeOffer(offer: ProductListItem["default_offer"]) {
   };
 }
 
+function resolveDefaultOffer(product: {
+  default_offer?: ProductListItem["default_offer"];
+  offers?: ProductDetail["offers"];
+}) {
+  return (
+    product.default_offer ??
+    product.offers?.find((offer) => offer.is_default) ??
+    product.offers?.[0] ??
+    null
+  );
+}
+
 function normalizeProductListItem(item: ProductListItem): ProductListItem {
+  const defaultOffer = resolveDefaultOffer(item);
+  if (!defaultOffer) {
+    throw new Error(`Product ${item.slug} is missing a default offer`);
+  }
+
   return {
     ...item,
     rating: toNumber(item.rating),
     review_count: toNumber(item.review_count),
-    default_offer: normalizeOffer(item.default_offer),
+    default_offer: normalizeOffer(defaultOffer),
   };
 }
 
 function normalizeProductDetail(product: ProductDetail): ProductDetail {
+  const normalizedOffers = product.offers.map(normalizeOffer);
+  const defaultOffer = resolveDefaultOffer(product);
+
   return {
-    ...normalizeProductListItem(product),
+    ...product,
+    rating: toNumber(product.rating),
+    review_count: toNumber(product.review_count),
+    primary_image: product.primary_image ?? product.images[0]?.url ?? null,
+    default_offer: defaultOffer
+      ? normalizeOffer(defaultOffer)
+      : normalizedOffers[0],
     description: product.description,
     images: product.images,
     specs: product.specs,
-    offers: product.offers.map(normalizeOffer),
+    offers: normalizedOffers,
     cross_sells: product.cross_sells?.map(normalizeProductListItem),
   };
 }
