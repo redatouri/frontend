@@ -1,6 +1,7 @@
 import type { Locale } from "@/i18n/routing";
 
-export function formatPrice(amount: number, locale: string): string {
+export function formatPrice(amount: number | string, locale: string): string {
+  const value = Number(amount);
   const intlLocale =
     locale === "ar" ? "ar-MA" : locale === "fr" ? "fr-MA" : "en-MA";
 
@@ -9,7 +10,7 @@ export function formatPrice(amount: number, locale: string): string {
     currency: "MAD",
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
-  }).format(amount);
+  }).format(Number.isFinite(value) ? value : 0);
 }
 
 export function formatDate(date: string, locale: Locale): string {
@@ -22,7 +23,24 @@ export function formatDate(date: string, locale: Locale): string {
   }).format(new Date(date));
 }
 
-export function calcDiscount(price: number, compareAt?: number | null): number | null {
-  if (!compareAt || compareAt <= price) return null;
-  return Math.round(((compareAt - price) / compareAt) * 100);
+export function calcDiscount(
+  price: number | string,
+  compareAt?: number | string | null,
+): number | null {
+  const normalizedPrice = Number(price);
+  const normalizedCompareAt =
+    compareAt != null ? Number(compareAt) : null;
+
+  if (
+    !Number.isFinite(normalizedPrice) ||
+    normalizedCompareAt == null ||
+    !Number.isFinite(normalizedCompareAt) ||
+    normalizedCompareAt <= normalizedPrice
+  ) {
+    return null;
+  }
+
+  return Math.round(
+    ((normalizedCompareAt - normalizedPrice) / normalizedCompareAt) * 100,
+  );
 }
