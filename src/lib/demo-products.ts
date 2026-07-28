@@ -224,7 +224,7 @@ export function getDemoProducts(params: {
   }
 
   const page = params.page ?? 1;
-  const limit = params.limit ?? 20;
+  const limit = Math.min(params.limit ?? 20, 50);
   const start = (page - 1) * limit;
 
   return {

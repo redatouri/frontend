@@ -30,7 +30,7 @@ export async function getProducts(
     if (params.category) search.set("category", params.category);
     if (params.featured) search.set("featured", "true");
     if (params.page) search.set("page", String(params.page));
-    if (params.limit) search.set("limit", String(params.limit));
+    if (params.limit) search.set("limit", String(Math.min(params.limit, 50)));
     if (params.sort) search.set("sort", params.sort);
     if (params.min_price != null) search.set("min_price", String(params.min_price));
     if (params.max_price != null) search.set("max_price", String(params.max_price));
