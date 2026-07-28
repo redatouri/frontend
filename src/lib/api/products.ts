@@ -18,6 +18,45 @@ export interface ProductQuery {
   in_stock?: boolean;
 }
 
+function toNumber(value: unknown, fallback = 0): number {
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : fallback;
+}
+
+function normalizeOffer(offer: ProductListItem["default_offer"]) {
+  return {
+    ...offer,
+    price: toNumber(offer.price),
+    compare_at_price:
+      offer.compare_at_price != null ? toNumber(offer.compare_at_price) : null,
+    stock: toNumber(offer.stock),
+  };
+}
+
+function normalizeProductListItem(item: ProductListItem): ProductListItem {
+  return {
+    ...item,
+    rating: toNumber(item.rating),
+    review_count: toNumber(item.review_count),
+    default_offer: normalizeOffer(item.default_offer),
+  };
+}
+
+function normalizeProductDetail(product: ProductDetail): ProductDetail {
+  return {
+    ...normalizeProductListItem(product),
+    offers: product.offers.map(normalizeOffer),
+    cross_sells: product.cross_sells?.map(normalizeProductListItem),
+  };
+}
+
+function normalizeProductListResponse(data: ProductListResponse): ProductListResponse {
+  return {
+    ...data,
+    items: data.items.map(normalizeProductListItem),
+  };
+}
+
 export async function getProducts(
   params: ProductQuery,
 ): Promise<ProductListResponse> {
@@ -36,7 +75,8 @@ export async function getProducts(
     if (params.max_price != null) search.set("max_price", String(params.max_price));
     if (params.in_stock != null) search.set("in_stock", String(params.in_stock));
 
-    return await api<ProductListResponse>(`/products?${search}`, { cache: "no-store" });
+    const data = await api<ProductListResponse>(`/products?${search}`, { cache: "no-store" });
+    return normalizeProductListResponse(data);
   } catch {
     if (isDemoModeEnabled()) {
       return getDemoProducts(params);
@@ -54,9 +94,10 @@ export async function getProduct(
   }
 
   try {
-    return await api<ProductDetail>(`/products/${slug}?locale=${locale}`, {
+    const product = await api<ProductDetail>(`/products/${slug}?locale=${locale}`, {
       cache: "no-store",
     });
+    return normalizeProductDetail(product);
   } catch {
     if (isDemoModeEnabled()) {
       return getDemoProduct(slug);
@@ -75,7 +116,7 @@ export async function getCrossSells(
     const search = new URLSearchParams({ locale, limit: String(limit) });
     productIds.forEach((id) => search.append("product_ids", id));
     const data = await api<{ items: ProductListItem[] }>(`/cross-sells?${search}`);
-    return data.items;
+    return data.items.map(normalizeProductListItem);
   } catch {
     return [];
   }

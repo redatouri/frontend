@@ -26,7 +26,7 @@ export function StarRating({
             key={i}
             className={cn(
               starSize,
-              i < Math.round(rating)
+              i < Math.round(Number(rating))
                 ? "fill-rating text-rating"
                 : "fill-transparent text-border",
             )}
@@ -34,7 +34,7 @@ export function StarRating({
         ))}
       </div>
       <span className="text-sm text-text-secondary">
-        {rating.toFixed(1)}
+        {Number(rating).toFixed(1)}
         {reviewCount != null && reviewLabel && (
           <span className="text-text-muted"> ({reviewLabel.replace("{count}", String(reviewCount))})</span>
         )}
