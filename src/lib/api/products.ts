@@ -45,6 +45,9 @@ function normalizeProductListItem(item: ProductListItem): ProductListItem {
 function normalizeProductDetail(product: ProductDetail): ProductDetail {
   return {
     ...normalizeProductListItem(product),
+    description: product.description,
+    images: product.images,
+    specs: product.specs,
     offers: product.offers.map(normalizeOffer),
     cross_sells: product.cross_sells?.map(normalizeProductListItem),
   };
