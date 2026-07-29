@@ -1,4 +1,5 @@
 import { ContactForm } from "@/components/contact/ContactForm";
+import { PageHero } from "@/components/marketing/PageHero";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
@@ -23,12 +24,7 @@ export default async function ContactPage({
 
   return (
     <>
-      <section className="border-b border-border bg-bg-elevated py-16">
-        <div className="container-page">
-          <h1 className="font-display text-display-lg font-bold">{t("title")}</h1>
-          <p className="mt-4 max-w-2xl text-text-secondary">{t("subtitle")}</p>
-        </div>
-      </section>
+      <PageHero eyebrow="Moviecam" title={t("title")} subtitle={t("subtitle")} />
       <ContactForm />
     </>
   );

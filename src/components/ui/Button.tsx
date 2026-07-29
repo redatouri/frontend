@@ -7,15 +7,12 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const variants = {
-  primary:
-    "bg-text-primary text-white hover:bg-zinc-800 font-semibold shadow-sm",
-  accent:
-    "bg-accent text-on-accent hover:bg-accent-hover font-semibold",
-  secondary:
-    "border border-border text-text-primary hover:bg-bg-subtle",
+  primary: "bg-accent text-on-accent hover:bg-accent-hover font-semibold",
+  accent: "bg-accent text-on-accent hover:bg-accent-hover font-semibold",
+  secondary: "border border-border text-text-primary hover:border-accent hover:text-accent",
   ghost: "text-text-secondary hover:text-text-primary hover:bg-bg-subtle",
   outline:
-    "border border-border text-text-primary hover:border-text-primary hover:bg-bg-subtle",
+    "border border-border text-text-primary hover:border-accent hover:bg-accent hover:text-on-accent",
 };
 
 const sizes = {
@@ -29,7 +26,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     <button
       ref={ref}
       className={cn(
-        "inline-flex min-h-12 items-center justify-center gap-2 rounded-lg transition-colors disabled:pointer-events-none disabled:opacity-50",
+        "inline-flex min-h-12 items-center justify-center gap-2 rounded-sm uppercase tracking-[0.08em] transition-all duration-300 disabled:pointer-events-none disabled:opacity-50",
         variants[variant],
         sizes[size],
         className,

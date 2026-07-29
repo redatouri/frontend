@@ -32,7 +32,7 @@ function LocaleFlag({ src, size = "sm" }: { src: string; size?: "sm" | "md" }) {
   );
 }
 
-export function LocaleSwitcher() {
+export function LocaleSwitcher({ variant = "dark" }: { variant?: "light" | "dark" }) {
   const locale = useLocale() as Locale;
   const pathname = usePathname();
   const router = useRouter();
@@ -55,7 +55,12 @@ export function LocaleSwitcher() {
       <button
         type="button"
         onClick={() => setOpen(!open)}
-        className="flex h-10 items-center gap-2 rounded-lg border border-border bg-white px-2.5 text-sm font-medium text-text-primary hover:bg-bg-subtle"
+        className={cn(
+          "flex h-10 items-center gap-2 rounded-sm border px-2.5 text-sm font-medium transition-colors",
+          variant === "light"
+            ? "border-white/20 bg-white/10 text-white hover:bg-white/15"
+            : "border-border bg-bg-elevated text-text-primary hover:bg-bg-subtle",
+        )}
         aria-expanded={open}
         aria-haspopup="listbox"
       >

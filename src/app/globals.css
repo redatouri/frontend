@@ -4,9 +4,9 @@
   --color-bg-primary: #ffffff;
   --color-bg-elevated: #fafafa;
   --color-bg-subtle: #f4f4f5;
-  --color-accent: #e31837;
-  --color-accent-hover: #c41230;
-  --color-accent-muted: #e3183714;
+  --color-accent: #e8b923;
+  --color-accent-hover: #d4a61f;
+  --color-accent-muted: #e8b92326;
   --color-price: #111111;
   --color-rating: #f59e0b;
   --color-rating-muted: #fffbeb;
@@ -14,20 +14,20 @@
   --color-text-primary: #111111;
   --color-text-secondary: #52525b;
   --color-text-muted: #71717a;
-  --color-on-accent: #ffffff;
+  --color-on-accent: #111111;
   --color-success: #16a34a;
   --color-warning: #d97706;
   --color-error: #dc2626;
   --color-scarcity: #ea580c;
   --color-border: #e4e4e7;
-  --color-border-focus: #e31837;
-  --font-display: var(--font-open-sans), "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --font-body: var(--font-open-sans), "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --color-border-focus: #e8b923;
+  --font-display: var(--font-space-grotesk), "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-body: var(--font-inter), "Helvetica Neue", Helvetica, Arial, sans-serif;
   --font-arabic: var(--font-tajawal), system-ui, sans-serif;
   --font-mono: var(--font-jetbrains), ui-monospace, monospace;
-  --text-display-xl: clamp(2.5rem, 5vw, 4.5rem);
-  --text-display-lg: clamp(2rem, 4vw, 3rem);
-  --text-heading-md: 1.5rem;
+  --text-display-xl: clamp(2.75rem, 6vw, 5rem);
+  --text-display-lg: clamp(2rem, 4vw, 3.25rem);
+  --text-heading-md: 1.375rem;
   --text-body-lg: 1.125rem;
 }
 
@@ -62,36 +62,63 @@ h3,
 h4,
 .font-display {
   font-family: var(--font-display);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
 }
 
 .text-display-xl {
   font-size: var(--text-display-xl);
-  line-height: 1.05;
+  line-height: 1.02;
   font-weight: 600;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.04em;
 }
 
 .text-display-lg {
   font-size: var(--text-display-lg);
-  line-height: 1.1;
+  line-height: 1.08;
   font-weight: 600;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
 }
 
 .text-heading-md {
   font-size: var(--text-heading-md);
-  line-height: 1.3;
+  line-height: 1.25;
   font-weight: 500;
 }
 
 .text-body-lg {
   font-size: var(--text-body-lg);
-  line-height: 1.6;
+  line-height: 1.65;
 }
 
 .font-mono {
   font-family: var(--font-mono);
+}
+
+.editorial-eyebrow {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--color-cyan);
+}
+
+.glass-panel {
+  background: rgb(255 255 255 / 88%);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+}
+
+.gradient-hero {
+  background:
+    radial-gradient(ellipse 70% 50% at 75% 15%, rgb(8 145 178 / 6%) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 40% at 20% 80%, rgb(232 185 35 / 8%) 0%, transparent 50%),
+    linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
+}
+
+.cinematic-vignette {
+  background:
+    linear-gradient(180deg, rgb(255 255 255 / 55%) 0%, transparent 40%, rgb(255 255 255 / 85%) 100%),
+    linear-gradient(90deg, rgb(255 255 255 / 92%) 0%, rgb(255 255 255 / 45%) 45%, transparent 70%);
 }
 
 :focus-visible {
@@ -117,12 +144,18 @@ h4,
   width: 100%;
   max-width: 1280px;
   margin-inline: auto;
-  padding-inline: 1rem;
+  padding-inline: 1.25rem;
 }
 
 @media (min-width: 768px) {
   .container-page {
-    padding-inline: 1.5rem;
+    padding-inline: 2rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .container-page {
+    max-width: 1320px;
   }
 }
 
@@ -138,14 +171,8 @@ h4,
 
 @media (min-width: 1024px) {
   .section-padding {
-    padding-block: 8rem;
+    padding-block: 8.5rem;
   }
-}
-
-.gradient-hero {
-  background:
-    radial-gradient(ellipse 80% 60% at 70% 20%, #11111108 0%, transparent 60%),
-    linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
 }
 
 .text-balance {
@@ -159,4 +186,34 @@ h4,
 
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 42s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee {
+    animation: none;
+  }
+}
+
+.premium-divider {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--color-border) 20%,
+    var(--color-border) 80%,
+    transparent 100%
+  );
 }

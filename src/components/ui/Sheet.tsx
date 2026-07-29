@@ -57,7 +57,7 @@ export function Sheet({
       />
       <div
         className={cn(
-          "absolute top-0 flex h-full w-full max-w-[320px] flex-col bg-white shadow-2xl sm:max-w-[360px]",
+          "absolute top-0 flex h-full w-full max-w-[320px] flex-col bg-bg-elevated shadow-2xl sm:max-w-[360px]",
           side === "end" ? "end-0" : "start-0",
           className,
         )}

@@ -1,19 +1,22 @@
 "use client";
 
 import { Link } from "@/i18n/navigation";
+import { cn } from "@/lib/utils";
 import { Sheet } from "@/components/ui/Sheet";
 import type { Category } from "@/types/category";
 import { useTranslations } from "next-intl";
-import { Menu, Phone } from "lucide-react";
+import { Menu, Phone, Search } from "lucide-react";
 import { useState } from "react";
 import { Logo } from "./Logo";
 import { STORE } from "@/lib/store";
 
 interface MobileMenuProps {
   categories: Category[];
+  variant?: "light" | "dark";
+  onSearch?: () => void;
 }
 
-export function MobileMenu({ categories }: MobileMenuProps) {
+export function MobileMenu({ categories, variant = "dark", onSearch }: MobileMenuProps) {
   const t = useTranslations("nav");
   const [open, setOpen] = useState(false);
 
@@ -24,7 +27,12 @@ export function MobileMenu({ categories }: MobileMenuProps) {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="flex size-11 items-center justify-center rounded-lg text-text-primary hover:bg-bg-subtle lg:hidden"
+        className={cn(
+          "flex size-11 items-center justify-center rounded-sm transition-colors lg:hidden",
+          variant === "light"
+            ? "text-white hover:bg-white/10"
+            : "text-text-primary hover:bg-bg-subtle",
+        )}
         aria-label={t("menu")}
         aria-expanded={open}
       >
@@ -44,6 +52,19 @@ export function MobileMenu({ categories }: MobileMenuProps) {
         </div>
 
         <div className="flex flex-1 flex-col overflow-y-auto p-4">
+          {onSearch && (
+            <button
+              type="button"
+              onClick={() => {
+                close();
+                onSearch();
+              }}
+              className="mb-4 flex items-center gap-3 rounded-sm border border-border px-4 py-3.5 text-sm font-medium text-text-secondary md:hidden"
+            >
+              <Search className="size-5" />
+              {t("search")}
+            </button>
+          )}
           <nav className="flex flex-col gap-1">
             {[
               { href: "/", label: t("home") },

@@ -43,7 +43,7 @@ export function StarRating({
             key={i}
             className={cn(
               size === "sm" ? "size-3" : "size-3.5",
-              i < filled
+                i < filled
                 ? "fill-amber-500 text-amber-500"
                 : "fill-zinc-200 text-zinc-200",
             )}

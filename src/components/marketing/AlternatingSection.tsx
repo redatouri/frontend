@@ -28,7 +28,7 @@ export function AlternatingSection({
   className,
 }: AlternatingSectionProps) {
   const imageBlock = (
-    <div className={cn("relative overflow-hidden rounded-2xl bg-bg-elevated", imageAspect)}>
+    <div className={cn("relative overflow-hidden bg-bg-elevated", imageAspect)}>
       {imageUrl ? (
         <Image
           src={imageUrl}

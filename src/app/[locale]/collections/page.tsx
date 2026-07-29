@@ -1,7 +1,14 @@
 import { BrandShowcases } from "@/components/marketing/BrandShowcases";
-import { ScrollReveal } from "@/components/marketing/ScrollReveal";
+import { CategoryCarousel } from "@/components/marketing/CategoryCarousel";
+import { PageHero } from "@/components/marketing/PageHero";
+import { getCategories } from "@/lib/api/categories";
 import { getProducts } from "@/lib/api/products";
+import {
+  buildCategoryCarouselItems,
+  CATEGORY_CAROUSEL_ITEMS,
+} from "@/lib/category-carousel";
 import { groupProductsByBrand, normalizeBrandParam } from "@/lib/brands";
+import { getMediaUrl } from "@/lib/utils";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
@@ -28,11 +35,33 @@ export default async function CollectionsPage({
   const { brand: brandParam } = await searchParams;
   setRequestLocale(locale);
   const t = await getTranslations("collections");
+  const tHome = await getTranslations("home");
 
-  const allProducts = await getProducts({ locale, limit: 100 });
+  const [allProducts, categories] = await Promise.all([
+    getProducts({ locale, limit: 100 }),
+    getCategories({ locale, top: true }),
+  ]);
+
+  const overlays = Object.fromEntries(
+    CATEGORY_CAROUSEL_ITEMS.map((item) => [
+      item.overlayKey,
+      tHome(`categoryCarousel.${item.overlayKey}.overlay`),
+    ]),
+  );
+  const labels = Object.fromEntries(
+    CATEGORY_CAROUSEL_ITEMS.map((item) => [
+      item.labelKey,
+      tHome(`categoryCarousel.${item.labelKey}.label`),
+    ]),
+  );
+  const categoryItems = buildCategoryCarouselItems(
+    categories,
+    overlays,
+    labels,
+    (path) => getMediaUrl(path) ?? path,
+  );
 
   let brandGroups = groupProductsByBrand(allProducts.items);
-
   if (brandParam) {
     const brand = normalizeBrandParam(brandParam);
     brandGroups = brandGroups.filter((group) => group.brand === brand);
@@ -40,17 +69,20 @@ export default async function CollectionsPage({
 
   return (
     <>
-      <section className="border-b border-border bg-bg-elevated py-12 md:py-16">
-        <div className="container-page">
-          <ScrollReveal>
-            <h1 className="font-display text-display-lg font-bold">{t("title")}</h1>
-            <p className="mt-4 max-w-2xl text-text-secondary">{t("subtitle")}</p>
-          </ScrollReveal>
-        </div>
-      </section>
+      <PageHero title={t("title")} subtitle={t("subtitle")} eyebrow="Moviecam" />
+
+      {!brandParam && (
+        <CategoryCarousel
+          title={tHome("featuredCategories")}
+          subtitle={tHome("flagshipSubtitle")}
+          items={categoryItems}
+          className="!pt-12 !pb-16"
+        />
+      )}
 
       <BrandShowcases
         title={brandParam ? undefined : t("brandsTitle")}
+        subtitle={brandParam ? undefined : t("brandsSubtitle")}
         groups={brandGroups}
         brandLabel={t("brandLabel")}
         viewAllLabel={(brand) => t("viewAllBrand", { brand })}

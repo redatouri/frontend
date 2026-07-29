@@ -81,10 +81,10 @@ export function ShowcaseBanner({
             <Link
               href={href}
               className={cn(
-                "mt-8 inline-flex h-11 items-center justify-center rounded-full px-8 text-sm font-semibold transition-colors md:h-12 md:text-base",
+                "mt-10 inline-flex h-12 items-center justify-center px-10 text-sm font-semibold uppercase tracking-[0.12em] transition-all md:h-14 md:px-12",
                 isDark
-                  ? "bg-white text-black hover:bg-white/90"
-                  : "bg-accent text-on-accent hover:bg-accent-hover",
+                  ? "bg-accent text-on-accent hover:bg-accent-hover"
+                  : "border border-border text-text-primary hover:border-accent hover:text-accent",
               )}
             >
               {cta}

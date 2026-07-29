@@ -25,10 +25,10 @@ export function ProductTrustBadges({
       {items.map(({ icon: Icon, label }) => (
         <div
           key={label}
-          className="flex items-center gap-2.5 rounded-xl border border-border bg-bg-subtle px-4 py-3 text-sm font-medium text-text-primary"
+          className="flex items-center gap-2.5 border border-border bg-bg-elevated px-4 py-3 text-sm font-medium text-text-primary"
         >
-          <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-white shadow-sm">
-            <Icon className="size-4 text-text-primary" />
+          <span className="flex size-8 shrink-0 items-center justify-center rounded-sm bg-bg-elevated ring-1 ring-border">
+            <Icon className="size-4 text-cyan" strokeWidth={1.5} />
           </span>
           <span className="leading-snug">{label}</span>
         </div>

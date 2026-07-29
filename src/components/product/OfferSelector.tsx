@@ -28,10 +28,10 @@ export function OfferSelector({ offers, selectedId, onSelect }: OfferSelectorPro
             type="button"
             onClick={() => onSelect(offer)}
             className={cn(
-              "relative rounded-xl border p-4 text-start transition-colors",
+              "relative border p-4 text-start transition-all duration-300",
               selected
-                ? "border-text-primary bg-bg-subtle ring-1 ring-text-primary/10"
-                : "border-border bg-bg-elevated hover:border-text-primary/30",
+                ? "border-accent bg-accent-muted ring-1 ring-accent/30"
+                : "border-border bg-bg-elevated hover:border-text-muted",
             )}
           >
             <div className="flex items-start justify-between gap-2">

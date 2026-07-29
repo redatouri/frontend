@@ -15,6 +15,7 @@ export interface CategoryCarouselItem {
 
 interface CategoryCarouselProps {
   title?: string;
+  subtitle?: string;
   items: CategoryCarouselItem[];
   className?: string;
 }
@@ -26,38 +27,34 @@ function CategoryCard({ item }: { item: CategoryCarouselItem }) {
   return (
     <Link
       href={`/collections/${item.slug}`}
-      className="group block w-[132px] shrink-0 snap-start sm:w-[148px] md:w-[168px] lg:w-[180px]"
+      className="group block w-[148px] shrink-0 snap-start sm:w-[168px] md:w-[200px] lg:w-[220px]"
     >
-      <div className="overflow-hidden border border-border bg-white transition-shadow group-hover:shadow-md">
-        <div className="relative aspect-square overflow-hidden">
-          {showImage ? (
-            <Image
-              src={item.imageSrc!}
-              alt={item.label}
-              fill
-              className="object-cover transition-transform duration-300 group-hover:scale-105"
-              sizes="(max-width: 768px) 132px, 180px"
-              onError={() => setImageError(true)}
-            />
-          ) : (
-            <div className={cn("absolute inset-0 bg-gradient-to-br", item.gradient)} />
-          )}
-          <div className="absolute inset-0 bg-black/35" />
-          <p className="absolute inset-0 flex items-center justify-center px-2 text-center text-[11px] font-bold uppercase leading-tight tracking-wide text-white sm:text-xs">
+      <div className="relative aspect-[3/4] overflow-hidden bg-bg-subtle">
+        {showImage ? (
+          <Image
+            src={item.imageSrc!}
+            alt={item.label}
+            fill
+            className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.08]"
+            sizes="(max-width: 768px) 148px, 220px"
+            onError={() => setImageError(true)}
+          />
+        ) : (
+          <div className={cn("absolute inset-0 bg-gradient-to-br", item.gradient)} />
+        )}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 p-4">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-cyan">
             {item.overlay}
           </p>
-        </div>
-        <div className="border-t border-border bg-white px-2 py-3 text-center">
-          <p className="text-xs font-medium leading-snug text-text-primary sm:text-sm">
-            {item.label}
-          </p>
+          <p className="mt-2 text-sm font-medium leading-snug text-white">{item.label}</p>
         </div>
       </div>
     </Link>
   );
 }
 
-export function CategoryCarousel({ title, items, className }: CategoryCarouselProps) {
+export function CategoryCarousel({ title, subtitle, items, className }: CategoryCarouselProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [activeDot, setActiveDot] = useState(0);
   const [dotCount, setDotCount] = useState(1);
@@ -66,13 +63,15 @@ export function CategoryCarousel({ title, items, className }: CategoryCarouselPr
     const el = scrollRef.current;
     if (!el) return;
 
-    const cardWidth = el.firstElementChild?.clientWidth ?? 148;
-    const gap = 12;
+    const cardWidth = el.firstElementChild?.clientWidth ?? 168;
+    const gap = 16;
     const visible = Math.max(1, Math.floor(el.clientWidth / (cardWidth + gap)));
     const pages = Math.max(1, Math.ceil(items.length / visible));
     setDotCount(pages);
 
-    const page = Math.round(el.scrollLeft / Math.max(el.scrollWidth - el.clientWidth, 1) * (pages - 1));
+    const page = Math.round(
+      el.scrollLeft / Math.max(el.scrollWidth - el.clientWidth, 1) * (pages - 1),
+    );
     setActiveDot(Math.min(Math.max(page, 0), pages - 1));
   }, [items.length]);
 
@@ -98,16 +97,19 @@ export function CategoryCarousel({ title, items, className }: CategoryCarouselPr
   };
 
   return (
-    <section className={cn("bg-bg-elevated py-8 md:py-10", className)}>
+    <section className={cn("section-padding bg-bg-elevated", className)}>
       <div className="container-page">
-        <div className="mb-4 flex items-end justify-between gap-4 md:mb-5">
-          {title ? (
-            <h2 className="font-display text-lg font-bold text-text-primary md:text-xl">
-              {title}
-            </h2>
-          ) : (
-            <span />
-          )}
+        <div className="mb-10 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <div>
+            {title && (
+              <h2 className="font-display text-display-lg font-semibold text-text-primary">
+                {title}
+              </h2>
+            )}
+            {subtitle && (
+              <p className="mt-3 max-w-xl text-text-secondary">{subtitle}</p>
+            )}
+          </div>
           {dotCount > 1 && (
             <div className="flex items-center gap-2">
               {Array.from({ length: dotCount }).map((_, i) => (
@@ -117,10 +119,8 @@ export function CategoryCarousel({ title, items, className }: CategoryCarouselPr
                   onClick={() => scrollToPage(i)}
                   aria-label={`Page ${i + 1}`}
                   className={cn(
-                    "size-2.5 rounded-full border transition-colors",
-                    i === activeDot
-                      ? "border-text-primary bg-text-primary"
-                      : "border-text-muted bg-transparent hover:border-text-secondary",
+                    "h-px w-8 transition-all duration-300",
+                    i === activeDot ? "bg-accent" : "bg-border hover:bg-text-muted",
                   )}
                 />
               ))}
@@ -130,7 +130,7 @@ export function CategoryCarousel({ title, items, className }: CategoryCarouselPr
 
         <div
           ref={scrollRef}
-          className="flex gap-3 overflow-x-auto pb-1 scrollbar-hide snap-x snap-mandatory md:gap-4"
+          className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide snap-x snap-mandatory md:gap-5"
         >
           {items.map((item) => (
             <CategoryCard key={item.slug} item={item} />

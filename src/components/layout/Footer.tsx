@@ -14,15 +14,17 @@ export async function Footer({ categories }: FooterProps) {
   const t = await getTranslations("footer");
 
   return (
-    <footer className="border-t border-border bg-bg-elevated">
-      <div className="container-page py-12 md:py-16">
-        <div className="grid gap-10 md:grid-cols-3">
-          <div>
-            <Logo height={64} />
-            <p className="mt-4 max-w-xs text-sm text-text-secondary">{t("tagline")}</p>
+    <footer className="border-t border-border bg-bg-primary">
+      <div className="container-page py-16 md:py-24">
+        <div className="grid gap-12 md:grid-cols-12 md:gap-8">
+          <div className="md:col-span-5">
+            <Logo height={56} />
+            <p className="mt-6 max-w-sm text-sm leading-relaxed text-text-secondary">
+              {t("tagline")}
+            </p>
             <a
               href={`tel:${STORE.phoneTel}`}
-              className="mt-4 inline-flex items-center gap-2 text-sm text-accent hover:underline"
+              className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-accent transition-colors hover:text-accent-hover"
             >
               <Phone className="size-4" />
               {STORE.phone}
@@ -31,17 +33,15 @@ export async function Footer({ categories }: FooterProps) {
               href={STORE.instagramUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-3 inline-flex items-center gap-2 text-sm text-text-secondary hover:text-accent"
+              className="mt-4 block text-sm text-text-secondary transition-colors hover:text-cyan"
             >
               Instagram · {STORE.instagramHandle}
             </a>
           </div>
 
-          <div>
-            <h3 className="font-display text-sm font-semibold uppercase tracking-wider text-text-muted">
-              {t("shop")}
-            </h3>
-            <ul className="mt-4 space-y-2">
+          <div className="md:col-span-3 md:col-start-7">
+            <h3 className="editorial-eyebrow text-text-muted">{t("shop")}</h3>
+            <ul className="mt-6 space-y-3">
               <li>
                 <Link href="/collections" className="text-sm text-text-secondary hover:text-accent">
                   {t("shop")}
@@ -60,11 +60,9 @@ export async function Footer({ categories }: FooterProps) {
             </ul>
           </div>
 
-          <div>
-            <h3 className="font-display text-sm font-semibold uppercase tracking-wider text-text-muted">
-              {t("support")}
-            </h3>
-            <ul className="mt-4 space-y-2">
+          <div className="md:col-span-3">
+            <h3 className="editorial-eyebrow text-text-muted">{t("support")}</h3>
+            <ul className="mt-6 space-y-3">
               <li>
                 <Link href="/contact" className="text-sm text-text-secondary hover:text-accent">
                   Contact
@@ -88,11 +86,12 @@ export async function Footer({ categories }: FooterProps) {
           </div>
         </div>
 
-        <Separator className="my-8" />
+        <Separator className="my-12 bg-border" />
 
-        <p className="text-center text-xs text-text-muted md:text-start">
-          powerd by Reda LLc
-        </p>
+        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          <p className="text-xs text-text-muted">powerd by Reda LLc</p>
+          <p className="text-xs text-text-muted">{t("codBadge")}</p>
+        </div>
       </div>
     </footer>
   );

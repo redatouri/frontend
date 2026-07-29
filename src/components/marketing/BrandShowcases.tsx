@@ -26,45 +26,42 @@ export function BrandShowcase({
   const brandLogo = getBrandLogo(brand);
 
   return (
-    <ScrollReveal className="border-b border-border py-10 md:py-14">
+    <ScrollReveal className="border-b border-border py-16 md:py-20">
       <div className="container-page">
-        <div className="text-center">
-          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-text-muted">
-            {brandLabel}
-          </p>
-          {brandLogo ? (
-            <div className="mt-3 flex justify-center">
-              <Image
-                src={brandLogo}
-                alt={brand}
-                width={160}
-                height={64}
-                className="h-12 w-auto object-contain md:h-14"
-              />
-            </div>
-          ) : (
-            <h2 className="mt-2 font-display text-3xl font-bold tracking-tight text-text-primary md:text-4xl">
-              {brand}
-            </h2>
+        <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
+          <div>
+            <p className="editorial-eyebrow text-text-muted">{brandLabel}</p>
+            {brandLogo ? (
+              <div className="mt-4">
+                <Image
+                  src={brandLogo}
+                  alt={brand}
+                  width={180}
+                  height={72}
+                  className="h-10 w-auto object-contain md:h-12"
+                />
+              </div>
+            ) : (
+              <h2 className="mt-3 font-display text-3xl font-semibold tracking-tight text-text-primary md:text-4xl">
+                {brand}
+              </h2>
+            )}
+          </div>
+          {!expanded && (
+            <Link
+              href={`/collections?brand=${encodeURIComponent(brand)}`}
+              className="text-sm font-semibold uppercase tracking-[0.14em] text-cyan transition-colors hover:text-accent"
+            >
+              {viewAllLabel}
+            </Link>
           )}
         </div>
 
-        <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
           {visibleProducts.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
         </div>
-
-        {!expanded && (
-          <div className="mt-8 text-center">
-            <Link
-              href={`/collections?brand=${encodeURIComponent(brand)}`}
-              className="inline-flex h-11 items-center justify-center rounded-full border border-border px-6 text-sm font-semibold text-text-primary transition-colors hover:border-text-primary hover:bg-bg-subtle"
-            >
-              {viewAllLabel}
-            </Link>
-          </div>
-        )}
       </div>
     </ScrollReveal>
   );
@@ -75,6 +72,7 @@ interface BrandShowcasesProps {
   brandLabel: string;
   viewAllLabel: (brand: string) => string;
   title?: string;
+  subtitle?: string;
   expanded?: boolean;
 }
 
@@ -83,15 +81,19 @@ export function BrandShowcases({
   brandLabel,
   viewAllLabel,
   title,
+  subtitle,
   expanded = false,
 }: BrandShowcasesProps) {
   if (groups.length === 0) return null;
 
   return (
-    <section className="bg-bg-elevated">
+    <section className="bg-bg-primary">
       {title && (
-        <div className="container-page pt-10 md:pt-12">
-          <h2 className="font-display text-display-lg font-semibold">{title}</h2>
+        <div className="container-page pt-16 md:pt-20">
+          <h2 className="font-display text-display-lg font-semibold text-text-primary">{title}</h2>
+          {subtitle && (
+            <p className="mt-4 max-w-2xl text-text-secondary">{subtitle}</p>
+          )}
         </div>
       )}
       {groups.map(({ brand, products }) => (

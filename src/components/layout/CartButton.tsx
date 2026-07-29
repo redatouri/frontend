@@ -1,13 +1,16 @@
 "use client";
 
+import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 
 export function CartButton({
   count,
   onClick,
+  variant = "dark",
 }: {
   count: number;
   onClick: () => void;
+  variant?: "light" | "dark";
 }) {
   const [mounted, setMounted] = useState(false);
 
@@ -17,7 +20,12 @@ export function CartButton({
     <button
       type="button"
       onClick={onClick}
-      className="relative flex size-12 items-center justify-center rounded-full text-text-secondary transition-colors hover:bg-bg-subtle hover:text-text-primary"
+      className={cn(
+        "relative flex size-12 items-center justify-center rounded-full transition-colors",
+        variant === "light"
+          ? "text-white/90 hover:bg-white/10 hover:text-white"
+          : "text-text-secondary hover:bg-bg-subtle hover:text-text-primary",
+      )}
       aria-label="Cart"
     >
       <svg

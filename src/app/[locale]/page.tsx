@@ -1,18 +1,28 @@
 import { BrandShowcases } from "@/components/marketing/BrandShowcases";
-import { InstagramSection } from "@/components/marketing/InstagramSection";
-import { ScrollReveal } from "@/components/marketing/ScrollReveal";
-import { HeroSection } from "@/components/marketing/HeroSection";
-import { Link } from "@/i18n/navigation";
-import { groupProductsByBrand } from "@/lib/brands";
-import { getProducts } from "@/lib/api/products";
-import { HOME_IMAGES } from "@/lib/home-images";
+import { BestSellersSection } from "@/components/marketing/BestSellersSection";
+import { CategoryCarousel } from "@/components/marketing/CategoryCarousel";
+import { FeaturedBrandsStrip } from "@/components/marketing/FeaturedBrandsStrip";
 import {
-  Banknote,
-  Headphones,
-  ShieldCheck,
-  Truck,
-  Users,
-} from "lucide-react";
+  ArticlesSection,
+  NewsletterSection,
+  RentalCtaSection,
+  ServicesSection,
+  TestimonialsSection,
+} from "@/components/marketing/HomeSections";
+import { InstagramSection } from "@/components/marketing/InstagramSection";
+import { HeroSection } from "@/components/marketing/HeroSection";
+import { ShowcaseBanner } from "@/components/marketing/ShowcaseBanner";
+import { groupProductsByBrand } from "@/lib/brands";
+import { getCategories } from "@/lib/api/categories";
+import { getProducts } from "@/lib/api/products";
+import {
+  buildCategoryCarouselItems,
+  CATEGORY_CAROUSEL_ITEMS,
+} from "@/lib/category-carousel";
+import { HOME_IMAGES } from "@/lib/home-images";
+import { STORE } from "@/lib/store";
+import { getMediaUrl } from "@/lib/utils";
+import { Camera, Headphones, Truck } from "lucide-react";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
@@ -51,21 +61,85 @@ export default async function HomePage({
   setRequestLocale(locale);
   const t = await getTranslations("home");
 
-  const allProducts = await getProducts({ locale, limit: 100 });
+  const [allProducts, categories] = await Promise.all([
+    getProducts({ locale, limit: 100 }),
+    getCategories({ locale, top: true }),
+  ]);
 
-  const trustItems = [
-    { icon: ShieldCheck, label: t("trustBar.original") },
-    { icon: Truck, label: t("trustBar.delivery") },
-    { icon: Banknote, label: t("trustBar.cod") },
-    { icon: Headphones, label: t("trustBar.support") },
-  ];
+  const overlays = Object.fromEntries(
+    CATEGORY_CAROUSEL_ITEMS.map((item) => [
+      item.overlayKey,
+      t(`categoryCarousel.${item.overlayKey}.overlay`),
+    ]),
+  );
+
+  const labels = Object.fromEntries(
+    CATEGORY_CAROUSEL_ITEMS.map((item) => [
+      item.labelKey,
+      t(`categoryCarousel.${item.labelKey}.label`),
+    ]),
+  );
+
+  const categoryItems = buildCategoryCarouselItems(
+    categories,
+    overlays,
+    labels,
+    (path) => getMediaUrl(path) ?? path,
+  );
 
   const brandGroups = groupProductsByBrand(allProducts.items);
+
+  const bestSellers = [...allProducts.items]
+    .sort((a, b) => b.review_count - a.review_count)
+    .slice(0, 4);
+
+  const services = [
+    {
+      icon: Camera,
+      title: t("servicesExpertTitle"),
+      description: t("servicesExpertDesc"),
+    },
+    {
+      icon: Truck,
+      title: t("servicesDeliveryTitle"),
+      description: t("servicesDeliveryDesc"),
+    },
+    {
+      icon: Headphones,
+      title: t("servicesSupportTitle"),
+      description: t("servicesSupportDesc"),
+    },
+  ];
+
+  const articles = [
+    {
+      tag: t("article1Tag"),
+      title: t("article1Title"),
+      excerpt: t("article1Excerpt"),
+    },
+    {
+      tag: t("article2Tag"),
+      title: t("article2Title"),
+      excerpt: t("article2Excerpt"),
+    },
+    {
+      tag: t("article3Tag"),
+      title: t("article3Title"),
+      excerpt: t("article3Excerpt"),
+    },
+  ];
+
+  const testimonials = [
+    { quote: t("testimonial1Quote"), author: t("testimonial1Author") },
+    { quote: t("testimonial2Quote"), author: t("testimonial2Author") },
+    { quote: t("testimonial3Quote"), author: t("testimonial3Author") },
+  ];
 
   return (
     <>
       <HeroSection
         title={t("heroTitle")}
+        subtitle={t("heroSubtitle")}
         ctaPrimary={t("heroCtaPrimary")}
         ctaSecondary={t("heroCtaSecondary")}
         imageDesktop={HOME_IMAGES.hero.desktop.src}
@@ -73,95 +147,78 @@ export default async function HomePage({
         imageAlt={HOME_IMAGES.hero.desktop.alt}
       />
 
+      <CategoryCarousel
+        title={t("featuredCategories")}
+        subtitle={t("flagshipSubtitle")}
+        items={categoryItems}
+      />
+
+      <BestSellersSection
+        title={t("bestSellers")}
+        subtitle={t("bestSellersSubtitle")}
+        products={bestSellers}
+        viewAllLabel={t("bestSellersCta")}
+      />
+
+      <ShowcaseBanner
+        title={t("showcaseCameraTitle")}
+        subtitle={t("showcaseCameraSubtitle")}
+        cta={t("showcaseCameraCta")}
+        href="/collections/stabilization"
+        imageSrc="/home/hero-gimbal.webp"
+        imageAlt={t("showcaseCameraTitle")}
+        theme="dark"
+      />
+
+      <FeaturedBrandsStrip
+        title={t("featuredBrandsTitle")}
+        subtitle={t("featuredBrandsSubtitle")}
+      />
+
+      <BrandShowcases
+        title={t("brandsTitle")}
+        subtitle={t("brandsSubtitle")}
+        groups={brandGroups.slice(0, 3)}
+        brandLabel={t("brandLabel")}
+        viewAllLabel={(brand) => t("viewAllBrand", { brand })}
+      />
+
+      <ServicesSection
+        title={t("servicesTitle")}
+        subtitle={t("servicesSubtitle")}
+        items={services}
+      />
+
+      <RentalCtaSection
+        rentalTitle={t("rentalTitle")}
+        rentalSubtitle={t("rentalSubtitle")}
+        rentalCta={t("rentalCta")}
+        salesTitle={t("salesTitle")}
+        salesSubtitle={t("salesSubtitle")}
+        salesCta={t("salesCta")}
+      />
+
+      <TestimonialsSection title={t("testimonials")} items={testimonials} />
+
+      <ArticlesSection
+        title={t("articlesTitle")}
+        subtitle={t("articlesSubtitle")}
+        articles={articles}
+        readMoreLabel={t("articlesReadMore")}
+      />
+
+      <NewsletterSection
+        title={t("newsletterTitle")}
+        subtitle={t("newsletterSubtitle")}
+        cta={t("newsletterCta")}
+        phone={STORE.phone}
+      />
+
       <InstagramSection
         title={t("instagramTitle")}
         subtitle={t("instagramSubtitle")}
         cta={t("instagramCta")}
       />
-
-      <ScrollReveal className="border-y border-border bg-white py-5">
-        <div className="container-page grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-6">
-          {trustItems.map(({ icon: Icon, label }) => (
-            <div key={label} className="flex items-center gap-3 rounded-lg px-2 py-1">
-              <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-bg-subtle">
-                <Icon className="size-4 text-text-primary" />
-              </span>
-              <span className="text-sm font-medium text-text-secondary">{label}</span>
-            </div>
-          ))}
-        </div>
-      </ScrollReveal>
-
-      <BrandShowcases
-        title={t("brandsTitle")}
-        groups={brandGroups}
-        brandLabel={t("brandLabel")}
-        viewAllLabel={(brand) => t("viewAllBrand", { brand })}
-      />
-
-      <section className="section-padding">
-        <div className="container-page">
-          <ScrollReveal>
-            <h2 className="text-center font-display text-display-lg font-semibold">
-              {t("whyTitle")}
-            </h2>
-          </ScrollReveal>
-          <div className="mt-12 grid gap-8 md:grid-cols-3">
-            {[
-              { title: t("whyOriginal"), desc: t("whyOriginalDesc"), icon: ShieldCheck },
-              { title: t("whyExpert"), desc: t("whyExpertDesc"), icon: Users },
-              { title: t("whyCod"), desc: t("whyCodDesc"), icon: Banknote },
-            ].map(({ title, desc, icon: Icon }, i) => (
-              <ScrollReveal key={title} delay={i * 0.1}>
-                <div className="rounded-2xl border border-border bg-bg-elevated p-8 text-center">
-                  <Icon className="mx-auto size-10 text-text-primary" />
-                  <h3 className="mt-4 font-display text-lg font-semibold">{title}</h3>
-                  <p className="mt-2 text-sm text-text-secondary">{desc}</p>
-                </div>
-              </ScrollReveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <ScrollReveal className="border-y border-border bg-bg-elevated section-padding">
-        <div className="container-page text-center">
-          <h2 className="font-display text-display-lg font-semibold">{t("testimonials")}</h2>
-          <div className="mt-10 grid gap-6 md:grid-cols-3">
-            {[
-              "« Matériel original, livraison rapide à Casablanca. » — Youssef K.",
-              "« Conseils pro pour mon setup YouTube. » — Sara M.",
-              "« Paiement à la livraison, zéro stress. » — Karim B.",
-            ].map((quote) => (
-              <blockquote
-                key={quote}
-                className="rounded-xl border border-border bg-bg-primary p-6 text-sm text-text-secondary italic"
-              >
-                {quote}
-              </blockquote>
-            ))}
-          </div>
-        </div>
-      </ScrollReveal>
-
-      <ScrollReveal className="container-page section-padding text-center">
-        <p className="font-display text-2xl font-semibold text-balance md:text-3xl">
-          {t("brandStatement")}
-        </p>
-      </ScrollReveal>
-
-      <ScrollReveal className="container-page pb-20">
-        <div className="rounded-2xl border border-border bg-bg-elevated p-8 text-center md:p-12">
-          <h2 className="font-display text-xl font-semibold">{t("newsletterTitle")}</h2>
-          <p className="mt-2 text-text-secondary">{t("newsletterSubtitle")}</p>
-          <Link
-            href="/contact"
-            className="mt-6 inline-flex h-12 items-center justify-center rounded-lg border border-text-primary px-6 text-sm font-semibold text-text-primary hover:bg-bg-subtle"
-          >
-            0630960711
-          </Link>
-        </div>
-      </ScrollReveal>
     </>
   );
 }

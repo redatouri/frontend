@@ -2,12 +2,17 @@
 
 import { AlternatingSection } from "@/components/marketing/AlternatingSection";
 import { ScrollReveal } from "@/components/marketing/ScrollReveal";
+import { InTheBox } from "@/components/product/InTheBox";
 import { OfferSelector } from "@/components/product/OfferSelector";
 import { ProductCard } from "@/components/product/ProductCard";
+import { ProductComparison } from "@/components/product/ProductComparison";
+import { ProductFaq } from "@/components/product/ProductFaq";
 import { ProductGallery } from "@/components/product/ProductGallery";
+import { ProductReviews } from "@/components/product/ProductReviews";
+import { ProductTrustBadges } from "@/components/product/ProductTrustBadges";
+import { ProductWishlistButton } from "@/components/product/ProductWishlistButton";
 import { ScarcityBadge } from "@/components/product/ScarcityBadge";
 import { StarRating } from "@/components/product/StarRating";
-import { ProductTrustBadges } from "@/components/product/ProductTrustBadges";
 import { StickyMobileBar } from "@/components/product/StickyMobileBar";
 import { Button } from "@/components/ui/Button";
 import { useCartStore } from "@/lib/stores/cart";
@@ -34,13 +39,41 @@ export function ProductPageClient({ product }: ProductPageClientProps) {
   const [qty, setQty] = useState(1);
 
   const featureSections = useMemo(() => {
-    const bullets = product.specs.slice(0, 3);
-    return bullets.map((spec, i) => ({
+    return product.specs.slice(0, 3).map((spec, i) => ({
       title: spec.key,
       description: spec.value,
       position: (i % 2 === 0 ? "left" : "right") as "left" | "right",
     }));
   }, [product.specs]);
+
+  const inTheBoxItems = useMemo(() => {
+    const fromSpecs = product.specs
+      .filter((s) => /box|contenu|included/i.test(s.key))
+      .flatMap((s) => s.value.split(/[,·]/).map((x) => x.trim()))
+      .filter(Boolean);
+    if (fromSpecs.length > 0) return fromSpecs.slice(0, 6);
+    return [t("inTheBoxDefault1"), t("inTheBoxDefault2"), t("inTheBoxDefault3")];
+  }, [product.specs, t]);
+
+  const faqItems = useMemo(
+    () => [
+      { question: t("faq1Q"), answer: t("faq1A") },
+      { question: t("faq2Q"), answer: t("faq2A") },
+      { question: t("faq3Q"), answer: t("faq3A") },
+    ],
+    [t],
+  );
+
+  const reviewItems = useMemo(
+    () => [
+      { author: t("review1Author"), quote: t("review1Quote"), rating: 5 },
+      { author: t("review2Author"), quote: t("review2Quote"), rating: 5 },
+      { author: t("review3Author"), quote: t("review3Quote"), rating: 4 },
+    ],
+    [t],
+  );
+
+  const compareProduct = product.cross_sells?.[0];
 
   if (!defaultOffer || !selectedOffer) {
     return (
@@ -67,26 +100,34 @@ export function ProductPageClient({ product }: ProductPageClientProps) {
 
   return (
     <>
-      <section className="container-page py-8 md:py-12">
-        <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
+      <section className="container-page py-10 md:py-16">
+        <div className="grid gap-12 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:gap-16">
           <ProductGallery images={product.images} productName={product.name} />
 
-          <div className="lg:sticky lg:top-24 lg:self-start">
-            <StarRating
-              rating={product.rating}
-              reviewCount={product.review_count}
-              reviewLabel={t("reviews", { count: product.review_count })}
-              size="md"
-            />
+          <div className="lg:sticky lg:top-28 lg:self-start">
+            <div className="flex items-start justify-between gap-4">
+              <StarRating
+                rating={product.rating}
+                reviewCount={product.review_count}
+                reviewLabel={t("reviews", { count: product.review_count })}
+                size="md"
+              />
+              <ProductWishlistButton product={product} />
+            </div>
 
-            <h1 className="mt-4 font-display text-display-lg font-bold">
+            <p className="editorial-eyebrow mt-6 text-text-muted">{t("original")}</p>
+            <h1 className="mt-3 font-display text-display-lg font-semibold text-balance">
               {product.headline ?? product.name}
             </h1>
             {product.subheadline && (
-              <p className="mt-2 text-body-lg text-text-secondary">{product.subheadline}</p>
+              <p className="mt-4 text-body-lg text-text-secondary">{product.subheadline}</p>
             )}
 
-            <div className="mt-6">
+            <p className="mt-6 font-display text-3xl font-semibold tracking-tight text-price md:text-4xl">
+              {formatPrice(selectedOffer.price, locale)}
+            </p>
+
+            <div className="mt-8">
               <OfferSelector
                 offers={product.offers}
                 selectedId={selectedOffer.id}
@@ -94,23 +135,23 @@ export function ProductPageClient({ product }: ProductPageClientProps) {
               />
             </div>
 
-            <ScarcityBadge stock={selectedOffer.stock} className="mt-4 inline-flex" />
+            <ScarcityBadge stock={selectedOffer.stock} className="mt-5 inline-flex" />
 
-            <div className="mt-6 hidden items-center gap-4 lg:flex">
-              <div className="flex items-center rounded-lg border border-border">
+            <div className="mt-8 hidden items-stretch gap-3 lg:flex">
+              <div className="flex items-center border border-border">
                 <button
                   type="button"
                   onClick={() => setQty((q) => Math.max(1, q - 1))}
-                  className="flex size-12 items-center justify-center"
+                  className="flex size-12 items-center justify-center text-text-secondary hover:text-text-primary"
                   aria-label="Decrease"
                 >
                   <Minus className="size-4" />
                 </button>
-                <span className="min-w-10 text-center">{qty}</span>
+                <span className="min-w-10 text-center font-medium">{qty}</span>
                 <button
                   type="button"
                   onClick={() => setQty((q) => q + 1)}
-                  className="flex size-12 items-center justify-center"
+                  className="flex size-12 items-center justify-center text-text-secondary hover:text-text-primary"
                   aria-label="Increase"
                 >
                   <Plus className="size-4" />
@@ -118,6 +159,7 @@ export function ProductPageClient({ product }: ProductPageClientProps) {
               </div>
               <Button
                 className="flex-1"
+                size="lg"
                 disabled={selectedOffer.stock <= 0}
                 onClick={() => handleAddToCart()}
               >
@@ -126,7 +168,7 @@ export function ProductPageClient({ product }: ProductPageClientProps) {
             </div>
 
             <ProductTrustBadges
-              className="mt-6"
+              className="mt-8"
               cod={t("cod")}
               chooseCarefully={t("chooseCarefully")}
               delivery={t("delivery")}
@@ -135,17 +177,17 @@ export function ProductPageClient({ product }: ProductPageClientProps) {
         </div>
       </section>
 
+      <InTheBox items={inTheBoxItems} />
+
       <ScrollReveal className="container-page pb-12">
-        <h2 className="font-display text-xl font-semibold">{t("benefits")}</h2>
-        <div className="mt-6 grid gap-4 md:grid-cols-3">
+        <p className="editorial-eyebrow">{t("benefits")}</p>
+        <h2 className="mt-4 font-display text-2xl font-semibold">{t("benefitsTitle")}</h2>
+        <div className="mt-8 grid gap-px bg-border md:grid-cols-3">
           {product.specs.slice(0, 3).map((spec) => (
-            <div
-              key={spec.key}
-              className="rounded-xl border border-border bg-bg-elevated p-5"
-            >
-              <Package className="size-6 text-text-primary" />
-              <h3 className="mt-3 font-medium">{spec.key}</h3>
-              <p className="mt-1 text-sm text-text-secondary">{spec.value}</p>
+            <div key={spec.key} className="bg-bg-primary p-8">
+              <Package className="size-6 text-cyan" strokeWidth={1.25} />
+              <h3 className="mt-4 font-display text-lg font-semibold">{spec.key}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-text-secondary">{spec.value}</p>
             </div>
           ))}
         </div>
@@ -164,16 +206,17 @@ export function ProductPageClient({ product }: ProductPageClientProps) {
 
       {product.specs.length > 0 && (
         <ScrollReveal className="container-page section-padding">
-          <h2 className="font-display text-xl font-semibold">{t("specs")}</h2>
-          <div className="mt-6 overflow-hidden rounded-xl border border-border">
+          <p className="editorial-eyebrow">{t("specsEyebrow")}</p>
+          <h2 className="mt-4 font-display text-display-lg font-semibold">{t("specs")}</h2>
+          <div className="mt-10 overflow-hidden border border-border">
             <table className="w-full text-sm">
               <tbody>
                 {product.specs.map((spec) => (
                   <tr key={spec.key} className="border-b border-border last:border-0">
-                    <td className="bg-bg-elevated px-4 py-3 font-medium text-text-secondary">
+                    <td className="w-2/5 bg-bg-elevated px-5 py-4 font-medium text-text-secondary">
                       {spec.key}
                     </td>
-                    <td className="px-4 py-3">{spec.value}</td>
+                    <td className="px-5 py-4 text-text-primary">{spec.value}</td>
                   </tr>
                 ))}
               </tbody>
@@ -182,35 +225,37 @@ export function ProductPageClient({ product }: ProductPageClientProps) {
         </ScrollReveal>
       )}
 
+      <ProductComparison
+        specs={product.specs}
+        compareSpecs={compareProduct ? [] : []}
+        compareLabel={compareProduct?.name}
+      />
+
       {product.cross_sells && product.cross_sells.length > 0 && (
-        <section className="section-padding bg-bg-elevated">
+        <section className="section-padding border-t border-border bg-bg-elevated">
           <div className="container-page">
             <ScrollReveal>
-              <h2 className="font-display text-xl font-semibold">{t("crossSells")}</h2>
+              <p className="editorial-eyebrow">{t("accessoriesEyebrow")}</p>
+              <h2 className="mt-4 font-display text-display-lg font-semibold">{t("crossSells")}</h2>
             </ScrollReveal>
-            <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              {product.cross_sells.map((p) => (
-                <ProductCard key={p.id} product={p} />
+            <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
+              {product.cross_sells.map((p, i) => (
+                <ScrollReveal key={p.id} delay={i * 0.08}>
+                  <ProductCard product={p} />
+                </ScrollReveal>
               ))}
             </div>
           </div>
         </section>
       )}
 
-      <ScrollReveal className="container-page section-padding">
-        <div className="rounded-2xl border border-border bg-bg-subtle p-8 text-center">
-          <p className="text-2xl font-semibold text-price">
-            {formatPrice(selectedOffer.price, locale)}
-          </p>
-          <Button
-            className="mt-4"
-            disabled={selectedOffer.stock <= 0}
-            onClick={() => handleAddToCart()}
-          >
-            {t("addToCart")}
-          </Button>
-        </div>
-      </ScrollReveal>
+      <ProductReviews
+        rating={product.rating}
+        reviewCount={product.review_count}
+        reviews={reviewItems}
+      />
+
+      <ProductFaq items={faqItems} />
 
       <StickyMobileBar
         offer={selectedOffer}

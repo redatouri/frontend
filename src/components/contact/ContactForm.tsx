@@ -56,7 +56,7 @@ export function ContactForm() {
           ].map(({ icon: Icon, title, value, href }) => (
             <div
               key={title}
-              className="flex gap-4 rounded-xl border border-border bg-bg-elevated p-5"
+              className="flex gap-4 border border-border bg-bg-elevated p-6"
             >
               <Icon className="size-5 shrink-0 text-accent" />
               <div>
@@ -89,7 +89,7 @@ export function ContactForm() {
 
         <form
           onSubmit={handleSubmit}
-          className="rounded-2xl border border-border bg-bg-elevated p-6 md:p-8"
+          className="border border-border bg-bg-elevated p-6 md:p-10"
         >
           <div className="space-y-4">
             <div>
