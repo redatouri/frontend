@@ -2,6 +2,7 @@ import { ContactForm } from "@/components/contact/ContactForm";
 import { PageHero } from "@/components/marketing/PageHero";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import Image from "next/image";
 
 export async function generateMetadata({
   params,
@@ -24,7 +25,21 @@ export default async function ContactPage({
 
   return (
     <>
-      <PageHero eyebrow="Moviecam" title={t("title")} subtitle={t("subtitle")} />
+      <PageHero title={t("title")} subtitle={t("subtitle")} />
+      <section className="border-b border-border">
+        <div className="container-page pb-10 md:pb-14">
+          <div className="relative aspect-[16/9] w-full overflow-hidden">
+            <Image
+              src="/contact/store.png"
+              alt={t("storeImageAlt")}
+              fill
+              priority
+              className="object-cover object-center"
+              sizes="(max-width: 768px) 100vw, 1200px"
+            />
+          </div>
+        </div>
+      </section>
       <ContactForm />
     </>
   );

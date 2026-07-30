@@ -34,7 +34,7 @@ export function AlternatingSection({
           src={imageUrl}
           alt={imageAlt ?? title}
           fill
-          className="object-cover"
+          className="object-cover object-center"
           sizes="(max-width: 768px) 100vw, 50vw"
         />
       ) : (

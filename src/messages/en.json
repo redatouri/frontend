@@ -256,7 +256,8 @@
     "title": "Our mission",
     "subtitle": "Moviecam supports Moroccan creators with professional gear and local service.",
     "storyTitle": "Our story",
-    "storyBody": "Founded by imaging enthusiasts, Moviecam was born from a simple belief: Moroccan creators deserve direct access to the best audiovisual equipment, without compromising on authenticity.",
+    "storyImageAlt": "Yassine Anflousse, founder of Movie Cam",
+    "storyBody": "Yassine Anflousse is a young filmmaker and entrepreneur who founded Movie Cam in 2023 in Agadir, Morocco. Driven by his passion for filmmaking, he created Movie Cam to help filmmakers and beginners find professional equipment and bring their creative ideas to life. Our mission is to turn passion into reality.",
     "valuesTitle": "Our values",
     "valueOriginal": "Authenticity",
     "valueOriginalDesc": "Every product is new and guaranteed.",
@@ -271,6 +272,7 @@
   "contact": {
     "title": "Contact us",
     "subtitle": "Questions about a product or order? Our team responds quickly.",
+    "storeImageAlt": "Movie Cam storefront in Agadir",
     "address": "Address",
     "addressValue": "Movie Cam, Agadir, Morocco",
     "phone": "Phone",
