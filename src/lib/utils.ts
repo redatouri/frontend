@@ -13,9 +13,22 @@ export function getApiBaseUrl(): string {
 export function getMediaUrl(path: string | null | undefined): string | null {
   if (!path) return null;
   if (path.startsWith("http")) return path;
-  if (path.startsWith("/products/") || path.startsWith("/home/") || path.startsWith("/about/") || path.startsWith("/brands/")) {
+
+  // Seed/catalog images live in the frontend public folder, not on the API volume.
+  if (path.startsWith("/media/placeholders/")) {
+    return `/products/${path.slice("/media/placeholders/".length)}`;
+  }
+
+  if (
+    path.startsWith("/products/") ||
+    path.startsWith("/home/") ||
+    path.startsWith("/about/") ||
+    path.startsWith("/brands/") ||
+    path.startsWith("/contact/")
+  ) {
     return path;
   }
+
   return `${getApiBaseUrl()}${path.startsWith("/") ? path : `/${path}`}`;
 }
 
