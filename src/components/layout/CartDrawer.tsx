@@ -76,7 +76,7 @@ export function CartDrawer() {
           ) : (
             <ul className="space-y-4">
               {items.map((item) => {
-                const imageUrl = getMediaUrl(item.image);
+                const imageUrl = getMediaUrl(item.image, item.slug);
                 return (
                   <li
                     key={item.offerId}
