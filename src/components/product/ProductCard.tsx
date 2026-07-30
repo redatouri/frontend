@@ -28,7 +28,7 @@ export function ProductCard({ product }: ProductCardProps) {
     <article className="group flex h-full flex-col bg-white transition-all duration-500 hover:shadow-[0_20px_60px_rgb(0_0_0_/_10%)]">
       <Link
         href={`/products/${product.slug}`}
-        className="relative aspect-[4/5] overflow-hidden bg-bg-subtle"
+        className="relative aspect-[4/5] overflow-hidden bg-white"
       >
         {discount && (
           <Badge variant="accent" className="absolute start-4 top-4 z-10">
@@ -40,7 +40,7 @@ export function ProductCard({ product }: ProductCardProps) {
             src={imageUrl}
             alt={product.name}
             fill
-            className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+            className="object-contain p-4 transition-transform duration-700 ease-out group-hover:scale-105 md:p-6"
             sizes="(max-width: 768px) 50vw, 25vw"
           />
         ) : (

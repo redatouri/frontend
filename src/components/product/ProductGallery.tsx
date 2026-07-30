@@ -52,7 +52,7 @@ export function ProductGallery({ images, productName }: ProductGalleryProps) {
           <button
             type="button"
             onClick={() => setZoomed(!zoomed)}
-            className="group relative aspect-[4/5] w-full overflow-hidden bg-bg-subtle text-start"
+            className="group relative aspect-[4/5] w-full overflow-hidden bg-white text-start"
           >
             {activeUrl ? (
               <Image
@@ -60,7 +60,7 @@ export function ProductGallery({ images, productName }: ProductGalleryProps) {
                 alt={active?.alt_text ?? productName}
                 fill
                 className={cn(
-                  "object-cover transition-transform duration-700 ease-out",
+                  "object-contain p-6 transition-transform duration-700 ease-out md:p-10",
                   zoomed ? "scale-150 cursor-zoom-out" : "group-hover:scale-105 cursor-zoom-in",
                 )}
                 sizes="(max-width: 1024px) 100vw, 50vw"
@@ -88,7 +88,7 @@ export function ProductGallery({ images, productName }: ProductGalleryProps) {
                       setZoomed(false);
                     }}
                     className={cn(
-                      "relative size-16 shrink-0 overflow-hidden border-2 transition-colors sm:size-20",
+                      "relative size-16 shrink-0 overflow-hidden border-2 bg-white transition-colors sm:size-20",
                       i === activeIndex ? "border-accent" : "border-border hover:border-accent/50",
                     )}
                   >
@@ -97,7 +97,7 @@ export function ProductGallery({ images, productName }: ProductGalleryProps) {
                         src={url}
                         alt={img.alt_text ?? productName}
                         fill
-                        className="object-cover"
+                        className="object-contain p-1"
                         sizes="80px"
                       />
                     ) : (
@@ -124,7 +124,7 @@ export function ProductGallery({ images, productName }: ProductGalleryProps) {
                 src={activeUrl}
                 alt={productName}
                 fill
-                className="object-cover"
+                className="object-contain p-4"
                 sizes="192px"
               />
             </div>
