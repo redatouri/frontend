@@ -3,11 +3,22 @@ export class ApiError extends Error {
   code?: string;
   detail?: unknown;
 
-  constructor(res: Response, body?: { detail?: string; code?: string }) {
-    super(body?.detail ?? `API error ${res.status}`);
+  constructor(res: Response, body?: { detail?: unknown; code?: string; message?: string }) {
+    const detail = body?.detail;
+    const message =
+      typeof detail === "string"
+        ? detail
+        : detail && typeof detail === "object" && "message" in detail
+          ? String((detail as { message: string }).message)
+          : body?.message ?? `API error ${res.status}`;
+    super(message);
     this.name = "ApiError";
     this.status = res.status;
-    this.code = body?.code;
+    this.code =
+      body?.code ??
+      (detail && typeof detail === "object" && "code" in detail
+        ? String((detail as { code: string }).code)
+        : undefined);
     this.detail = body;
   }
 }

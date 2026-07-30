@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
+import { ApiError } from "@/lib/api/client";
 import { loginAdmin } from "@/lib/api/auth";
 import { useAuthStore } from "@/lib/stores/auth";
 import { useRouter } from "next/navigation";
@@ -25,10 +26,18 @@ export default function AdminLoginPage() {
         String(form.get("email")),
         String(form.get("password")),
       );
-      setTokens(tokens.access_token, tokens.refresh_token);
+      setTokens(tokens.access_token);
       router.push("/admin");
-    } catch {
-      setError("Identifiants invalides");
+    } catch (err) {
+      if (err instanceof ApiError) {
+        if (err.status === 401) {
+          setError("Identifiants invalides");
+        } else {
+          setError(`Erreur serveur (${err.status}). Réessayez.`);
+        }
+      } else {
+        setError("Impossible de joindre le serveur. Vérifiez que l'API est en ligne.");
+      }
     } finally {
       setLoading(false);
     }
@@ -56,6 +65,7 @@ export default function AdminLoginPage() {
               id="email"
               name="email"
               type="email"
+              defaultValue="admin@moviecam.ma"
               required
               className="border-zinc-300 bg-white text-zinc-900"
             />

@@ -1,4 +1,4 @@
-import { api } from "./client";
+import { ApiError, api } from "./client";
 import type {
   CreateOrderPayload,
   OrderDetail,
@@ -41,10 +41,25 @@ export async function getAdminOrders(
   token: string,
   params?: { status?: string; page?: number },
 ): Promise<OrderListResponse> {
-  const { apiAuth } = await import("./client");
   const search = new URLSearchParams();
   if (params?.status) search.set("status", params.status);
   if (params?.page) search.set("page", String(params.page));
   const qs = search.toString();
-  return apiAuth<OrderListResponse>(`/admin/orders${qs ? `?${qs}` : ""}`, token);
+
+  const res = await fetch(`/api/admin-proxy/admin/orders${qs ? `?${qs}` : ""}`, {
+    headers: { Authorization: `Bearer ${token}` },
+    cache: "no-store",
+  });
+
+  if (!res.ok) {
+    let body: { detail?: unknown; code?: string; message?: string } | undefined;
+    try {
+      body = await res.json();
+    } catch {
+      // ignore parse errors
+    }
+    throw new ApiError(res, body);
+  }
+
+  return res.json() as Promise<OrderListResponse>;
 }

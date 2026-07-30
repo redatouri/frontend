@@ -5,20 +5,27 @@ import { persist } from "zustand/middleware";
 
 interface AuthStore {
   accessToken: string | null;
-  refreshToken: string | null;
-  setTokens: (access: string, refresh: string) => void;
+  hasHydrated: boolean;
+  setTokens: (access: string) => void;
   clearTokens: () => void;
+  setHasHydrated: (value: boolean) => void;
 }
 
 export const useAuthStore = create<AuthStore>()(
   persist(
     (set) => ({
       accessToken: null,
-      refreshToken: null,
-      setTokens: (accessToken, refreshToken) =>
-        set({ accessToken, refreshToken }),
-      clearTokens: () => set({ accessToken: null, refreshToken: null }),
+      hasHydrated: false,
+      setTokens: (accessToken) => set({ accessToken }),
+      clearTokens: () => set({ accessToken: null }),
+      setHasHydrated: (hasHydrated) => set({ hasHydrated }),
     }),
-    { name: "moviecam-admin-auth" },
+    {
+      name: "moviecam-admin-auth",
+      partialize: (state) => ({ accessToken: state.accessToken }),
+      onRehydrateStorage: () => (state) => {
+        state?.setHasHydrated(true);
+      },
+    },
   ),
 );

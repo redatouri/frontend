@@ -20,7 +20,7 @@ const STATUS_LABELS: Record<string, string> = {
 
 export default function AdminOrdersPage() {
   const router = useRouter();
-  const { accessToken, clearTokens } = useAuthStore();
+  const { accessToken, hasHydrated, clearTokens } = useAuthStore();
   const [orders, setOrders] = useState<OrderListItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -40,19 +40,20 @@ export default function AdminOrdersPage() {
   }, [accessToken]);
 
   useEffect(() => {
+    if (!hasHydrated) return;
     if (!accessToken) {
       router.replace("/admin/login");
       return;
     }
     loadOrders();
-  }, [accessToken, router, loadOrders]);
+  }, [accessToken, hasHydrated, router, loadOrders]);
 
   const logout = () => {
     clearTokens();
     router.push("/admin/login");
   };
 
-  if (!accessToken) {
+  if (!hasHydrated || !accessToken) {
     return null;
   }
 
