@@ -1,5 +1,4 @@
 import { AlternatingSection } from "@/components/marketing/AlternatingSection";
-import { PageHero } from "@/components/marketing/PageHero";
 import { ScrollReveal } from "@/components/marketing/ScrollReveal";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -11,7 +10,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "about" });
-  return { title: `${t("title")} | Moviecam`, description: t("subtitle") };
+  return { title: `${t("storyTitle")} | Moviecam`, description: t("storyBody") };
 }
 
 export default async function AboutPage({
@@ -25,8 +24,6 @@ export default async function AboutPage({
 
   return (
     <>
-      <PageHero eyebrow="Moviecam" title={t("title")} subtitle={t("subtitle")} />
-
       <AlternatingSection
         title={t("storyTitle")}
         description={t("storyBody")}

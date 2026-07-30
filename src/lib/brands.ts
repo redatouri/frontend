@@ -27,6 +27,9 @@ const SLUG_BRAND_MAP: Record<string, string> = {
   kf: "K&F Concept",
   sandisk: "SanDisk",
   smallrig: "SmallRig",
+  tamron: "Tamron",
+  deity: "Deity",
+  kodak: "Kodak",
   pack: "Movie Cam",
 };
 
@@ -51,6 +54,10 @@ export function getProductBrand(product: ProductListItem): string {
   if (name.toLowerCase().startsWith("lexar ")) return "Lexar";
   if (name.toLowerCase().startsWith("sandisk ")) return "SanDisk";
   if (name.toLowerCase().startsWith("smallrig ")) return "SmallRig";
+  if (name.toLowerCase().startsWith("tamron ")) return "Tamron";
+  if (name.toLowerCase().startsWith("deity ")) return "Deity";
+  if (name.toLowerCase().startsWith("kodak ")) return "Kodak";
+  if (name.toLowerCase().startsWith("pack gopro")) return "GoPro";
   if (name.toLowerCase().startsWith("pack ")) return "Movie Cam";
 
   return name.split(" ")[0] ?? "Autre";

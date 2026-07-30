@@ -1,6 +1,5 @@
 import { BrandShowcases } from "@/components/marketing/BrandShowcases";
 import { BestSellersSection } from "@/components/marketing/BestSellersSection";
-import { CategoryCarousel } from "@/components/marketing/CategoryCarousel";
 import { FeaturedBrandsStrip } from "@/components/marketing/FeaturedBrandsStrip";
 import {
   ArticlesSection,
@@ -13,15 +12,9 @@ import { InstagramSection } from "@/components/marketing/InstagramSection";
 import { HeroSection } from "@/components/marketing/HeroSection";
 import { ShowcaseBanner } from "@/components/marketing/ShowcaseBanner";
 import { groupProductsByBrand } from "@/lib/brands";
-import { getCategories } from "@/lib/api/categories";
 import { getProducts } from "@/lib/api/products";
-import {
-  buildCategoryCarouselItems,
-  CATEGORY_CAROUSEL_ITEMS,
-} from "@/lib/category-carousel";
 import { HOME_IMAGES } from "@/lib/home-images";
 import { STORE } from "@/lib/store";
-import { getMediaUrl } from "@/lib/utils";
 import { Camera, Headphones, Truck } from "lucide-react";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -61,31 +54,7 @@ export default async function HomePage({
   setRequestLocale(locale);
   const t = await getTranslations("home");
 
-  const [allProducts, categories] = await Promise.all([
-    getProducts({ locale, limit: 100 }),
-    getCategories({ locale, top: true }),
-  ]);
-
-  const overlays = Object.fromEntries(
-    CATEGORY_CAROUSEL_ITEMS.map((item) => [
-      item.overlayKey,
-      t(`categoryCarousel.${item.overlayKey}.overlay`),
-    ]),
-  );
-
-  const labels = Object.fromEntries(
-    CATEGORY_CAROUSEL_ITEMS.map((item) => [
-      item.labelKey,
-      t(`categoryCarousel.${item.labelKey}.label`),
-    ]),
-  );
-
-  const categoryItems = buildCategoryCarouselItems(
-    categories,
-    overlays,
-    labels,
-    (path) => getMediaUrl(path) ?? path,
-  );
+  const allProducts = await getProducts({ locale, limit: 100 });
 
   const brandGroups = groupProductsByBrand(allProducts.items);
 
@@ -142,15 +111,8 @@ export default async function HomePage({
         subtitle={t("heroSubtitle")}
         ctaPrimary={t("heroCtaPrimary")}
         ctaSecondary={t("heroCtaSecondary")}
-        imageDesktop={HOME_IMAGES.hero.desktop.src}
-        imageMobile={HOME_IMAGES.hero.mobile.src}
-        imageAlt={HOME_IMAGES.hero.desktop.alt}
-      />
-
-      <CategoryCarousel
-        title={t("featuredCategories")}
-        subtitle={t("flagshipSubtitle")}
-        items={categoryItems}
+        mobileSlides={HOME_IMAGES.hero.mobileSlides}
+        mobileImageHasCopy
       />
 
       <BestSellersSection

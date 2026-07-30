@@ -162,13 +162,6 @@ export function Header({ categories }: HeaderProps) {
           <LocaleSwitcher />
           <CartButton count={count} onClick={openCart} />
           <MobileMenu categories={categories} onSearch={() => setSearchOpen(true)} />
-          <Link
-            href="/"
-            className="hidden size-10 items-center justify-center rounded-full bg-accent font-display text-sm font-bold text-on-accent transition-transform hover:scale-105 sm:flex"
-            aria-label="Moviecam home"
-          >
-            N
-          </Link>
         </div>
       </div>
     </header>
