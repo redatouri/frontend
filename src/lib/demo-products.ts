@@ -82,7 +82,6 @@ const SAC_CAMERA_IMAGES = ["/products/sac-camera-0.png"];
 const TRIPOD_CANDC_DC999_IMAGES = ["/products/tripod-candc-dc-999-0.png"];
 const TRIPOD_CANDC_DC6917_IMAGES = ["/products/tripod-candc-dc-6917-0.png"];
 const TRIPOD_CANDC_DC6918_IMAGES = ["/products/tripod-candc-dc-6918-0.png"];
-const PACK_GOPRO_IMAGES = ["/products/pack-gopro-0.png"];
 const FEELWORLD_TP10_IMAGES = ["/products/feelworld-tp10-0.png"];
 const KODAK_GOLD_200_IMAGES = ["/products/kodak-gold-200-film-bundle-0.png"];
 const DEITY_VMIC_D3_PRO_IMAGES = ["/products/deity-v-mic-d3-pro-0.png"];
@@ -275,7 +274,6 @@ const DEMO_PRODUCT_IMAGES: Record<string, string[]> = {
   "tripod-candc-dc-999": TRIPOD_CANDC_DC999_IMAGES,
   "tripod-candc-dc-6917": TRIPOD_CANDC_DC6917_IMAGES,
   "tripod-candc-dc-6918": TRIPOD_CANDC_DC6918_IMAGES,
-  "pack-gopro": PACK_GOPRO_IMAGES,
   "feelworld-tp10": FEELWORLD_TP10_IMAGES,
   "kodak-gold-200-film-bundle": KODAK_GOLD_200_IMAGES,
   "deity-v-mic-d3-pro": DEITY_VMIC_D3_PRO_IMAGES,
@@ -942,19 +940,6 @@ const DEMO_ITEMS: ProductListItem[] = [
     28,
   ),
   item(
-    "74",
-    "pack-gopro",
-    "Pack gopro",
-    "Pack gopro",
-    400,
-    { slug: "action-cameras", name: "Caméras action" },
-    PACK_GOPRO_IMAGES[0],
-    undefined,
-    12,
-    "Neuf",
-    26,
-  ),
-  item(
     "75",
     "feelworld-tp10",
     "FEELWORLD TP10 Portable 10 téléprompteur pliant",
@@ -1190,9 +1175,7 @@ const DEMO_ITEMS: ProductListItem[] = [
   item("6", "aputure-600d-pro", "Aputure 600d Pro", "Éclairage daylight 600W pour tournage pro", 12499, { slug: "lighting-led-panels", name: "Panneaux LED" }),
   item("7", "sandisk-extreme-pro-256", "SanDisk Extreme PRO 256GB", "V90 — jamais de dropped frames", 899, { slug: "memory-sd-cf", name: "Cartes SD & CF" }),
   item("8", "sony-np-fz100-twin", "Sony NP-FZ100 (x2)", "Autonomie double pour longues journées de tournage", 649, { slug: "batteries-camera", name: "Batteries caméra" }),
-  item("9", "smallrig-cage-a7iv", "SmallRig Cage Sony A7 IV", "Rig complet prêt à tourner", 899, { slug: "stabilization-rigs", name: "Cages & Rigs" }),
   item("10", "pack-podcast-starter", "Pack Podcast Starter", "Lancez votre podcast en un clic", 2999, { slug: "studio-packs-podcast", name: "Packs Podcast" }, undefined, 3499),
-  item("11", "gopro-hero-13-black", "GoPro HERO 13 Black", "Action 5.3K — compact et indestructible", 3799, { slug: "action-cameras", name: "Caméras action" }),
 ];
 
 export function getDemoProducts(params: {
