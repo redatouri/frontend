@@ -24,13 +24,10 @@ export function getMediaUrl(
     const filename = path.slice("/media/placeholders/".length);
     const indexMatch = filename.match(/-(\d+)\.(webp|png|jpe?g)$/i);
     const index = indexMatch?.[1] ?? "0";
+    const ext = indexMatch?.[2]?.toLowerCase() ?? "png";
 
     if (productSlug && !filename.startsWith(`${productSlug}-`)) {
-      return `/products/${productSlug}-${index}.png`;
-    }
-
-    if (/\.webp$/i.test(filename)) {
-      return `/products/${filename.replace(/\.webp$/i, ".png")}`;
+      return `/products/${productSlug}-${index}.${ext}`;
     }
 
     return `/products/${filename}`;
