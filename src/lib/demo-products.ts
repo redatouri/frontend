@@ -1161,7 +1161,6 @@ const DEMO_ITEMS: ProductListItem[] = [
     26,
   ),
   item("14", "dji-mic-mini-2-combo", "Dji mic mini 2 (2tx + 1 rx + charging case)", "Dji mic mini 2 (2tx + 1 rx + charging case)", 1400, { slug: "audio-wireless", name: "Sans fil" }, DJI_MIC_MINI_2_IMAGES[0]),
-  item("3", "rod-videomic-pro-plus", "Rode VideoMic Pro+", "Le micro canon préféré des vidéastes", 2799, { slug: "audio-microphones-shotgun", name: "Micros canon" }),
   item("15", "dji-rs4-mini", "Dji rs4 mini", "Dji rs4 mini", 3400, { slug: "stabilization-gimbals", name: "Gimbals" }, DJI_RS4_MINI_IMAGES[0]),
   item("17", "dji-rs5", "Dji rs5", "Dji rs5", 6100, { slug: "stabilization-gimbals", name: "Gimbals" }, DJI_RS5_IMAGES[0]),
   item("18", "dji-osmo-mobile-7", "Dji osmo mobile 7", "Dji osmo mobile 7", 950, { slug: "stabilization-gimbals", name: "Gimbals" }, DJI_OSMO_MOBILE_7_IMAGES[0]),
@@ -1172,10 +1171,6 @@ const DEMO_ITEMS: ProductListItem[] = [
   item("13", "dji-osmo-nano-128gb", "Dji osmo nano 128gb", "Dji osmo nano 128gb", 4200, { slug: "action-cameras", name: "Caméras action" }, OSMO_NANO_IMAGES[0]),
   item("20", "dji-action-6-standard", "Dji action 6 standard", "Dji action 6 standard", 4800, { slug: "action-cameras", name: "Caméras action" }, DJI_ACTION_6_IMAGES[0]),
   item("21", "dji-action-6-adventure-combo", "Dji osmo action 6 adventure combo", "Dji osmo action 6 adventure combo", 5900, { slug: "action-cameras", name: "Caméras action" }, DJI_ACTION_6_ADVENTURE_IMAGES[0]),
-  item("6", "aputure-600d-pro", "Aputure 600d Pro", "Éclairage daylight 600W pour tournage pro", 12499, { slug: "lighting-led-panels", name: "Panneaux LED" }),
-  item("7", "sandisk-extreme-pro-256", "SanDisk Extreme PRO 256GB", "V90 — jamais de dropped frames", 899, { slug: "memory-sd-cf", name: "Cartes SD & CF" }),
-  item("8", "sony-np-fz100-twin", "Sony NP-FZ100 (x2)", "Autonomie double pour longues journées de tournage", 649, { slug: "batteries-camera", name: "Batteries caméra" }),
-  item("10", "pack-podcast-starter", "Pack Podcast Starter", "Lancez votre podcast en un clic", 2999, { slug: "studio-packs-podcast", name: "Packs Podcast" }, undefined, 3499),
 ];
 
 export function getDemoProducts(params: {
