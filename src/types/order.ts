@@ -35,9 +35,12 @@ export interface OrderListItem {
   status: string;
   total: number;
   created_at: string;
+  customer?: OrderCustomer;
   customer_name?: string;
   customer_phone?: string;
   customer_city?: string;
+  customer_neighborhood?: string;
+  customer_address?: string;
 }
 
 export interface OrderListResponse {

@@ -8,14 +8,17 @@ import { RefreshCw } from "lucide-react";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 
-const STATUS_LABELS: Record<string, string> = {
-  pending: "En attente",
-  confirmed: "Confirmée",
-  shipped: "Expédiée",
-  delivered: "Livrée",
-  cancelled: "Annulée",
-  returned: "Retournée",
-};
+function normalizeAdminOrder(order: OrderListItem): OrderListItem {
+  const customer = order.customer;
+  return {
+    ...order,
+    customer_name: customer?.full_name ?? order.customer_name,
+    customer_phone: customer?.phone ?? order.customer_phone,
+    customer_city: customer?.city ?? order.customer_city,
+    customer_neighborhood: customer?.neighborhood ?? order.customer_neighborhood,
+    customer_address: customer?.address_line ?? order.customer_address,
+  };
+}
 
 export default function AdminOrdersPage() {
   const { accessToken } = useAuthStore();
@@ -29,7 +32,7 @@ export default function AdminOrdersPage() {
     setError("");
     try {
       const data = await getAdminOrders(accessToken);
-      setOrders(data.items);
+      setOrders(data.items.map(normalizeAdminOrder));
     } catch {
       setError("Impossible de charger les commandes");
     } finally {
@@ -70,32 +73,34 @@ export default function AdminOrdersPage() {
           </Link>
         </div>
       ) : (
-        <div className="overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-sm">
-          <table className="w-full text-sm">
+        <div className="overflow-x-auto rounded-xl border border-zinc-200 bg-white shadow-sm">
+          <table className="w-full min-w-[960px] text-sm">
             <thead className="border-b border-zinc-200 bg-zinc-50 text-left text-zinc-600">
               <tr>
                 <th className="px-4 py-3 font-medium">N° commande</th>
                 <th className="px-4 py-3 font-medium">Date</th>
-                <th className="px-4 py-3 font-medium">Client</th>
+                <th className="px-4 py-3 font-medium">Nom</th>
                 <th className="px-4 py-3 font-medium">Téléphone</th>
                 <th className="px-4 py-3 font-medium">Ville</th>
+                <th className="px-4 py-3 font-medium">Quartier</th>
+                <th className="px-4 py-3 font-medium">Adresse</th>
                 <th className="px-4 py-3 font-medium">Total</th>
-                <th className="px-4 py-3 font-medium">Statut</th>
               </tr>
             </thead>
             <tbody>
               {orders.map((order) => (
                 <tr key={order.id} className="border-b border-zinc-100 last:border-0">
                   <td className="px-4 py-3 font-mono text-zinc-900">{order.order_number}</td>
-                  <td className="px-4 py-3 text-zinc-600">{formatDate(order.created_at, "fr")}</td>
+                  <td className="whitespace-nowrap px-4 py-3 text-zinc-600">
+                    {formatDate(order.created_at, "fr")}
+                  </td>
                   <td className="px-4 py-3">{order.customer_name ?? "—"}</td>
-                  <td className="px-4 py-3">{order.customer_phone ?? "—"}</td>
+                  <td className="whitespace-nowrap px-4 py-3">{order.customer_phone ?? "—"}</td>
                   <td className="px-4 py-3">{order.customer_city ?? "—"}</td>
-                  <td className="px-4 py-3 font-medium">{formatPrice(order.total, "fr")}</td>
-                  <td className="px-4 py-3">
-                    <span className="rounded-full bg-zinc-100 px-2.5 py-0.5 text-xs">
-                      {STATUS_LABELS[order.status] ?? order.status}
-                    </span>
+                  <td className="px-4 py-3">{order.customer_neighborhood ?? "—"}</td>
+                  <td className="max-w-xs px-4 py-3 text-zinc-700">{order.customer_address ?? "—"}</td>
+                  <td className="whitespace-nowrap px-4 py-3 font-medium">
+                    {formatPrice(order.total, "fr")}
                   </td>
                 </tr>
               ))}
