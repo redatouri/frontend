@@ -1,10 +1,10 @@
-import { getBackendApiBase } from "@/lib/api/backend-url";
+import { getBackendApiCandidates } from "@/lib/api/backend-url";
 import { NextRequest, NextResponse } from "next/server";
 
 async function proxyRequest(req: NextRequest, pathSegments: string[]) {
   const path = pathSegments.join("/");
   const search = req.nextUrl.search;
-  const url = `${getBackendApiBase()}/api/v1/${path}${search}`;
+  const suffix = `/api/v1/${path}${search}`;
 
   const headers = new Headers();
   const contentType = req.headers.get("content-type");
@@ -26,28 +26,46 @@ async function proxyRequest(req: NextRequest, pathSegments: string[]) {
     init.body = await req.text();
   }
 
-  try {
-    const res = await fetch(url, init);
-    const body = await res.text();
+  const candidates = getBackendApiCandidates();
+  const errors: string[] = [];
 
-    return new NextResponse(body, {
-      status: res.status,
-      headers: {
-        "Content-Type": res.headers.get("Content-Type") ?? "application/json",
-      },
-    });
-  } catch (error) {
-    console.error("Admin proxy failed:", url, error);
-    return NextResponse.json(
-      {
-        detail: {
-          message: "Impossible de joindre l'API backend. Vérifiez API_URL et que le service API est démarré.",
-          code: "API_UNREACHABLE",
+  for (const base of candidates) {
+    const url = `${base}${suffix}`;
+    try {
+      const res = await fetch(url, init);
+      const body = await res.text();
+
+      if (res.status >= 500 && res.status !== 502) {
+        errors.push(`${base}: HTTP ${res.status}`);
+        continue;
+      }
+
+      return new NextResponse(body, {
+        status: res.status,
+        headers: {
+          "Content-Type": res.headers.get("Content-Type") ?? "application/json",
+          "X-Moviecam-Api-Base": base,
         },
-      },
-      { status: 502 },
-    );
+      });
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "fetch failed";
+      errors.push(`${base}: ${message}`);
+      console.error("Admin proxy attempt failed:", url, error);
+    }
   }
+
+  return NextResponse.json(
+    {
+      detail: {
+        message:
+          "L'API backend est hors ligne. Ouvrez Easypanel → backend → Logs. Vérifiez DATABASE_URL et que PostgreSQL tourne.",
+        code: "API_UNREACHABLE",
+        tried: candidates,
+        errors,
+      },
+    },
+    { status: 502 },
+  );
 }
 
 type RouteContext = { params: Promise<{ path: string[] }> };
