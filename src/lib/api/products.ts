@@ -102,7 +102,7 @@ export async function getProducts(
     if (params.category) search.set("category", params.category);
     if (params.featured) search.set("featured", "true");
     if (params.page) search.set("page", String(params.page));
-    if (params.limit) search.set("limit", String(Math.min(params.limit, 50)));
+    if (params.limit) search.set("limit", String(Math.min(params.limit, 100)));
     if (params.sort) search.set("sort", params.sort);
     if (params.min_price != null) search.set("min_price", String(params.min_price));
     if (params.max_price != null) search.set("max_price", String(params.max_price));
@@ -119,7 +119,7 @@ export async function getProducts(
         items: [],
         total: 0,
         page: params.page ?? 1,
-        limit: Math.min(params.limit ?? 20, 50),
+        limit: Math.min(params.limit ?? 20, 100),
       };
     }
     throw error;

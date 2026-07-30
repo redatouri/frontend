@@ -28,7 +28,7 @@ export default async function ProductsPage({
   const products = await getProducts({
     locale,
     sort: "popular",
-    limit: 50,
+    limit: 100,
   });
 
   return (
