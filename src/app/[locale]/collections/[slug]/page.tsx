@@ -1,6 +1,5 @@
 import { ScrollReveal } from "@/components/marketing/ScrollReveal";
 import { ProductCard } from "@/components/product/ProductCard";
-import { ProductPlaceholder } from "@/components/ui/ProductPlaceholder";
 import { Link } from "@/i18n/navigation";
 import { getCategory } from "@/lib/api/categories";
 import { getProducts } from "@/lib/api/products";
@@ -59,20 +58,15 @@ export default async function CollectionPage({
             <span className="text-text-secondary">{category.name}</span>
           </nav>
           <ScrollReveal>
-            <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
-              <div>
-                <p className="editorial-eyebrow">{t("title")}</p>
-                <h1 className="mt-4 font-display text-display-lg font-semibold">{category.name}</h1>
-                {category.description && (
-                  <p className="mt-5 text-body-lg text-text-secondary">{category.description}</p>
-                )}
-                <p className="mt-4 text-sm font-medium text-cyan">
-                  {t("products", { count: products.total })}
-                </p>
-              </div>
-              <div className="relative aspect-[16/10] overflow-hidden bg-bg-subtle">
-                <ProductPlaceholder category="camera" label={category.name} />
-              </div>
+            <div>
+              <p className="editorial-eyebrow">{t("title")}</p>
+              <h1 className="mt-4 font-display text-display-lg font-semibold">{category.name}</h1>
+              {category.description && (
+                <p className="mt-5 text-body-lg text-text-secondary">{category.description}</p>
+              )}
+              <p className="mt-4 text-sm font-medium text-cyan">
+                {t("products", { count: products.total })}
+              </p>
             </div>
           </ScrollReveal>
         </div>
