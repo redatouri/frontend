@@ -46,6 +46,30 @@ export function getMediaUrl(
   return `${getApiBaseUrl()}${path.startsWith("/") ? path : `/${path}`}`;
 }
 
+export function imageBelongsToProduct(url: string, productSlug: string): boolean {
+  const filename = url.split("/").pop() ?? "";
+  return filename.startsWith(`${productSlug}-`) || filename.startsWith(`${productSlug}.`);
+}
+
+export function sanitizeProductImages<T extends { url: string; sort_order?: number }>(
+  images: T[],
+  productSlug?: string,
+): T[] {
+  if (!productSlug) return images;
+
+  const seen = new Set<string>();
+  return [...images]
+    .sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0))
+    .filter((image) => {
+      const url = getMediaUrl(image.url, productSlug);
+      if (!url || seen.has(url) || !imageBelongsToProduct(url, productSlug)) {
+        return false;
+      }
+      seen.add(url);
+      return true;
+    });
+}
+
 export function getWhatsAppUrl(message?: string): string {
   const number = (process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? STORE.whatsapp).replace(/\D/g, "");
   const base = `https://wa.me/${number}`;

@@ -1,13 +1,12 @@
 "use client";
 
 import { ProductPlaceholder } from "@/components/ui/ProductPlaceholder";
-import { getMediaUrl } from "@/lib/utils";
+import { getMediaUrl, sanitizeProductImages, cn } from "@/lib/utils";
 import type { ProductImage } from "@/types/product";
 import { ZoomIn } from "lucide-react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { useState } from "react";
-import { cn } from "@/lib/utils";
 
 interface ProductGalleryProps {
   images: ProductImage[];
@@ -17,9 +16,7 @@ interface ProductGalleryProps {
 
 export function ProductGallery({ images, productName, productSlug }: ProductGalleryProps) {
   const t = useTranslations("product");
-  const sorted = [...images].sort(
-    (a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0),
-  );
+  const sorted = sanitizeProductImages(images, productSlug);
   const [activeIndex, setActiveIndex] = useState(0);
   const [zoomed, setZoomed] = useState(false);
   const active = sorted[activeIndex];
