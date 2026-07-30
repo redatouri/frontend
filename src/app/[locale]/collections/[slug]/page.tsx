@@ -23,13 +23,10 @@ export async function generateMetadata({
 
 export default async function CollectionPage({
   params,
-  searchParams,
 }: {
   params: Promise<{ locale: string; slug: string }>;
-  searchParams: Promise<{ sort?: string; in_stock?: string }>;
 }) {
   const { locale, slug } = await params;
-  const { sort, in_stock } = await searchParams;
   setRequestLocale(locale);
   const t = await getTranslations("collections");
 
@@ -39,12 +36,9 @@ export default async function CollectionPage({
   const products = await getProducts({
     locale,
     category: slug,
-    sort: (sort as "popular" | "price_asc" | "price_desc" | "newest") ?? "popular",
-    in_stock: in_stock === "true" ? true : undefined,
+    sort: "popular",
     limit: 50,
   });
-
-  const sortOptions = ["popular", "price_asc", "price_desc", "newest"] as const;
 
   return (
     <>
