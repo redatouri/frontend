@@ -32,11 +32,13 @@ export default function AdminLoginPage() {
       if (err instanceof ApiError) {
         if (err.status === 401) {
           setError("Identifiants invalides");
+        } else if (err.status === 502) {
+          setError("L'API backend est hors ligne. Vérifiez Easypanel (service backend + DATABASE_URL).");
         } else {
           setError(`Erreur serveur (${err.status}). Réessayez.`);
         }
       } else {
-        setError("Impossible de joindre le serveur. Vérifiez que l'API est en ligne.");
+        setError("Impossible de joindre le serveur.");
       }
     } finally {
       setLoading(false);

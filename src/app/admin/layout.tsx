@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Open_Sans } from "next/font/google";
+import { Toaster } from "sonner";
+import { AdminShell } from "@/components/admin/AdminShell";
 import "../globals.css";
 
 const openSans = Open_Sans({
@@ -19,7 +21,10 @@ export default function AdminRootLayout({
 }) {
   return (
     <html lang="fr">
-      <body className={openSans.className}>{children}</body>
+      <body className={openSans.className}>
+        <AdminShell>{children}</AdminShell>
+        <Toaster theme="light" position="top-center" richColors />
+      </body>
     </html>
   );
 }
