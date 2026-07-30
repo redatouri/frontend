@@ -21,7 +21,7 @@ export function ProductCard({ product }: ProductCardProps) {
   const tCommon = useTranslations("common");
   const locale = useLocale();
   const offer = product.default_offer;
-  const imageUrl = getMediaUrl(product.primary_image);
+  const imageUrl = getMediaUrl(product.primary_image, product.slug);
   const discount = calcDiscount(offer.price, offer.compare_at_price);
 
   return (

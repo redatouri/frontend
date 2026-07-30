@@ -12,11 +12,12 @@ import { cn } from "@/lib/utils";
 interface ProductGalleryProps {
   images: ProductImage[];
   productName: string;
+  productSlug?: string;
 }
 
 type ViewMode = "photos" | "360";
 
-export function ProductGallery({ images, productName }: ProductGalleryProps) {
+export function ProductGallery({ images, productName, productSlug }: ProductGalleryProps) {
   const t = useTranslations("product");
   const sorted = [...images].sort(
     (a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0),
@@ -25,7 +26,7 @@ export function ProductGallery({ images, productName }: ProductGalleryProps) {
   const [mode, setMode] = useState<ViewMode>("photos");
   const [zoomed, setZoomed] = useState(false);
   const active = sorted[activeIndex];
-  const activeUrl = getMediaUrl(active?.url);
+  const activeUrl = getMediaUrl(active?.url, productSlug);
 
   return (
     <div className="space-y-5">
@@ -78,7 +79,7 @@ export function ProductGallery({ images, productName }: ProductGalleryProps) {
           {sorted.length > 1 && (
             <div className="flex gap-2 overflow-x-auto scrollbar-hide">
               {sorted.map((img, i) => {
-                const url = getMediaUrl(img.url);
+                const url = getMediaUrl(img.url, productSlug);
                 return (
                   <button
                     key={`${img.url}-${i}`}

@@ -9,7 +9,7 @@ interface ProductJsonLdProps {
 export function ProductJsonLd({ product, locale }: ProductJsonLdProps) {
   const offer = product.offers.find((o) => o.is_default) ?? product.offers[0];
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://moviecam.ma";
-  const imageUrl = getMediaUrl(product.primary_image ?? product.images[0]?.url);
+  const imageUrl = getMediaUrl(product.primary_image ?? product.images[0]?.url, product.slug);
 
   const jsonLd = {
     "@context": "https://schema.org",

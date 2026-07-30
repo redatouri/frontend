@@ -142,7 +142,7 @@ export function CartDrawer() {
               <h3 className="mb-3 text-sm font-semibold">{t("crossSells")}</h3>
               <div className="flex gap-3 overflow-x-auto scrollbar-hide pb-2">
                 {crossSells.map((product) => {
-                  const imageUrl = getMediaUrl(product.primary_image);
+                  const imageUrl = getMediaUrl(product.primary_image, product.slug);
                   return (
                     <div
                       key={product.id}

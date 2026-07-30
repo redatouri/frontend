@@ -101,7 +101,7 @@ export function SearchOverlay({ open, onClose }: SearchOverlayProps) {
           )}
           <ul className="space-y-1">
             {results.map((product) => {
-              const imageUrl = getMediaUrl(product.primary_image);
+              const imageUrl = getMediaUrl(product.primary_image, product.slug);
               return (
                 <li key={product.id}>
                   <Link

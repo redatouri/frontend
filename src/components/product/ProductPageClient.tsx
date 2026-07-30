@@ -102,7 +102,7 @@ export function ProductPageClient({ product }: ProductPageClientProps) {
     <>
       <section className="container-page py-10 md:py-16">
         <div className="grid gap-12 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:gap-16">
-          <ProductGallery images={product.images} productName={product.name} />
+          <ProductGallery images={product.images} productName={product.name} productSlug={product.slug} />
 
           <div className="lg:sticky lg:top-28 lg:self-start">
             <div className="flex items-start justify-between gap-4">
@@ -199,7 +199,7 @@ export function ProductPageClient({ product }: ProductPageClientProps) {
           title={section.title}
           description={section.description}
           imagePosition={section.position}
-          imageUrl={getMediaUrl(product.images[i + 1]?.url ?? product.images[0]?.url)}
+          imageUrl={getMediaUrl(product.images[i + 1]?.url ?? product.images[0]?.url, product.slug)}
           category="camera"
         />
       ))}
