@@ -1,4 +1,4 @@
-import { api } from "./client";
+import { api, ApiError } from "./client";
 import { getDemoProduct, getDemoProducts, isDemoModeEnabled } from "@/lib/demo-products";
 import type {
   ProductDetail,
@@ -109,21 +109,20 @@ export async function getProducts(
     if (params.in_stock != null) search.set("in_stock", String(params.in_stock));
 
     const data = await api<ProductListResponse>(`/products?${search}`, { cache: "no-store" });
-    const normalized = normalizeProductListResponse(data);
-
-    const isBroadCatalogQuery =
-      !params.category &&
-      !params.featured &&
-      params.min_price == null &&
-      params.max_price == null;
-
-    if (normalized.items.length === 0 && isBroadCatalogQuery) {
+    return normalizeProductListResponse(data);
+  } catch (error) {
+    if (isDemoModeEnabled()) {
       return getDemoProducts(params);
     }
-
-    return normalized;
-  } catch {
-    return getDemoProducts(params);
+    if (error instanceof ApiError && error.status >= 400 && error.status < 500) {
+      return {
+        items: [],
+        total: 0,
+        page: params.page ?? 1,
+        limit: Math.min(params.limit ?? 20, 50),
+      };
+    }
+    throw error;
   }
 }
 
@@ -140,8 +139,14 @@ export async function getProduct(
       cache: "no-store",
     });
     return normalizeProductDetail(product);
-  } catch {
-    return getDemoProduct(slug);
+  } catch (error) {
+    if (isDemoModeEnabled()) {
+      return getDemoProduct(slug);
+    }
+    if (error instanceof ApiError && error.status === 404) {
+      return null;
+    }
+    throw error;
   }
 }
 
