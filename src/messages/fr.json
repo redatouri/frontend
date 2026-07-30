@@ -7,6 +7,7 @@
     "menu": "Menu",
     "closeMenu": "Fermer le menu",
     "viewAllCollections": "Toutes les collections",
+    "allProducts": "Tous les produits",
     "search": "Rechercher",
     "wishlist": "Favoris"
   },
@@ -251,6 +252,12 @@
     "brandsSubtitle": "Explorez notre sélection par fabricant.",
     "brandLabel": "Marque",
     "viewAllBrand": "Voir tout {brand}"
+  },
+  "products": {
+    "title": "Tous les produits",
+    "subtitle": "Parcourez notre catalogue complet de matériel professionnel.",
+    "products": "{count} produits",
+    "empty": "Aucun produit disponible."
   },
   "about": {
     "title": "Notre mission",

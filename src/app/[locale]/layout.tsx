@@ -6,6 +6,7 @@ import { Header } from "@/components/layout/Header";
 import { Providers } from "@/components/providers/Providers";
 import { routing } from "@/i18n/routing";
 import { getCategories } from "@/lib/api/categories";
+import { getNavCategories } from "@/lib/nav-categories";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
@@ -60,7 +61,7 @@ export default async function LocaleLayout({
 
   setRequestLocale(locale);
   const messages = await getMessages();
-  const categories = await getCategories({ locale, top: true });
+  const categories = getNavCategories(await getCategories({ locale, top: true }));
 
   return (
     <html

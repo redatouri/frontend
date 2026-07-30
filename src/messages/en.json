@@ -7,6 +7,7 @@
     "menu": "Menu",
     "closeMenu": "Close menu",
     "viewAllCollections": "All collections",
+    "allProducts": "All products",
     "search": "Search",
     "wishlist": "Wishlist"
   },
@@ -251,6 +252,12 @@
     "brandsSubtitle": "Browse our selection by manufacturer.",
     "brandLabel": "Brand",
     "viewAllBrand": "View all {brand}"
+  },
+  "products": {
+    "title": "All products",
+    "subtitle": "Browse our full catalog of professional gear.",
+    "products": "{count} products",
+    "empty": "No products available."
   },
   "about": {
     "title": "Our mission",

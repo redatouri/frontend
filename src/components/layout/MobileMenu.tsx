@@ -99,6 +99,13 @@ export function MobileMenu({ categories, variant = "dark", onSearch }: MobileMen
                     {cat.name}
                   </Link>
                 ))}
+                <Link
+                  href="/products"
+                  onClick={close}
+                  className="rounded-lg px-4 py-2.5 text-sm font-medium text-text-primary hover:bg-bg-subtle"
+                >
+                  {t("allProducts")}
+                </Link>
               </div>
             </div>
           )}

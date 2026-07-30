@@ -68,35 +68,6 @@ export default async function CollectionPage({
 
       <section className="section-padding">
         <div className="container-page">
-          <div className="mb-10 flex flex-col gap-4 border-b border-border pb-8 md:flex-row md:items-center md:justify-between">
-            <span className="editorial-eyebrow text-text-muted">{t("filters")}</span>
-            <div className="flex flex-wrap gap-2">
-              {sortOptions.map((s) => (
-                <Link
-                  key={s}
-                  href={`/collections/${slug}?sort=${s}${in_stock === "true" ? "&in_stock=true" : ""}`}
-                  className={`px-4 py-2.5 text-xs font-semibold uppercase tracking-[0.12em] transition-colors ${
-                    (sort ?? "popular") === s
-                      ? "bg-accent text-on-accent"
-                      : "border border-border text-text-secondary hover:border-accent hover:text-accent"
-                  }`}
-                >
-                  {t(`sort${s === "popular" ? "Popular" : s === "price_asc" ? "PriceAsc" : s === "price_desc" ? "PriceDesc" : "Newest"}`)}
-                </Link>
-              ))}
-              <Link
-                href={`/collections/${slug}?sort=${sort ?? "popular"}&in_stock=true`}
-                className={`px-4 py-2.5 text-xs font-semibold uppercase tracking-[0.12em] transition-colors ${
-                  in_stock === "true"
-                    ? "bg-accent text-on-accent"
-                    : "border border-border text-text-secondary hover:border-accent hover:text-accent"
-                }`}
-              >
-                {t("inStock")}
-              </Link>
-            </div>
-          </div>
-
           {products.items.length === 0 ? (
             <p className="py-20 text-center text-text-secondary">{t("empty")}</p>
           ) : (

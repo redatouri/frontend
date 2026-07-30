@@ -7,6 +7,7 @@
     "menu": "القائمة",
     "closeMenu": "إغلاق القائمة",
     "viewAllCollections": "جميع المجموعات",
+    "allProducts": "جميع المنتجات",
     "search": "بحث",
     "wishlist": "المفضلة"
   },
@@ -251,6 +252,12 @@
     "brandsSubtitle": "تصفح مجموعتنا حسب الشركة المصنعة.",
     "brandLabel": "العلامة",
     "viewAllBrand": "عرض كل {brand}"
+  },
+  "products": {
+    "title": "جميع المنتجات",
+    "subtitle": "تصفح مجموعتنا الكاملة من المعدات الاحترافية.",
+    "products": "{count} منتج",
+    "empty": "لا توجد منتجات متاحة."
   },
   "about": {
     "title": "مهمتنا",

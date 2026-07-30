@@ -123,6 +123,13 @@ export function Header({ categories }: HeaderProps) {
                       <span className="text-sm font-medium text-text-primary">{cat.name}</span>
                     </Link>
                   ))}
+                  <Link
+                    href="/products"
+                    onClick={() => setCollectionsOpen(false)}
+                    className="bg-bg-elevated px-5 py-4 transition-colors hover:bg-bg-subtle"
+                  >
+                    <span className="text-sm font-medium text-text-primary">{t("allProducts")}</span>
+                  </Link>
                 </div>
               </div>
             )}
