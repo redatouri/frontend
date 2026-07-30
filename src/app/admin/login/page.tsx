@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/Label";
 import { ApiError } from "@/lib/api/client";
 import { loginAdmin } from "@/lib/api/auth";
 import { useAuthStore } from "@/lib/stores/auth";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -49,9 +50,14 @@ export default function AdminLoginPage() {
     <div className="flex min-h-screen items-center justify-center bg-zinc-100 p-4">
       <div className="w-full max-w-md rounded-2xl border border-zinc-200 bg-white p-8 shadow-sm">
         <div className="mb-8 flex items-center gap-3">
-          <span className="flex size-10 items-center justify-center rounded-full bg-[#E8B923] font-bold text-[#0D0D0F]">
-            N
-          </span>
+          <Image
+            src="/logo.png"
+            alt="Movie Cam"
+            width={140}
+            height={48}
+            priority
+            className="h-12 w-auto shrink-0 object-contain"
+          />
           <div>
             <h1 className="text-xl font-semibold text-zinc-900">Moviecam Admin</h1>
             <p className="text-sm text-zinc-500">Connexion administrateur</p>

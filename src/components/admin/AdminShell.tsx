@@ -3,6 +3,7 @@
 import { useAuthStore } from "@/lib/stores/auth";
 import { cn } from "@/lib/utils";
 import { LogOut, Package, ShoppingBag } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -43,9 +44,13 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4">
           <div className="flex items-center gap-6">
             <div className="flex items-center gap-3">
-              <span className="flex size-9 items-center justify-center rounded-full bg-[#E8B923] text-sm font-bold text-[#0D0D0F]">
-                N
-              </span>
+              <Image
+                src="/logo.png"
+                alt="Movie Cam"
+                width={120}
+                height={40}
+                className="h-9 w-auto shrink-0 object-contain"
+              />
               <div>
                 <p className="font-semibold text-zinc-900">Moviecam Admin</p>
                 <p className="text-xs text-zinc-500">Gestion boutique</p>
