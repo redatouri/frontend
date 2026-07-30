@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/Label";
 import { Textarea } from "@/components/ui/Textarea";
 import { submitContact } from "@/lib/api/orders";
 import { STORE } from "@/lib/store";
-import { Clock, MapPin, Phone } from "lucide-react";
+import { Clock, MapPin, Phone, Mail } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -49,8 +49,14 @@ export function ContactForm() {
             {
               icon: Phone,
               title: t("phone"),
-              value: STORE.phone,
+              value: STORE.phones.map((p) => p.display).join(" · "),
               href: `tel:${STORE.phoneTel}`,
+            },
+            {
+              icon: Mail,
+              title: t("email"),
+              value: STORE.email,
+              href: `mailto:${STORE.email}`,
             },
             { icon: Clock, title: t("hours"), value: t("hoursValue") },
           ].map(({ icon: Icon, title, value, href }) => (

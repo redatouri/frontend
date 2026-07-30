@@ -2,6 +2,7 @@ import { Link } from "@/i18n/navigation";
 import { ScrollReveal } from "@/components/marketing/ScrollReveal";
 import { SectionHeading } from "@/components/marketing/SectionHeading";
 import type { LucideIcon } from "lucide-react";
+import Image from "next/image";
 
 interface ServiceItem {
   icon: LucideIcon;
@@ -151,7 +152,7 @@ export function ArticlesSection({
 
 interface TestimonialsSectionProps {
   title: string;
-  items: { quote: string; author: string }[];
+  items: { quote: string; author: string; imageUrl: string; imageAlt: string }[];
 }
 
 export function TestimonialsSection({ title, items }: TestimonialsSectionProps) {
@@ -166,6 +167,15 @@ export function TestimonialsSection({ title, items }: TestimonialsSectionProps) 
           {items.map((item, i) => (
             <ScrollReveal key={item.author} delay={i * 0.1}>
               <blockquote className="flex h-full flex-col border border-border bg-bg-primary p-8">
+                <div className="relative mb-6 size-16 overflow-hidden rounded-full border border-border">
+                  <Image
+                    src={item.imageUrl}
+                    alt={item.imageAlt}
+                    fill
+                    className="object-cover object-center"
+                    sizes="64px"
+                  />
+                </div>
                 <p className="flex-1 text-base leading-relaxed text-text-secondary">
                   &ldquo;{item.quote}&rdquo;
                 </p>

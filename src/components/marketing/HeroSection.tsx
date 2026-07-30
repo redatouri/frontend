@@ -101,7 +101,7 @@ export function HeroSection({
           >
             <Link
               href="/collections"
-              className="inline-flex h-12 min-w-[160px] items-center justify-center bg-accent px-8 text-sm font-semibold tracking-wide text-on-accent transition-all hover:bg-accent-hover md:h-14 md:px-10"
+              className="inline-flex h-12 min-w-[160px] items-center justify-center bg-[#DC2626] px-8 text-sm font-semibold tracking-wide text-white transition-all hover:bg-[#B91C1C] md:h-14 md:px-10"
             >
               {ctaPrimary}
             </Link>

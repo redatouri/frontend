@@ -2,19 +2,14 @@ import { BrandShowcases } from "@/components/marketing/BrandShowcases";
 import { BestSellersSection } from "@/components/marketing/BestSellersSection";
 import { FeaturedBrandsStrip } from "@/components/marketing/FeaturedBrandsStrip";
 import {
-  ArticlesSection,
-  NewsletterSection,
-  RentalCtaSection,
   ServicesSection,
   TestimonialsSection,
 } from "@/components/marketing/HomeSections";
 import { InstagramSection } from "@/components/marketing/InstagramSection";
 import { HeroSection } from "@/components/marketing/HeroSection";
-import { ShowcaseBanner } from "@/components/marketing/ShowcaseBanner";
 import { groupProductsByBrand } from "@/lib/brands";
 import { getProducts } from "@/lib/api/products";
 import { HOME_IMAGES } from "@/lib/home-images";
-import { STORE } from "@/lib/store";
 import { Camera, Headphones, Truck } from "lucide-react";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -80,28 +75,25 @@ export default async function HomePage({
     },
   ];
 
-  const articles = [
-    {
-      tag: t("article1Tag"),
-      title: t("article1Title"),
-      excerpt: t("article1Excerpt"),
-    },
-    {
-      tag: t("article2Tag"),
-      title: t("article2Title"),
-      excerpt: t("article2Excerpt"),
-    },
-    {
-      tag: t("article3Tag"),
-      title: t("article3Title"),
-      excerpt: t("article3Excerpt"),
-    },
-  ];
-
   const testimonials = [
-    { quote: t("testimonial1Quote"), author: t("testimonial1Author") },
-    { quote: t("testimonial2Quote"), author: t("testimonial2Author") },
-    { quote: t("testimonial3Quote"), author: t("testimonial3Author") },
+    {
+      quote: t("testimonial1Quote"),
+      author: t("testimonial1Author"),
+      imageUrl: "/home/testimonials/reda.png",
+      imageAlt: t("testimonial1Author"),
+    },
+    {
+      quote: t("testimonial2Quote"),
+      author: t("testimonial2Author"),
+      imageUrl: "/home/testimonials/salma.png",
+      imageAlt: t("testimonial2Author"),
+    },
+    {
+      quote: t("testimonial3Quote"),
+      author: t("testimonial3Author"),
+      imageUrl: "/home/testimonials/marwane.png",
+      imageAlt: t("testimonial3Author"),
+    },
   ];
 
   return (
@@ -120,16 +112,6 @@ export default async function HomePage({
         subtitle={t("bestSellersSubtitle")}
         products={bestSellers}
         viewAllLabel={t("bestSellersCta")}
-      />
-
-      <ShowcaseBanner
-        title={t("showcaseCameraTitle")}
-        subtitle={t("showcaseCameraSubtitle")}
-        cta={t("showcaseCameraCta")}
-        href="/collections/stabilization"
-        imageSrc="/home/hero-gimbal.webp"
-        imageAlt={t("showcaseCameraTitle")}
-        theme="dark"
       />
 
       <FeaturedBrandsStrip
@@ -151,30 +133,7 @@ export default async function HomePage({
         items={services}
       />
 
-      <RentalCtaSection
-        rentalTitle={t("rentalTitle")}
-        rentalSubtitle={t("rentalSubtitle")}
-        rentalCta={t("rentalCta")}
-        salesTitle={t("salesTitle")}
-        salesSubtitle={t("salesSubtitle")}
-        salesCta={t("salesCta")}
-      />
-
       <TestimonialsSection title={t("testimonials")} items={testimonials} />
-
-      <ArticlesSection
-        title={t("articlesTitle")}
-        subtitle={t("articlesSubtitle")}
-        articles={articles}
-        readMoreLabel={t("articlesReadMore")}
-      />
-
-      <NewsletterSection
-        title={t("newsletterTitle")}
-        subtitle={t("newsletterSubtitle")}
-        cta={t("newsletterCta")}
-        phone={STORE.phone}
-      />
 
       <InstagramSection
         title={t("instagramTitle")}

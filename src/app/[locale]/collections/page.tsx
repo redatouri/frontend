@@ -1,14 +1,7 @@
 import { BrandShowcases } from "@/components/marketing/BrandShowcases";
-import { CategoryCarousel } from "@/components/marketing/CategoryCarousel";
 import { PageHero } from "@/components/marketing/PageHero";
-import { getCategories } from "@/lib/api/categories";
 import { getProducts } from "@/lib/api/products";
-import {
-  buildCategoryCarouselItems,
-  CATEGORY_CAROUSEL_ITEMS,
-} from "@/lib/category-carousel";
 import { groupProductsByBrand, normalizeBrandParam } from "@/lib/brands";
-import { getMediaUrl } from "@/lib/utils";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
@@ -35,31 +28,8 @@ export default async function CollectionsPage({
   const { brand: brandParam } = await searchParams;
   setRequestLocale(locale);
   const t = await getTranslations("collections");
-  const tHome = await getTranslations("home");
 
-  const [allProducts, categories] = await Promise.all([
-    getProducts({ locale, limit: 100 }),
-    getCategories({ locale, top: true }),
-  ]);
-
-  const overlays = Object.fromEntries(
-    CATEGORY_CAROUSEL_ITEMS.map((item) => [
-      item.overlayKey,
-      tHome(`categoryCarousel.${item.overlayKey}.overlay`),
-    ]),
-  );
-  const labels = Object.fromEntries(
-    CATEGORY_CAROUSEL_ITEMS.map((item) => [
-      item.labelKey,
-      tHome(`categoryCarousel.${item.labelKey}.label`),
-    ]),
-  );
-  const categoryItems = buildCategoryCarouselItems(
-    categories,
-    overlays,
-    labels,
-    (path) => getMediaUrl(path) ?? path,
-  );
+  const allProducts = await getProducts({ locale, limit: 100 });
 
   let brandGroups = groupProductsByBrand(allProducts.items);
   if (brandParam) {
@@ -70,15 +40,6 @@ export default async function CollectionsPage({
   return (
     <>
       <PageHero title={t("title")} subtitle={t("subtitle")} eyebrow="Moviecam" />
-
-      {!brandParam && (
-        <CategoryCarousel
-          title={tHome("featuredCategories")}
-          subtitle={tHome("flagshipSubtitle")}
-          items={categoryItems}
-          className="!pt-12 !pb-16"
-        />
-      )}
 
       <BrandShowcases
         title={brandParam ? undefined : t("brandsTitle")}

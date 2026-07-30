@@ -2,8 +2,9 @@ import { Link } from "@/i18n/navigation";
 import { Separator } from "@/components/ui/Separator";
 import type { Category } from "@/types/category";
 import { getTranslations } from "next-intl/server";
-import { Phone } from "lucide-react";
+import { Phone, Mail } from "lucide-react";
 import { Logo } from "./Logo";
+import { FooterSocialLinks } from "./FooterSocialLinks";
 import { STORE } from "@/lib/store";
 
 interface FooterProps {
@@ -22,21 +23,29 @@ export async function Footer({ categories }: FooterProps) {
             <p className="mt-6 max-w-sm text-sm leading-relaxed text-text-secondary">
               {t("tagline")}
             </p>
-            <a
-              href={`tel:${STORE.phoneTel}`}
-              className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-accent transition-colors hover:text-accent-hover"
-            >
-              <Phone className="size-4" />
-              {STORE.phone}
-            </a>
-            <a
-              href={STORE.instagramUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-4 block text-sm text-text-secondary transition-colors hover:text-cyan"
-            >
-              Instagram · {STORE.instagramHandle}
-            </a>
+            <ul className="mt-6 space-y-3">
+              {STORE.phones.map(({ display, tel }) => (
+                <li key={tel}>
+                  <a
+                    href={`tel:${tel}`}
+                    className="inline-flex items-center gap-2 text-sm text-text-secondary transition-colors hover:text-accent"
+                  >
+                    <Phone className="size-4 shrink-0" />
+                    {display}
+                  </a>
+                </li>
+              ))}
+              <li>
+                <a
+                  href={`mailto:${STORE.email}`}
+                  className="inline-flex items-center gap-2 text-sm text-text-secondary transition-colors hover:text-accent"
+                >
+                  <Mail className="size-4 shrink-0" />
+                  {STORE.email}
+                </a>
+              </li>
+            </ul>
+            <FooterSocialLinks />
           </div>
 
           <div className="md:col-span-3 md:col-start-7">
@@ -70,17 +79,11 @@ export async function Footer({ categories }: FooterProps) {
               </li>
               <li>
                 <a
-                  href={`tel:${STORE.phoneTel}`}
+                  href={`mailto:${STORE.email}`}
                   className="text-sm text-text-secondary hover:text-accent"
                 >
-                  {STORE.phone}
+                  {STORE.email}
                 </a>
-              </li>
-              <li>
-                <span className="text-sm text-text-secondary">{t("shipping")}</span>
-              </li>
-              <li>
-                <span className="text-sm text-text-secondary">{t("returns")}</span>
               </li>
             </ul>
           </div>
