@@ -9,8 +9,10 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 ARG NEXT_PUBLIC_API_URL=https://api.moviecam.ma
 ARG NEXT_PUBLIC_SITE_URL=https://moviecam.ma
+ARG NEXT_PUBLIC_USE_DEMO_DATA=true
 ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
 ENV NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL
+ENV NEXT_PUBLIC_USE_DEMO_DATA=$NEXT_PUBLIC_USE_DEMO_DATA
 RUN npm run build
 
 FROM node:20-alpine AS runner

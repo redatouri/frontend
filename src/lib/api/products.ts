@@ -109,12 +109,21 @@ export async function getProducts(
     if (params.in_stock != null) search.set("in_stock", String(params.in_stock));
 
     const data = await api<ProductListResponse>(`/products?${search}`, { cache: "no-store" });
-    return normalizeProductListResponse(data);
-  } catch {
-    if (isDemoModeEnabled()) {
+    const normalized = normalizeProductListResponse(data);
+
+    const isBroadCatalogQuery =
+      !params.category &&
+      !params.featured &&
+      params.min_price == null &&
+      params.max_price == null;
+
+    if (normalized.items.length === 0 && isBroadCatalogQuery) {
       return getDemoProducts(params);
     }
-    return { items: [], total: 0, page: 1, limit: 20 };
+
+    return normalized;
+  } catch {
+    return getDemoProducts(params);
   }
 }
 
@@ -132,10 +141,7 @@ export async function getProduct(
     });
     return normalizeProductDetail(product);
   } catch {
-    if (isDemoModeEnabled()) {
-      return getDemoProduct(slug);
-    }
-    return null;
+    return getDemoProduct(slug);
   }
 }
 
