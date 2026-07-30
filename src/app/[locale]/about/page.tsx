@@ -30,7 +30,8 @@ export default async function AboutPage({
         imageUrl="/about/founder.png"
         imageAlt={t("storyImageAlt")}
         imagePosition="left"
-        imageAspect="aspect-[9/16] max-h-[560px] w-full max-w-sm mx-auto lg:mx-0"
+        imageShape="circle"
+        imageAspect="aspect-square max-h-[320px] w-full max-w-[320px] mx-auto lg:mx-0"
       />
 
       <section className="section-padding border-t border-border">

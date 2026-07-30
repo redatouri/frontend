@@ -13,6 +13,7 @@ interface AlternatingSectionProps {
   imageAlt?: string;
   imagePosition?: "left" | "right";
   imageAspect?: string;
+  imageShape?: "default" | "circle";
   category?: "camera" | "audio" | "lighting" | "gimbal" | "lens" | "default";
   className?: string;
 }
@@ -24,11 +25,18 @@ export function AlternatingSection({
   imageAlt,
   imagePosition = "left",
   imageAspect = "aspect-[4/3]",
+  imageShape = "default",
   category = "default",
   className,
 }: AlternatingSectionProps) {
   const imageBlock = (
-    <div className={cn("relative overflow-hidden bg-bg-elevated", imageAspect)}>
+    <div
+      className={cn(
+        "relative overflow-hidden bg-bg-elevated",
+        imageShape === "circle" && "rounded-full",
+        imageAspect,
+      )}
+    >
       {imageUrl ? (
         <Image
           src={imageUrl}
