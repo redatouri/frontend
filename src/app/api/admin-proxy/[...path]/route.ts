@@ -23,7 +23,7 @@ async function proxyRequest(req: NextRequest, pathSegments: string[]) {
   };
 
   if (req.method !== "GET" && req.method !== "HEAD") {
-    init.body = await req.text();
+    init.body = await req.arrayBuffer();
   }
 
   const candidates = getBackendApiCandidates();

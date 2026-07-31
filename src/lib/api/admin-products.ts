@@ -142,6 +142,26 @@ export async function deactivateAdminProduct(token: string, id: string) {
   return adminFetch<void>(`admin/products/${id}`, token, { method: "DELETE" });
 }
 
+export async function uploadAdminProductImage(
+  token: string,
+  file: File,
+  slug: string,
+  index = 0,
+) {
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("slug", slug);
+  formData.append("index", String(index));
+
+  const res = await fetch("/api/admin-proxy/admin/upload/product-image", {
+    method: "POST",
+    headers: { Authorization: `Bearer ${token}` },
+    body: formData,
+    cache: "no-store",
+  });
+  return parseAdminResponse<{ url: string }>(res);
+}
+
 export function slugify(value: string) {
   return value
     .toLowerCase()

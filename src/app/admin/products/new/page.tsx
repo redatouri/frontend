@@ -41,6 +41,7 @@ export default function NewProductPage() {
 
       <ProductForm
         categories={categories}
+        accessToken={accessToken}
         submitLabel="Créer le produit"
         onSubmit={async (payload) => {
           if (!accessToken) return;

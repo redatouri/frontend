@@ -74,6 +74,7 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
 
       <ProductForm
         categories={categories}
+        accessToken={accessToken}
         initial={product}
         submitLabel="Enregistrer"
         onSubmit={async (payload) => {
