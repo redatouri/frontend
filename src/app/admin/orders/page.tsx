@@ -1,6 +1,6 @@
 "use client";
 
-import { deleteAdminOrder, getAdminOrders } from "@/lib/api/orders";
+import { ApiError, deleteAdminOrder, getAdminOrders } from "@/lib/api/orders";
 import { formatDate, formatPrice } from "@/lib/format";
 import { useAuthStore } from "@/lib/stores/auth";
 import type { OrderListItem } from "@/types/order";
@@ -67,8 +67,10 @@ export default function AdminOrdersPage() {
       await deleteAdminOrder(accessToken, order.id);
       setOrders((current) => current.filter((item) => item.id !== order.id));
       toast.success("Commande supprimée");
-    } catch {
-      toast.error("Impossible de supprimer la commande");
+    } catch (error) {
+      const message =
+        error instanceof ApiError ? error.message : "Impossible de supprimer la commande";
+      toast.error(message);
     } finally {
       setDeletingId(null);
     }
