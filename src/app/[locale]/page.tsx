@@ -101,6 +101,7 @@ export default async function HomePage({
         ctaPrimary={t("heroCtaPrimary")}
         ctaSecondary={t("heroCtaSecondary")}
         mobileSlides={HOME_IMAGES.hero.mobileSlides}
+        desktopVideos={HOME_IMAGES.hero.desktopVideos}
         mobileImageHasCopy
       />
 

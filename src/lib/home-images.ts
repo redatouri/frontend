@@ -1,4 +1,5 @@
 import type { HeroMobileSlide } from "@/components/marketing/HeroMobileCarousel";
+import { HOME_HERO_DESKTOP_VIDEOS } from "@/lib/home-hero-videos";
 
 export const HOME_HERO_MOBILE_SLIDES: HeroMobileSlide[] = [
   {
@@ -18,6 +19,7 @@ export const HOME_HERO_MOBILE_SLIDES: HeroMobileSlide[] = [
 export const HOME_IMAGES = {
   hero: {
     mobileSlides: HOME_HERO_MOBILE_SLIDES,
+    desktopVideos: HOME_HERO_DESKTOP_VIDEOS,
   },
   microphone: {
     src: "/home/showcase-microphone.webp",
