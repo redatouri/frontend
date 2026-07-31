@@ -1,4 +1,4 @@
-import type { ProductDetail, ProductListItem, ProductListResponse } from "@/types/product";
+import type { ProductDetail, ProductListItem, ProductListResponse, ProductOffer } from "@/types/product";
 
 function item(
   id: string,
@@ -47,6 +47,17 @@ const DJI_OSMO_POCKET_4_STANDARD_IMAGES = ["/products/dji-osmo-pocket-4-standard
 const GODOX_V1_SONY_IMAGES = ["/products/godox-v1-sony-0.png"];
 const GODOX_AK_R22_IMAGES = ["/products/godox-ak-r22-0.png"];
 const GODOX_LC500R_MINI_IMAGES = ["/products/godox-lc500r-mini-0.png"];
+const KF_CONCEPT_ND_OFFERS: ProductOffer[] = [
+  { id: "39-offer-62", label: "62mm", price: 350, compare_at_price: null, stock: 10, is_default: true },
+  { id: "39-offer-67", label: "67mm", price: 350, compare_at_price: null, stock: 10, is_default: false },
+  { id: "39-offer-72", label: "72mm", price: 350, compare_at_price: null, stock: 10, is_default: false },
+  { id: "39-offer-82", label: "82mm", price: 350, compare_at_price: null, stock: 10, is_default: false },
+];
+
+const DEMO_PRODUCT_OFFERS: Record<string, ProductOffer[]> = {
+  "kf-concept-nano-b-nd2-400": KF_CONCEPT_ND_OFFERS,
+};
+
 const KF_CONCEPT_ND_IMAGES = ["/products/kf-concept-nano-b-nd2-400-0.png"];
 const HOLLYLAND_LARK_M2S_IMAGES = ["/products/hollyland-lark-m2s-0.png"];
 const TORCHE_R8_RGB_IMAGES = ["/products/torche-r8-led-rgb-0.png"];
@@ -166,7 +177,6 @@ const DJI_MIC_MINI_2_IMAGES = [
   "/products/dji-mic-mini-2-combo-0.webp",
   "/products/dji-mic-mini-2-combo-1.webp",
   "/products/dji-mic-mini-2-combo-2.webp",
-  "/products/dji-mic-mini-2-combo-3.webp",
 ];
 
 const DJI_RS4_MINI_IMAGES = [
@@ -494,11 +504,11 @@ const DEMO_ITEMS: ProductListItem[] = [
     "K&F Concept Nano-B Filtre ND2-400",
     "K&F Concept Nano-B Filtre ND2-400",
     350,
-    { slug: "accessories-filters", name: "Filtres ND & CPL" },
+    { slug: "lenses-adapters", name: "Bagues & Adaptateurs" },
     KF_CONCEPT_ND_IMAGES[0],
     undefined,
     10,
-    "Neuf",
+    "62mm",
     74,
   ),
   item(
@@ -1251,13 +1261,17 @@ export function getDemoProduct(slug: string): ProductDetail | null {
       ? [{ url: product.primary_image, alt_text: product.name, sort_order: 0 }]
       : [];
 
+  const offers = DEMO_PRODUCT_OFFERS[product.slug] ?? [product.default_offer];
+  const defaultOffer = offers.find((offer) => offer.is_default) ?? offers[0];
+
   return {
     ...product,
+    default_offer: defaultOffer,
     description:
       DEMO_PRODUCT_DESCRIPTIONS[product.slug] ??
       `${product.headline}. Pensé pour les créateurs exigeants au Maroc.`,
     images,
-    offers: [product.default_offer],
+    offers,
     specs: DEMO_PRODUCT_SPECS[product.slug] ?? [],
     cross_sells: DEMO_ITEMS.filter((entry) => entry.slug !== slug).slice(0, 3),
   };
