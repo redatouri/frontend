@@ -63,3 +63,21 @@ export async function getAdminOrders(
 
   return res.json() as Promise<OrderListResponse>;
 }
+
+export async function deleteAdminOrder(token: string, orderId: string): Promise<void> {
+  const res = await fetch(`/api/admin-proxy/admin/orders/${orderId}`, {
+    method: "DELETE",
+    headers: { Authorization: `Bearer ${token}` },
+    cache: "no-store",
+  });
+
+  if (!res.ok) {
+    let body: { detail?: unknown; code?: string; message?: string } | undefined;
+    try {
+      body = await res.json();
+    } catch {
+      // ignore parse errors
+    }
+    throw new ApiError(res, body);
+  }
+}

@@ -35,6 +35,7 @@ export interface OrderListItem {
   status: string;
   total: number;
   created_at: string;
+  items?: OrderLineItem[];
   customer?: OrderCustomer;
   customer_name?: string;
   customer_phone?: string;
