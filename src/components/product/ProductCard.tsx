@@ -60,7 +60,7 @@ export function ProductCard({ product }: ProductCardProps) {
         />
 
         <Link href={`/products/${product.slug}`}>
-          <h3 className="mt-3 font-display text-lg font-semibold leading-snug text-text-primary transition-colors group-hover:text-accent">
+          <h3 className="mt-3 font-display text-lg font-semibold leading-snug text-text-primary transition-colors group-hover:text-cyan">
             {product.headline ?? product.name}
           </h3>
         </Link>
@@ -86,7 +86,7 @@ export function ProductCard({ product }: ProductCardProps) {
 
         <Link
           href={`/products/${product.slug}#offers`}
-          className="mt-5 inline-flex h-11 w-full items-center justify-center border border-border text-sm font-semibold uppercase tracking-[0.1em] text-text-primary transition-all hover:border-accent hover:bg-accent hover:text-on-accent"
+          className="mt-5 inline-flex h-11 w-full items-center justify-center border border-border text-sm font-semibold uppercase tracking-[0.1em] text-text-primary transition-all hover:border-cyan hover:bg-cyan hover:text-white"
         >
           {t("viewOffer")}
         </Link>

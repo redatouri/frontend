@@ -1,6 +1,5 @@
 import { CartDrawer } from "@/components/layout/CartDrawer";
 import { WishlistDrawer } from "@/components/layout/WishlistDrawer";
-import { WhatsAppFab } from "@/components/layout/WhatsAppFab";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { Providers } from "@/components/providers/Providers";
@@ -77,7 +76,6 @@ export default async function LocaleLayout({
             <Footer categories={categories} />
             <CartDrawer />
             <WishlistDrawer />
-            <WhatsAppFab />
           </Providers>
         </NextIntlClientProvider>
       </body>
