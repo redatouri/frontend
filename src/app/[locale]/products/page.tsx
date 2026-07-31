@@ -2,10 +2,11 @@ import { ScrollReveal } from "@/components/marketing/ScrollReveal";
 import { ProductCard } from "@/components/product/ProductCard";
 import { ProductGrid, ProductGridItem } from "@/components/product/ProductGrid";
 import { getProducts } from "@/lib/api/products";
+import { defaultOpenGraph, localeAlternates } from "@/lib/seo";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 export async function generateMetadata({
   params,
@@ -14,7 +15,15 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "products" });
-  return { title: `${t("title")} | Moviecam`, description: t("subtitle") };
+  const title = t("title");
+  const description = t("subtitle");
+
+  return {
+    title,
+    description,
+    alternates: localeAlternates("/products", locale),
+    openGraph: defaultOpenGraph(title, description, locale, "/products"),
+  };
 }
 
 export default async function ProductsPage({

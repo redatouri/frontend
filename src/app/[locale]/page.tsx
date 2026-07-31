@@ -7,14 +7,16 @@ import {
 } from "@/components/marketing/HomeSections";
 import { InstagramSection } from "@/components/marketing/InstagramSection";
 import { HeroSection } from "@/components/marketing/HeroSection";
+import { OrganizationJsonLd } from "@/components/seo/OrganizationJsonLd";
 import { groupProductsByBrand } from "@/lib/brands";
 import { getProducts } from "@/lib/api/products";
 import { HOME_IMAGES } from "@/lib/home-images";
+import { defaultOpenGraph, localeAlternates } from "@/lib/seo";
 import { Camera, Headphones, Truck } from "lucide-react";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 export async function generateMetadata({
   params,
@@ -23,20 +25,14 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "metadata" });
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://moviecam.ma";
+  const title = t("siteName");
+  const description = t("homeDescription");
 
   return {
-    title: t("siteName"),
-    description: t("homeDescription"),
-    alternates: {
-      canonical: `${siteUrl}/${locale}`,
-      languages: {
-        fr: `${siteUrl}/fr`,
-        ar: `${siteUrl}/ar`,
-        en: `${siteUrl}/en`,
-        "x-default": `${siteUrl}/fr`,
-      },
-    },
+    title,
+    description,
+    alternates: localeAlternates("", locale),
+    openGraph: defaultOpenGraph(title, description, locale),
   };
 }
 
@@ -49,7 +45,7 @@ export default async function HomePage({
   setRequestLocale(locale);
   const t = await getTranslations("home");
 
-  const allProducts = await getProducts({ locale, limit: 100 });
+  const allProducts = await getProducts({ locale, limit: 60 });
 
   const brandGroups = groupProductsByBrand(allProducts.items);
 
@@ -98,6 +94,7 @@ export default async function HomePage({
 
   return (
     <>
+      <OrganizationJsonLd />
       <HeroSection
         title={t("heroTitle")}
         subtitle={t("heroSubtitle")}

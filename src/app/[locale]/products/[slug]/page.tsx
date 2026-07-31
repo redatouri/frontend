@@ -1,11 +1,13 @@
 import { ProductJsonLd } from "@/components/product/ProductJsonLd";
 import { ProductPageClient } from "@/components/product/ProductPageClient";
 import { getProduct } from "@/lib/api/products";
+import { defaultOpenGraph, getSiteUrl, localeAlternates } from "@/lib/seo";
+import { getMediaUrl } from "@/lib/utils";
 import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 export async function generateMetadata({
   params,
@@ -16,17 +18,22 @@ export async function generateMetadata({
   const product = await getProduct(slug, locale);
   if (!product) return { title: "Product | Moviecam" };
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://moviecam.ma";
+  const title = product.headline ?? product.name;
+  const description = product.subheadline ?? product.headline ?? title;
+  const imageUrl = getMediaUrl(product.primary_image ?? product.images[0]?.url, product.slug);
+  const siteUrl = getSiteUrl();
+  const path = `/products/${slug}`;
+
   return {
-    title: `${product.headline ?? product.name} | Moviecam`,
-    description: product.subheadline ?? product.headline,
-    alternates: {
-      canonical: `${siteUrl}/${locale}/products/${slug}`,
-      languages: {
-        fr: `${siteUrl}/fr/products/${slug}`,
-        ar: `${siteUrl}/ar/products/${slug}`,
-        en: `${siteUrl}/en/products/${slug}`,
-      },
+    title,
+    description,
+    alternates: localeAlternates(path, locale),
+    openGraph: {
+      ...defaultOpenGraph(title, description, locale, path),
+      type: "website",
+      images: imageUrl
+        ? [{ url: imageUrl.startsWith("http") ? imageUrl : `${siteUrl}${imageUrl}` }]
+        : undefined,
     },
   };
 }

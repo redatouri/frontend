@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { api, ApiError } from "./client";
 import { getDemoProduct, getDemoProducts, isDemoModeEnabled } from "@/lib/demo-products";
 import type {
@@ -90,9 +91,11 @@ function normalizeProductListResponse(data: ProductListResponse): ProductListRes
   };
 }
 
-export async function getProducts(
-  params: ProductQuery,
-): Promise<ProductListResponse> {
+function productQueryKey(params: ProductQuery): string {
+  return JSON.stringify(params);
+}
+
+async function fetchProducts(params: ProductQuery): Promise<ProductListResponse> {
   if (isDemoModeEnabled()) {
     return getDemoProducts(params);
   }
@@ -108,7 +111,7 @@ export async function getProducts(
     if (params.max_price != null) search.set("max_price", String(params.max_price));
     if (params.in_stock != null) search.set("in_stock", String(params.in_stock));
 
-    const data = await api<ProductListResponse>(`/products?${search}`, { cache: "no-store" });
+    const data = await api<ProductListResponse>(`/products?${search}`);
     return normalizeProductListResponse(data);
   } catch (error) {
     if (isDemoModeEnabled()) {
@@ -126,18 +129,22 @@ export async function getProducts(
   }
 }
 
-export async function getProduct(
-  slug: string,
-  locale: string,
-): Promise<ProductDetail | null> {
+const getProductsCached = cache(async (key: string, params: ProductQuery) => {
+  void key;
+  return fetchProducts(params);
+});
+
+export function getProducts(params: ProductQuery): Promise<ProductListResponse> {
+  return getProductsCached(productQueryKey(params), params);
+}
+
+const getProductCached = cache(async (slug: string, locale: string) => {
   if (isDemoModeEnabled()) {
     return getDemoProduct(slug);
   }
 
   try {
-    const product = await api<ProductDetail>(`/products/${slug}?locale=${locale}`, {
-      cache: "no-store",
-    });
+    const product = await api<ProductDetail>(`/products/${slug}?locale=${locale}`);
     return normalizeProductDetail(product);
   } catch (error) {
     if (isDemoModeEnabled()) {
@@ -148,6 +155,13 @@ export async function getProduct(
     }
     throw error;
   }
+});
+
+export function getProduct(
+  slug: string,
+  locale: string,
+): Promise<ProductDetail | null> {
+  return getProductCached(slug, locale);
 }
 
 export async function getCrossSells(

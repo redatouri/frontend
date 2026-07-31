@@ -1,7 +1,6 @@
-import { CartDrawer } from "@/components/layout/CartDrawer";
-import { WishlistDrawer } from "@/components/layout/WishlistDrawer";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
+import { LazyDrawers } from "@/components/layout/LazyDrawers";
 import { Providers } from "@/components/providers/Providers";
 import { routing } from "@/i18n/routing";
 import { getCategories } from "@/lib/api/categories";
@@ -11,7 +10,6 @@ import { getMessages, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import {
   Inter,
-  JetBrains_Mono,
   Space_Grotesk,
   Tajawal,
 } from "next/font/google";
@@ -34,11 +32,7 @@ const tajawal = Tajawal({
   subsets: ["arabic"],
   weight: ["400", "500", "700"],
   variable: "--font-tajawal",
-});
-
-const jetbrains = JetBrains_Mono({
-  subsets: ["latin"],
-  variable: "--font-jetbrains",
+  display: "swap",
 });
 
 export function generateStaticParams() {
@@ -61,12 +55,19 @@ export default async function LocaleLayout({
   setRequestLocale(locale);
   const messages = await getMessages();
   const categories = getNavCategories(await getCategories({ locale, top: true }));
+  const fontClasses = [
+    spaceGrotesk.variable,
+    inter.variable,
+    locale === "ar" ? tajawal.variable : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   return (
     <html
       lang={locale}
       dir={locale === "ar" ? "rtl" : "ltr"}
-      className={`${spaceGrotesk.variable} ${inter.variable} ${tajawal.variable} ${jetbrains.variable}`}
+      className={fontClasses}
     >
       <body>
         <NextIntlClientProvider messages={messages}>
@@ -74,8 +75,7 @@ export default async function LocaleLayout({
             <Header categories={categories} />
             <main className="min-h-[60vh] pt-16 md:pt-[72px]">{children}</main>
             <Footer categories={categories} />
-            <CartDrawer />
-            <WishlistDrawer />
+            <LazyDrawers />
           </Providers>
         </NextIntlClientProvider>
       </body>

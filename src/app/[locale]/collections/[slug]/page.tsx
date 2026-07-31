@@ -4,9 +4,12 @@ import { ProductGrid, ProductGridItem } from "@/components/product/ProductGrid";
 import { Link } from "@/i18n/navigation";
 import { getCategory } from "@/lib/api/categories";
 import { getProducts } from "@/lib/api/products";
+import { defaultOpenGraph, localeAlternates } from "@/lib/seo";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
+
+export const revalidate = 60;
 
 export async function generateMetadata({
   params,
@@ -16,9 +19,16 @@ export async function generateMetadata({
   const { locale, slug } = await params;
   const category = await getCategory(slug, locale);
   if (!category) return { title: "Collection | Moviecam" };
+
+  const title = category.name;
+  const description = category.description ?? title;
+  const path = `/collections/${slug}`;
+
   return {
-    title: `${category.name} | Moviecam`,
-    description: category.description,
+    title,
+    description,
+    alternates: localeAlternates(path, locale),
+    openGraph: defaultOpenGraph(title, description, locale, path),
   };
 }
 

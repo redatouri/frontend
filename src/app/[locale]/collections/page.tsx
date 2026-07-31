@@ -2,10 +2,11 @@ import { BrandShowcases } from "@/components/marketing/BrandShowcases";
 import { PageHero } from "@/components/marketing/PageHero";
 import { getProducts } from "@/lib/api/products";
 import { groupProductsByBrand, normalizeBrandParam } from "@/lib/brands";
+import { defaultOpenGraph, localeAlternates } from "@/lib/seo";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 export async function generateMetadata({
   params,
@@ -14,7 +15,15 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "collections" });
-  return { title: `${t("title")} | Moviecam`, description: t("subtitle") };
+  const title = t("title");
+  const description = t("subtitle");
+
+  return {
+    title,
+    description,
+    alternates: localeAlternates("/collections", locale),
+    openGraph: defaultOpenGraph(title, description, locale, "/collections"),
+  };
 }
 
 export default async function CollectionsPage({

@@ -5,10 +5,9 @@ import { cn } from "@/lib/utils";
 import { Sheet } from "@/components/ui/Sheet";
 import type { Category } from "@/types/category";
 import { useTranslations } from "next-intl";
-import { Menu, Phone, Search } from "lucide-react";
+import { Menu, Search } from "lucide-react";
 import { useState } from "react";
 import { Logo } from "./Logo";
-import { STORE } from "@/lib/store";
 
 interface MobileMenuProps {
   categories: Category[];
@@ -109,20 +108,6 @@ export function MobileMenu({ categories, variant = "dark", onSearch }: MobileMen
               </div>
             </div>
           )}
-
-          <div className="mt-auto border-t border-border pt-6">
-            <Link
-              href="/contact"
-              onClick={close}
-              className="flex items-center gap-3 rounded-xl bg-accent px-4 py-4 text-on-accent transition-colors hover:bg-accent-hover"
-            >
-              <Phone className="size-5 shrink-0" />
-              <div>
-                <p className="text-sm font-semibold">{t("contact")}</p>
-                <p className="text-sm opacity-90">{STORE.phone}</p>
-              </div>
-            </Link>
-          </div>
         </div>
       </Sheet>
     </>
