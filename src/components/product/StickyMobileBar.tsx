@@ -19,36 +19,34 @@ export function StickyMobileBar({ offer, onAddToCart, disabled }: StickyMobileBa
   const [qty, setQty] = useState(1);
 
   return (
-    <div className="fixed inset-x-0 bottom-0 z-40 glass-panel border-t border-border p-4 lg:hidden">
-      <div className="flex items-center gap-3">
-        <div className="shrink-0">
-          <p className="text-lg font-semibold text-price">
-            {formatPrice(offer.price, locale)}
-          </p>
-        </div>
+    <div className="fixed inset-x-0 bottom-0 z-40 glass-panel border-t border-border p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] lg:hidden">
+      <div className="flex flex-col gap-3">
+        <div className="flex items-center justify-between gap-3">
+          <p className="text-lg font-semibold text-price">{formatPrice(offer.price, locale)}</p>
 
-        <div className="flex items-center rounded-lg border border-border">
-          <button
-            type="button"
-            onClick={() => setQty((q) => Math.max(1, q - 1))}
-            className="flex size-10 items-center justify-center text-text-secondary"
-            aria-label="Decrease quantity"
-          >
-            <Minus className="size-4" />
-          </button>
-          <span className="min-w-8 text-center text-sm">{qty}</span>
-          <button
-            type="button"
-            onClick={() => setQty((q) => q + 1)}
-            className="flex size-10 items-center justify-center text-text-secondary"
-            aria-label="Increase quantity"
-          >
-            <Plus className="size-4" />
-          </button>
+          <div className="flex items-center rounded-lg border border-border">
+            <button
+              type="button"
+              onClick={() => setQty((q) => Math.max(1, q - 1))}
+              className="flex size-10 items-center justify-center text-text-secondary"
+              aria-label="Decrease quantity"
+            >
+              <Minus className="size-4" />
+            </button>
+            <span className="min-w-8 text-center text-sm">{qty}</span>
+            <button
+              type="button"
+              onClick={() => setQty((q) => q + 1)}
+              className="flex size-10 items-center justify-center text-text-secondary"
+              aria-label="Increase quantity"
+            >
+              <Plus className="size-4" />
+            </button>
+          </div>
         </div>
 
         <Button
-          className="flex-1"
+          className="h-12 w-full normal-case tracking-normal"
           disabled={disabled || offer.stock <= 0}
           onClick={() => onAddToCart(qty)}
         >

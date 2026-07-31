@@ -1228,7 +1228,7 @@ export function getDemoProduct(slug: string): ProductDetail | null {
       `${product.headline}. Pensé pour les créateurs exigeants au Maroc.`,
     images,
     offers: [product.default_offer],
-    specs: DEMO_PRODUCT_SPECS[product.slug] ?? [{ key: "Garantie", value: "Garantie constructeur" }],
+    specs: DEMO_PRODUCT_SPECS[product.slug] ?? [],
     cross_sells: DEMO_ITEMS.filter((entry) => entry.slug !== slug).slice(0, 3),
   };
 }

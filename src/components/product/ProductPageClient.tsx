@@ -19,6 +19,7 @@ import { Button } from "@/components/ui/Button";
 import { useCartStore } from "@/lib/stores/cart";
 import { formatPrice } from "@/lib/format";
 import { getMediaUrl } from "@/lib/utils";
+import { withoutWarrantySpecs } from "@/lib/product-specs";
 import type { ProductDetail, ProductOffer } from "@/types/product";
 import { Minus, Package, Plus } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
@@ -39,22 +40,27 @@ export function ProductPageClient({ product }: ProductPageClientProps) {
   const [selectedOffer, setSelectedOffer] = useState<ProductOffer | undefined>(defaultOffer);
   const [qty, setQty] = useState(1);
 
+  const displaySpecs = useMemo(
+    () => withoutWarrantySpecs(product.specs),
+    [product.specs],
+  );
+
   const featureSections = useMemo(() => {
-    return product.specs.slice(0, 3).map((spec, i) => ({
+    return displaySpecs.slice(0, 3).map((spec, i) => ({
       title: spec.key,
       description: spec.value,
       position: (i % 2 === 0 ? "left" : "right") as "left" | "right",
     }));
-  }, [product.specs]);
+  }, [displaySpecs]);
 
   const inTheBoxItems = useMemo(() => {
-    const fromSpecs = product.specs
+    const fromSpecs = displaySpecs
       .filter((s) => /box|contenu|included/i.test(s.key))
       .flatMap((s) => s.value.split(/[,·]/).map((x) => x.trim()))
       .filter(Boolean);
     if (fromSpecs.length > 0) return fromSpecs.slice(0, 6);
     return [t("inTheBoxDefault1"), t("inTheBoxDefault2"), t("inTheBoxDefault3")];
-  }, [product.specs, t]);
+  }, [displaySpecs, t]);
 
   const faqItems = useMemo(
     () => [
@@ -180,11 +186,12 @@ export function ProductPageClient({ product }: ProductPageClientProps) {
 
       <InTheBox items={inTheBoxItems} />
 
-      <ScrollReveal className="container-page pb-12">
-        <p className="editorial-eyebrow">{t("benefits")}</p>
-        <h2 className="mt-4 font-display text-2xl font-semibold">{t("benefitsTitle")}</h2>
-        <div className="mt-8 grid gap-px bg-border md:grid-cols-3">
-          {product.specs.slice(0, 3).map((spec) => (
+      {displaySpecs.length > 0 && (
+        <ScrollReveal className="container-page pb-12">
+          <p className="editorial-eyebrow">{t("benefits")}</p>
+          <h2 className="mt-4 font-display text-2xl font-semibold">{t("benefitsTitle")}</h2>
+          <div className="mt-8 grid gap-px bg-border md:grid-cols-3">
+            {displaySpecs.slice(0, 3).map((spec) => (
             <div key={spec.key} className="bg-bg-primary p-8">
               <Package className="size-6 text-cyan" strokeWidth={1.25} />
               <h3 className="mt-4 font-display text-lg font-semibold">{spec.key}</h3>
@@ -193,6 +200,7 @@ export function ProductPageClient({ product }: ProductPageClientProps) {
           ))}
         </div>
       </ScrollReveal>
+      )}
 
       {featureSections.map((section, i) => (
         <AlternatingSection
@@ -205,14 +213,14 @@ export function ProductPageClient({ product }: ProductPageClientProps) {
         />
       ))}
 
-      {product.specs.length > 0 && (
+      {displaySpecs.length > 0 && (
         <ScrollReveal className="container-page section-padding">
           <p className="editorial-eyebrow">{t("specsEyebrow")}</p>
           <h2 className="mt-4 font-display text-display-lg font-semibold">{t("specs")}</h2>
           <div className="mt-10 overflow-hidden border border-border">
             <table className="w-full text-sm">
               <tbody>
-                {product.specs.map((spec) => (
+                {displaySpecs.map((spec) => (
                   <tr key={spec.key} className="border-b border-border last:border-0">
                     <td className="w-2/5 bg-bg-elevated px-5 py-4 font-medium text-text-secondary">
                       {spec.key}
@@ -227,7 +235,7 @@ export function ProductPageClient({ product }: ProductPageClientProps) {
       )}
 
       <ProductComparison
-        specs={product.specs}
+        specs={displaySpecs}
         compareSpecs={compareProduct ? [] : []}
         compareLabel={compareProduct?.name}
       />
@@ -266,7 +274,7 @@ export function ProductPageClient({ product }: ProductPageClientProps) {
         disabled={selectedOffer.stock <= 0}
       />
 
-      <div className="h-24 lg:hidden" aria-hidden />
+      <div className="h-32 lg:hidden" aria-hidden />
     </>
   );
 }

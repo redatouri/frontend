@@ -1,6 +1,7 @@
 "use client";
 
-import { ApiError, deleteAdminOrder, getAdminOrders } from "@/lib/api/orders";
+import { deleteAdminOrder, getAdminOrders } from "@/lib/api/orders";
+import { ApiError } from "@/lib/api/client";
 import { formatDate, formatPrice } from "@/lib/format";
 import { useAuthStore } from "@/lib/stores/auth";
 import type { OrderListItem } from "@/types/order";

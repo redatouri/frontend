@@ -140,9 +140,7 @@ export function ProductForm({
         images: imageUrl
           ? [{ url: imageUrl, alt_text: name, sort_order: 0 }]
           : (initial?.images ?? []),
-        specs: initial?.specs?.length
-          ? initial.specs
-          : [{ locale: "fr", spec_key: "Garantie", spec_value: "Garantie constructeur" }],
+        specs: initial?.specs?.length ? initial.specs : [],
         cross_sell_ids: initial?.cross_sell_ids ?? [],
       };
 
@@ -277,7 +275,9 @@ export function ProductForm({
           {selectedFile ? (
             <p className="self-center text-sm text-zinc-600">{selectedFile.name}</p>
           ) : defaultImage?.url ? (
-            <p className="self-center text-sm text-zinc-500">Image actuelle conservée si vous n'en choisissez pas une nouvelle</p>
+            <p className="self-center text-sm text-zinc-500">
+              Image actuelle conservée si vous n&apos;en choisissez pas une nouvelle
+            </p>
           ) : null}
         </div>
       </div>
