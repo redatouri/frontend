@@ -51,6 +51,15 @@ export function imageBelongsToProduct(url: string, productSlug: string): boolean
   return filename.startsWith(`${productSlug}-`) || filename.startsWith(`${productSlug}.`);
 }
 
+const EXCLUDED_PRODUCT_IMAGE_FILES: Record<string, string[]> = {
+  "dji-mic-mini-2-combo": ["dji-mic-mini-2-combo-3.webp"],
+};
+
+function isExcludedProductImage(productSlug: string, url: string): boolean {
+  const filename = url.split("/").pop() ?? "";
+  return EXCLUDED_PRODUCT_IMAGE_FILES[productSlug]?.includes(filename) ?? false;
+}
+
 export function sanitizeProductImages<T extends { url: string; sort_order?: number }>(
   images: T[],
   productSlug?: string,
@@ -62,7 +71,12 @@ export function sanitizeProductImages<T extends { url: string; sort_order?: numb
     .sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0))
     .filter((image) => {
       const url = getMediaUrl(image.url, productSlug);
-      if (!url || seen.has(url) || !imageBelongsToProduct(url, productSlug)) {
+      if (
+        !url ||
+        seen.has(url) ||
+        !imageBelongsToProduct(url, productSlug) ||
+        isExcludedProductImage(productSlug, url)
+      ) {
         return false;
       }
       seen.add(url);

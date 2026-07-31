@@ -6,7 +6,7 @@ export const STORE = {
   ],
   phone: "+212 661-631034",
   phoneTel: "+212661631034",
-  email: "support@moviecam.ma",
+  email: "moviecam27@gmail.com",
   whatsapp: "212706063502",
   whatsappDisplay: "+212 706-063502",
   lat: 30.3609346,
