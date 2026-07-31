@@ -5,6 +5,7 @@ export const HOME_HERO_DESKTOP_VIDEOS: HeroDesktopVideo[] = [
   {
     src: "/home/hero/osmo-pocket-4p.mp4",
     label: "DJI Osmo Pocket 4P",
+    startAt: 4,
   },
   {
     src: "/home/hero/mic-mini-2.mp4",

@@ -15,6 +15,7 @@ interface HeroSectionProps {
   imageDesktop?: string;
   mobileSlides?: HeroMobileSlide[];
   desktopVideos?: HeroDesktopVideo[];
+  desktopTagline?: string;
   imageAlt?: string;
   /** When true, mobile slides include their own headline — hide overlay text below md */
   mobileImageHasCopy?: boolean;
@@ -28,6 +29,7 @@ export function HeroSection({
   imageDesktop,
   mobileSlides = [],
   desktopVideos = [],
+  desktopTagline,
   imageAlt = "Professional cinema camera equipment",
   mobileImageHasCopy = false,
 }: HeroSectionProps) {
@@ -106,6 +108,11 @@ export function HeroSection({
               className={`mt-6 max-w-xl text-body-lg text-text-secondary text-balance ${mobileImageHasCopy ? "max-md:hidden" : ""} ${hideDesktopText}`}
             >
               {subtitle}
+            </p>
+          )}
+          {desktopTagline && hasDesktopVideos && (
+            <p className="mb-6 hidden max-w-xl font-display text-2xl font-semibold text-balance text-white drop-shadow-[0_2px_16px_rgb(0_0_0_/_50%)] md:block lg:text-3xl">
+              {desktopTagline}
             </p>
           )}
           <div

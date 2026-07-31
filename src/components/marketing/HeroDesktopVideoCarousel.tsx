@@ -7,6 +7,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 export interface HeroDesktopVideo {
   src: string;
   label: string;
+  /** Skip intro seconds when the clip starts (desktop hero). */
+  startAt?: number;
 }
 
 interface HeroDesktopVideoCarouselProps {
@@ -23,19 +25,34 @@ export function HeroDesktopVideoCarousel({ videos }: HeroDesktopVideoCarouselPro
     setIndex((current) => (current + 1) % count);
   }, [count]);
 
+  const playVideo = useCallback((video: HTMLVideoElement, startAt = 0) => {
+    const seekToStart = () => {
+      if (startAt > 0 && Number.isFinite(video.duration) && startAt < video.duration) {
+        video.currentTime = startAt;
+      }
+    };
+
+    if (video.readyState >= 1) {
+      seekToStart();
+    } else {
+      video.addEventListener("loadedmetadata", seekToStart, { once: true });
+    }
+
+    void video.play().catch(() => {});
+  }, []);
+
   useEffect(() => {
     if (count === 0) return;
 
     videoRefs.current.forEach((video, videoIndex) => {
       if (!video) return;
       if (videoIndex === index) {
-        video.currentTime = 0;
-        void video.play().catch(() => {});
+        playVideo(video, videos[videoIndex]?.startAt ?? 0);
       } else {
         video.pause();
       }
     });
-  }, [count, index]);
+  }, [count, index, playVideo, videos]);
 
   useEffect(() => {
     if (count <= 1) return;
