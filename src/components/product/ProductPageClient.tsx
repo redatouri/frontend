@@ -5,6 +5,7 @@ import { ScrollReveal } from "@/components/marketing/ScrollReveal";
 import { InTheBox } from "@/components/product/InTheBox";
 import { OfferSelector } from "@/components/product/OfferSelector";
 import { ProductCard } from "@/components/product/ProductCard";
+import { ProductGrid, ProductGridItem } from "@/components/product/ProductGrid";
 import { ProductComparison } from "@/components/product/ProductComparison";
 import { ProductFaq } from "@/components/product/ProductFaq";
 import { ProductGallery } from "@/components/product/ProductGallery";
@@ -238,13 +239,15 @@ export function ProductPageClient({ product }: ProductPageClientProps) {
               <p className="editorial-eyebrow">{t("accessoriesEyebrow")}</p>
               <h2 className="mt-4 font-display text-display-lg font-semibold">{t("crossSells")}</h2>
             </ScrollReveal>
-            <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
+            <ProductGrid columns={4} className="mt-12">
               {product.cross_sells.map((p, i) => (
-                <ScrollReveal key={p.id} delay={i * 0.08}>
-                  <ProductCard product={p} />
-                </ScrollReveal>
+                <ProductGridItem key={p.id}>
+                  <ScrollReveal delay={i * 0.08}>
+                    <ProductCard product={p} />
+                  </ScrollReveal>
+                </ProductGridItem>
               ))}
-            </div>
+            </ProductGrid>
           </div>
         </section>
       )}

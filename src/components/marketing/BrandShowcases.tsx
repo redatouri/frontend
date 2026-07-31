@@ -1,6 +1,7 @@
 import { Link } from "@/i18n/navigation";
 import { ScrollReveal } from "@/components/marketing/ScrollReveal";
 import { ProductCard } from "@/components/product/ProductCard";
+import { ProductGrid, ProductGridItem } from "@/components/product/ProductGrid";
 import { getBrandLogo } from "@/lib/brands";
 import type { ProductListItem } from "@/types/product";
 import Image from "next/image";
@@ -57,11 +58,13 @@ export function BrandShowcase({
           )}
         </div>
 
-        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
+        <ProductGrid columns={4} className="mt-10">
           {visibleProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
+            <ProductGridItem key={product.id}>
+              <ProductCard product={product} />
+            </ProductGridItem>
           ))}
-        </div>
+        </ProductGrid>
       </div>
     </ScrollReveal>
   );

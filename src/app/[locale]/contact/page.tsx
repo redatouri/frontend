@@ -28,7 +28,7 @@ export default async function ContactPage({
       <PageHero title={t("title")} subtitle={t("subtitle")} />
       <section className="border-b border-border">
         <div className="container-page pb-10 md:pb-14">
-          <div className="relative aspect-[16/9] w-full overflow-hidden">
+          <div className="relative mx-auto aspect-[16/9] w-full max-w-3xl overflow-hidden md:max-w-4xl">
             <Image
               src="/contact/store.png"
               alt={t("storeImageAlt")}

@@ -25,8 +25,15 @@ export default async function AboutPage({
   return (
     <>
       <AlternatingSection
+        variant="editorial"
+        eyebrow={t("storyEyebrow")}
         title={t("storyTitle")}
-        description={t("storyBody")}
+        description={
+          <>
+            <p className="editorial-lead">{t("storyLead")}</p>
+            <p className="editorial-mission">{t("storyMission")}</p>
+          </>
+        }
         imageUrl="/about/founder.png"
         imageAlt={t("storyImageAlt")}
         imagePosition="left"
@@ -66,7 +73,7 @@ export default async function AboutPage({
             { value: "15+", label: t("statsDelivery") },
           ].map(({ value, label }) => (
             <div key={label} className="bg-bg-elevated px-8 py-12 text-center">
-              <p className="font-display text-4xl font-semibold text-accent">{value}</p>
+              <p className="font-display text-4xl font-semibold text-cyan">{value}</p>
               <p className="mt-3 text-sm uppercase tracking-[0.12em] text-text-muted">{label}</p>
             </div>
           ))}

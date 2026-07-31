@@ -1,5 +1,6 @@
 import { ScrollReveal } from "@/components/marketing/ScrollReveal";
 import { ProductCard } from "@/components/product/ProductCard";
+import { ProductGrid, ProductGridItem } from "@/components/product/ProductGrid";
 import { Link } from "@/i18n/navigation";
 import { getCategory } from "@/lib/api/categories";
 import { getProducts } from "@/lib/api/products";
@@ -71,13 +72,15 @@ export default async function CollectionPage({
           {products.items.length === 0 ? (
             <p className="py-20 text-center text-text-secondary">{t("empty")}</p>
           ) : (
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+            <ProductGrid>
               {products.items.map((product, i) => (
-                <ScrollReveal key={product.id} delay={i * 0.05}>
-                  <ProductCard product={product} />
-                </ScrollReveal>
+                <ProductGridItem key={product.id}>
+                  <ScrollReveal delay={i * 0.05}>
+                    <ProductCard product={product} />
+                  </ScrollReveal>
+                </ProductGridItem>
               ))}
-            </div>
+            </ProductGrid>
           )}
 
           {category.description && (

@@ -64,13 +64,13 @@ export function ContactForm() {
               key={title}
               className="flex gap-4 border border-border bg-bg-elevated p-6"
             >
-              <Icon className="size-5 shrink-0 text-accent" />
+              <Icon className="size-5 shrink-0 text-cyan" />
               <div>
                 <p className="text-sm font-medium">{title}</p>
                 {href ? (
                   <a
                     href={href}
-                    className="mt-1 block text-sm text-accent hover:underline"
+                    className="mt-1 block text-sm text-cyan hover:underline"
                   >
                     {value}
                   </a>
@@ -87,7 +87,7 @@ export function ContactForm() {
             href={STORE.mapsUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block text-sm text-accent hover:underline"
+            className="inline-block text-sm text-cyan hover:underline"
           >
             {t("openMaps")}
           </a>
@@ -115,7 +115,11 @@ export function ContactForm() {
               <Textarea id="message" name="message" required />
             </div>
           </div>
-          <Button type="submit" className="mt-6 w-full" disabled={loading}>
+          <Button
+            type="submit"
+            className="mt-6 w-full bg-cyan text-white hover:bg-cyan/90"
+            disabled={loading}
+          >
             {t("formSubmit")}
           </Button>
         </form>

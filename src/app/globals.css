@@ -217,3 +217,30 @@ h4,
     transparent 100%
   );
 }
+
+.editorial-story-title {
+  text-shadow:
+    0 2px 20px rgb(0 0 0 / 7%),
+    0 1px 2px rgb(0 0 0 / 4%);
+}
+
+.editorial-lead {
+  font-size: 1.125rem;
+  line-height: 1.85;
+  color: var(--color-text-secondary);
+}
+
+.editorial-mission {
+  margin-top: 1.75rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--color-border);
+  padding-inline-start: 1rem;
+  border-inline-start: 3px solid var(--color-cyan);
+  font-family: var(--font-display);
+  font-size: clamp(1.125rem, 2vw, 1.3125rem);
+  font-weight: 500;
+  font-style: italic;
+  line-height: 1.55;
+  color: var(--color-text-primary);
+  text-shadow: 0 1px 16px rgb(8 145 178 / 12%);
+}

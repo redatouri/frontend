@@ -2,6 +2,7 @@
 
 import { Link } from "@/i18n/navigation";
 import { ProductCard } from "@/components/product/ProductCard";
+import { ProductGrid, ProductGridItem } from "@/components/product/ProductGrid";
 import { ScrollReveal } from "@/components/marketing/ScrollReveal";
 import { SectionHeading } from "@/components/marketing/SectionHeading";
 import type { ProductListItem } from "@/types/product";
@@ -28,13 +29,15 @@ export function BestSellersSection({
           <SectionHeading title={title} subtitle={subtitle} />
         </ScrollReveal>
 
-        <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
+        <ProductGrid columns={4} className="mt-14">
           {products.slice(0, 4).map((product, i) => (
-            <ScrollReveal key={product.id} delay={i * 0.08}>
-              <ProductCard product={product} />
-            </ScrollReveal>
+            <ProductGridItem key={product.id}>
+              <ScrollReveal delay={i * 0.08}>
+                <ProductCard product={product} />
+              </ScrollReveal>
+            </ProductGridItem>
           ))}
-        </div>
+        </ProductGrid>
 
         <ScrollReveal className="mt-12 text-center">
           <Link
