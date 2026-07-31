@@ -91,7 +91,7 @@ export default async function HomePage({
     {
       quote: t("testimonial3Quote"),
       author: t("testimonial3Author"),
-      imageUrl: "/home/testimonials/marwane.png",
+      imageUrl: "/home/testimonials/bader-din.png",
       imageAlt: t("testimonial3Author"),
     },
   ];

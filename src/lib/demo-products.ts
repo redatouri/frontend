@@ -82,6 +82,8 @@ const SAC_CAMERA_IMAGES = ["/products/sac-camera-0.png"];
 const TRIPOD_CANDC_DC999_IMAGES = ["/products/tripod-candc-dc-999-0.png"];
 const TRIPOD_CANDC_DC6917_IMAGES = ["/products/tripod-candc-dc-6917-0.png"];
 const TRIPOD_CANDC_DC6918_IMAGES = ["/products/tripod-candc-dc-6918-0.png"];
+const JMARY_KP2234_IMAGES = ["/products/jmary-kp-2234-0.png"];
+const JMARY_KP2264_IMAGES = ["/products/jmary-kp-2264-0.png"];
 const FEELWORLD_TP10_IMAGES = ["/products/feelworld-tp10-0.png"];
 const KODAK_GOLD_200_IMAGES = ["/products/kodak-gold-200-film-bundle-0.png"];
 const DEITY_VMIC_D3_PRO_IMAGES = ["/products/deity-v-mic-d3-pro-0.png"];
@@ -274,6 +276,8 @@ const DEMO_PRODUCT_IMAGES: Record<string, string[]> = {
   "tripod-candc-dc-999": TRIPOD_CANDC_DC999_IMAGES,
   "tripod-candc-dc-6917": TRIPOD_CANDC_DC6917_IMAGES,
   "tripod-candc-dc-6918": TRIPOD_CANDC_DC6918_IMAGES,
+  "jmary-kp-2234": JMARY_KP2234_IMAGES,
+  "jmary-kp-2264": JMARY_KP2264_IMAGES,
   "feelworld-tp10": FEELWORLD_TP10_IMAGES,
   "kodak-gold-200-film-bundle": KODAK_GOLD_200_IMAGES,
   "deity-v-mic-d3-pro": DEITY_VMIC_D3_PRO_IMAGES,
@@ -938,6 +942,32 @@ const DEMO_ITEMS: ProductListItem[] = [
     6,
     "Neuf",
     28,
+  ),
+  item(
+    "74",
+    "jmary-kp-2234",
+    "Trépied Jmary 2234 professionnel en alliage d'aluminium",
+    "Trépied Jmary 2234 professionnel en alliage d'aluminium",
+    350,
+    { slug: "stabilization-tripods", name: "Trépieds" },
+    JMARY_KP2234_IMAGES[0],
+    undefined,
+    8,
+    "Neuf",
+    27,
+  ),
+  item(
+    "76",
+    "jmary-kp-2264",
+    "Trépied Jmary 2264 professionnel en alliage d'aluminium",
+    "Trépied Jmary 2264 professionnel en alliage d'aluminium",
+    450,
+    { slug: "stabilization-tripods", name: "Trépieds" },
+    JMARY_KP2264_IMAGES[0],
+    undefined,
+    8,
+    "Neuf",
+    26,
   ),
   item(
     "75",
