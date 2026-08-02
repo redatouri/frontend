@@ -1,20 +1,40 @@
-import { getSiteUrl } from "@/lib/seo";
+import { BRAND, getDefaultOgImage, getSiteUrl } from "@/lib/seo";
+import { STORE } from "@/lib/store";
 
-export function OrganizationJsonLd() {
+interface OrganizationJsonLdProps {
+  locale: string;
+  description: string;
+}
+
+export function OrganizationJsonLd({ locale, description }: OrganizationJsonLdProps) {
   const siteUrl = getSiteUrl();
 
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: "Moviecam",
+    "@id": `${siteUrl}/#organization`,
+    name: BRAND.name,
+    alternateName: [...BRAND.alternateNames],
     url: siteUrl,
-    logo: `${siteUrl}/brands/dji.webp`,
-    description:
-      "Matériel audiovisuel professionnel au Maroc — caméras, audio, lumière et stabilisation.",
+    logo: {
+      "@type": "ImageObject",
+      url: getDefaultOgImage(),
+    },
+    description,
+    email: STORE.email,
+    telephone: STORE.phoneTel,
     address: {
       "@type": "PostalAddress",
+      addressLocality: "Agadir",
       addressCountry: "MA",
     },
+    sameAs: [STORE.instagramUrl, STORE.facebookUrl],
+    areaServed: {
+      "@type": "Country",
+      name: "Morocco",
+    },
+    knowsLanguage: ["fr", "ar", "en"],
+    inLanguage: locale,
   };
 
   return (

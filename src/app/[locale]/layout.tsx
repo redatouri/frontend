@@ -69,6 +69,10 @@ export default async function LocaleLayout({
       dir={locale === "ar" ? "rtl" : "ltr"}
       className={fontClasses}
     >
+      <head>
+        <link rel="preconnect" href="https://api.moviecam.ma" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://api.moviecam.ma" />
+      </head>
       <body>
         <NextIntlClientProvider messages={messages}>
           <Providers>

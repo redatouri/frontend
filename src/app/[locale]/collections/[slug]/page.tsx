@@ -1,10 +1,11 @@
 import { ScrollReveal } from "@/components/marketing/ScrollReveal";
 import { ProductCard } from "@/components/product/ProductCard";
 import { ProductGrid, ProductGridItem } from "@/components/product/ProductGrid";
+import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 import { Link } from "@/i18n/navigation";
 import { getCategory } from "@/lib/api/categories";
 import { getProducts } from "@/lib/api/products";
-import { defaultOpenGraph, localeAlternates } from "@/lib/seo";
+import { BRAND, buildPageMetadata } from "@/lib/seo";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
@@ -18,18 +19,28 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale, slug } = await params;
   const category = await getCategory(slug, locale);
-  if (!category) return { title: "Collection | Moviecam" };
+  if (!category) {
+    return buildPageMetadata({
+      title: "Collection Not Found",
+      description: `Collection not found on ${BRAND.name} (moviecam.ma).`,
+      locale,
+      path: `/collections/${slug}`,
+      noIndex: true,
+    });
+  }
 
-  const title = category.name;
-  const description = category.description ?? title;
-  const path = `/collections/${slug}`;
+  const title = `${category.name} — ${BRAND.name} Maroc`;
+  const description =
+    category.description ??
+    `${category.name} at ${BRAND.name} — camera shop Morocco. DJI, Sony, Canon and pro filmmaking equipment.`;
 
-  return {
+  return buildPageMetadata({
     title,
     description,
-    alternates: localeAlternates(path, locale),
-    openGraph: defaultOpenGraph(title, description, locale, path),
-  };
+    locale,
+    path: `/collections/${slug}`,
+    keywords: [BRAND.name, category.name, "camera store Morocco", "photography equipment Morocco"],
+  });
 }
 
 export default async function CollectionPage({
@@ -53,9 +64,20 @@ export default async function CollectionPage({
 
   return (
     <>
+      <BreadcrumbJsonLd
+        locale={locale}
+        items={[
+          { name: "MovieCam", path: "" },
+          { name: t("title"), path: "/collections" },
+          { name: category.name, path: `/collections/${slug}` },
+        ]}
+      />
       <section className="border-b border-border bg-bg-elevated py-14 md:py-20">
         <div className="container-page">
-          <nav className="mb-6 text-xs font-medium uppercase tracking-[0.14em] text-text-muted">
+          <nav
+            aria-label="Breadcrumb"
+            className="mb-6 text-xs font-medium uppercase tracking-[0.14em] text-text-muted"
+          >
             <Link href="/collections" className="transition-colors hover:text-accent">
               {t("title")}
             </Link>

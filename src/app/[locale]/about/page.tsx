@@ -1,5 +1,7 @@
 import { AlternatingSection } from "@/components/marketing/AlternatingSection";
 import { ScrollReveal } from "@/components/marketing/ScrollReveal";
+import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
+import { buildPageMetadata } from "@/lib/seo";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
@@ -9,8 +11,14 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "about" });
-  return { title: `${t("storyTitle")} | Moviecam`, description: t("storyBody") };
+  const t = await getTranslations({ locale, namespace: "metadata" });
+
+  return buildPageMetadata({
+    title: t("aboutTitle"),
+    description: t("aboutDescription"),
+    locale,
+    path: "/about",
+  });
 }
 
 export default async function AboutPage({
@@ -24,8 +32,16 @@ export default async function AboutPage({
 
   return (
     <>
+      <BreadcrumbJsonLd
+        locale={locale}
+        items={[
+          { name: "MovieCam", path: "" },
+          { name: t("storyTitle"), path: "/about" },
+        ]}
+      />
       <AlternatingSection
         variant="editorial"
+        titleAs="h1"
         eyebrow={t("storyEyebrow")}
         title={t("storyTitle")}
         description={

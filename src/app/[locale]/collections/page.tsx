@@ -1,8 +1,9 @@
 import { BrandShowcases } from "@/components/marketing/BrandShowcases";
 import { PageHero } from "@/components/marketing/PageHero";
+import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 import { getProducts } from "@/lib/api/products";
 import { groupProductsByBrand, normalizeBrandParam } from "@/lib/brands";
-import { defaultOpenGraph, localeAlternates } from "@/lib/seo";
+import { buildPageMetadata } from "@/lib/seo";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
@@ -14,16 +15,14 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "collections" });
-  const title = t("title");
-  const description = t("subtitle");
+  const t = await getTranslations({ locale, namespace: "metadata" });
 
-  return {
-    title,
-    description,
-    alternates: localeAlternates("/collections", locale),
-    openGraph: defaultOpenGraph(title, description, locale, "/collections"),
-  };
+  return buildPageMetadata({
+    title: t("collectionsTitle"),
+    description: t("collectionsDescription"),
+    locale,
+    path: "/collections",
+  });
 }
 
 export default async function CollectionsPage({
@@ -48,7 +47,14 @@ export default async function CollectionsPage({
 
   return (
     <>
-      <PageHero title={t("title")} subtitle={t("subtitle")} eyebrow="Moviecam" />
+      <BreadcrumbJsonLd
+        locale={locale}
+        items={[
+          { name: "MovieCam", path: "" },
+          { name: t("title"), path: "/collections" },
+        ]}
+      />
+      <PageHero title={t("title")} subtitle={t("subtitle")} eyebrow="MovieCam" />
 
       <BrandShowcases
         title={brandParam ? undefined : t("brandsTitle")}

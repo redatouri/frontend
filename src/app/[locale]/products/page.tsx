@@ -1,8 +1,10 @@
+import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
+import { ItemListJsonLd } from "@/components/seo/ItemListJsonLd";
 import { ScrollReveal } from "@/components/marketing/ScrollReveal";
 import { ProductCard } from "@/components/product/ProductCard";
 import { ProductGrid, ProductGridItem } from "@/components/product/ProductGrid";
 import { getProducts } from "@/lib/api/products";
-import { defaultOpenGraph, localeAlternates } from "@/lib/seo";
+import { buildPageMetadata } from "@/lib/seo";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
@@ -14,16 +16,14 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "products" });
-  const title = t("title");
-  const description = t("subtitle");
+  const t = await getTranslations({ locale, namespace: "metadata" });
 
-  return {
-    title,
-    description,
-    alternates: localeAlternates("/products", locale),
-    openGraph: defaultOpenGraph(title, description, locale, "/products"),
-  };
+  return buildPageMetadata({
+    title: t("productsTitle"),
+    description: t("productsDescription"),
+    locale,
+    path: "/products",
+  });
 }
 
 export default async function ProductsPage({
@@ -43,11 +43,25 @@ export default async function ProductsPage({
 
   return (
     <>
+      <BreadcrumbJsonLd
+        locale={locale}
+        items={[
+          { name: "MovieCam", path: "" },
+          { name: t("title"), path: "/products" },
+        ]}
+      />
+      <ItemListJsonLd
+        name={t("title")}
+        items={products.items.map((product) => ({
+          name: product.name,
+          url: `/${locale}/products/${product.slug}`,
+        }))}
+      />
       <section className="border-b border-border bg-bg-elevated py-14 md:py-20">
         <div className="container-page">
           <ScrollReveal>
             <div>
-              <p className="editorial-eyebrow">Moviecam</p>
+              <p className="editorial-eyebrow">MovieCam</p>
               <h1 className="mt-4 font-display text-display-lg font-semibold">{t("title")}</h1>
               <p className="mt-5 text-body-lg text-text-secondary">{t("subtitle")}</p>
               <p className="mt-4 text-sm font-medium text-cyan">

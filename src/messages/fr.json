@@ -343,7 +343,25 @@
     "cta": "Retour à l'accueil"
   },
   "metadata": {
-    "siteName": "Moviecam",
-    "homeDescription": "Matériel audiovisuel professionnel au Maroc — caméras, audio, lumière et stabilisation. Livraison nationale, paiement à la livraison."
+    "siteName": "MovieCam",
+    "homeTitle": "MovieCam — Boutique Caméra & Matériel Audiovisuel au Maroc",
+    "homeDescription": "MovieCam (Movie Cam, moviecam.ma) — boutique caméra au Maroc. DJI, Sony, Canon, GoPro, matériel photo et cinéma. Livraison nationale, paiement à la livraison.",
+    "homeKeywords": "MovieCam, Movie Cam, moviecam.ma, boutique caméra Maroc, camera store Morocco, camera shop Morocco, DJI Maroc, Sony Maroc, Canon Maroc, matériel audiovisuel Maroc, filmmaking equipment Morocco",
+    "productsTitle": "Tous les Produits — Boutique Caméra MovieCam Maroc",
+    "productsDescription": "Catalogue complet MovieCam : caméras DJI, Sony, GoPro, micros, stabilisateurs, éclairage et accessoires pro. Camera shop Morocco — livraison partout au Maroc.",
+    "collectionsTitle": "Collections — Matériel Photo & Vidéo MovieCam Maroc",
+    "collectionsDescription": "Explorez les collections MovieCam par catégorie : caméras, audio, lumière, stabilisation. Photography & filmmaking equipment in Morocco.",
+    "aboutTitle": "À Propos de MovieCam — Camera Shop Morocco",
+    "aboutDescription": "MovieCam (Movie Cam) est une boutique caméra à Agadir, Maroc. Matériel audiovisuel professionnel, conseil expert et livraison nationale depuis 2023.",
+    "contactTitle": "Contact MovieCam — Boutique Caméra Agadir Maroc",
+    "contactDescription": "Contactez MovieCam pour vos achats caméra, DJI, Sony et matériel audiovisuel au Maroc. WhatsApp, téléphone et magasin à Agadir.",
+    "checkoutTitle": "Finaliser la Commande",
+    "checkoutDescription": "Finalisez votre commande MovieCam — paiement à la livraison partout au Maroc.",
+    "thankYouTitle": "Commande Confirmée",
+    "thankYouDescription": "Votre commande MovieCam a été confirmée. Paiement à la livraison.",
+    "notFoundTitle": "Page Introuvable",
+    "notFoundDescription": "Cette page n'existe pas sur MovieCam (moviecam.ma). Retournez à la boutique caméra au Maroc.",
+    "organizationDescription": "MovieCam (Movie Cam, moviecam.ma) — matériel audiovisuel professionnel au Maroc : caméras, audio, lumière et stabilisation.",
+    "storeDescription": "Boutique MovieCam à Agadir — camera store Morocco. DJI, Sony, Canon, GoPro et équipement filmmaking. Livraison nationale."
   }
 }

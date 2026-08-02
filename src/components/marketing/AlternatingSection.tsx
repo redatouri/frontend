@@ -17,6 +17,8 @@ interface AlternatingSectionProps {
   imageShape?: "default" | "circle";
   category?: "camera" | "audio" | "lighting" | "gimbal" | "lens" | "default";
   variant?: "default" | "editorial";
+  /** Use h1 for the page's primary heading (SEO). Defaults to h2. */
+  titleAs?: "h1" | "h2";
   className?: string;
 }
 
@@ -31,9 +33,11 @@ export function AlternatingSection({
   imageShape = "default",
   category = "default",
   variant = "default",
+  titleAs = "h2",
   className,
 }: AlternatingSectionProps) {
   const isEditorial = variant === "editorial";
+  const TitleTag = titleAs;
 
   const imageBlock = (
     <div
@@ -67,15 +71,15 @@ export function AlternatingSection({
         className="pointer-events-none absolute -inset-x-4 -inset-y-6 -z-10 rounded-2xl bg-gradient-to-br from-bg-subtle/90 via-bg-primary/40 to-cyan/5 md:-inset-x-6"
       />
       {eyebrow ? <p className="editorial-eyebrow">{eyebrow}</p> : null}
-      <h2 className="editorial-story-title mt-4 font-display text-display-lg text-balance font-semibold tracking-tight text-text-primary">
+      <TitleTag className="editorial-story-title mt-4 font-display text-display-lg text-balance font-semibold tracking-tight text-text-primary">
         {title}
-      </h2>
+      </TitleTag>
       <div className="premium-divider my-6 max-w-16" />
       <div className="space-y-0">{description}</div>
     </div>
   ) : (
     <div className="flex flex-col justify-center">
-      <h2 className="font-display text-display-lg text-balance font-semibold">{title}</h2>
+      <TitleTag className="font-display text-display-lg text-balance font-semibold">{title}</TitleTag>
       <div className="mt-4 text-body-lg text-text-secondary">{description}</div>
     </div>
   );

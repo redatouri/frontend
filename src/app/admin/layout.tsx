@@ -10,8 +10,9 @@ const openSans = Open_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Admin | Moviecam",
-  description: "Moviecam administration",
+  title: "Admin | MovieCam",
+  description: "MovieCam administration",
+  robots: { index: false, follow: false, googleBot: { index: false, follow: false } },
 };
 
 export default function AdminRootLayout({

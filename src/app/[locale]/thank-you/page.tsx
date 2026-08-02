@@ -1,5 +1,6 @@
 import { ThankYouClient } from "@/components/checkout/ThankYouClient";
 import { getOrderByNumber } from "@/lib/api/orders";
+import { buildPageMetadata } from "@/lib/seo";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
@@ -9,8 +10,15 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "thankYou" });
-  return { title: `${t("title")} | Moviecam` };
+  const t = await getTranslations({ locale, namespace: "metadata" });
+
+  return buildPageMetadata({
+    title: t("thankYouTitle"),
+    description: t("thankYouDescription"),
+    locale,
+    path: "/thank-you",
+    noIndex: true,
+  });
 }
 
 export default async function ThankYouPage({

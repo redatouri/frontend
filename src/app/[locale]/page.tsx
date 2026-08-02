@@ -8,10 +8,12 @@ import {
 import { InstagramSection } from "@/components/marketing/InstagramSection";
 import { HeroSection } from "@/components/marketing/HeroSection";
 import { OrganizationJsonLd } from "@/components/seo/OrganizationJsonLd";
+import { StoreJsonLd } from "@/components/seo/StoreJsonLd";
+import { WebSiteJsonLd } from "@/components/seo/WebSiteJsonLd";
 import { groupProductsByBrand } from "@/lib/brands";
 import { getProducts } from "@/lib/api/products";
 import { HOME_IMAGES } from "@/lib/home-images";
-import { defaultOpenGraph, localeAlternates } from "@/lib/seo";
+import { buildPageMetadata } from "@/lib/seo";
 import { Camera, Headphones, Truck } from "lucide-react";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -25,15 +27,15 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "metadata" });
-  const title = t("siteName");
-  const description = t("homeDescription");
 
-  return {
-    title,
-    description,
-    alternates: localeAlternates("", locale),
-    openGraph: defaultOpenGraph(title, description, locale),
-  };
+  return buildPageMetadata({
+    title: t("homeTitle"),
+    description: t("homeDescription"),
+    locale,
+    path: "",
+    absoluteTitle: true,
+    keywords: t("homeKeywords").split(", "),
+  });
 }
 
 export default async function HomePage({
@@ -44,6 +46,7 @@ export default async function HomePage({
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("home");
+  const tMeta = await getTranslations("metadata");
 
   const allProducts = await getProducts({ locale, limit: 60 });
 
@@ -94,7 +97,9 @@ export default async function HomePage({
 
   return (
     <>
-      <OrganizationJsonLd />
+      <OrganizationJsonLd locale={locale} description={tMeta("organizationDescription")} />
+      <WebSiteJsonLd />
+      <StoreJsonLd description={tMeta("storeDescription")} />
       <HeroSection
         title={t("heroTitle")}
         subtitle={t("heroSubtitle")}

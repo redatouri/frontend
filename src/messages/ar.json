@@ -343,7 +343,25 @@
     "cta": "العودة للرئيسية"
   },
   "metadata": {
-    "siteName": "Moviecam",
-    "homeDescription": "معدات سمعية بصرية احترافية في المغرب — كاميرات، صوت، إضاءة وتثبيت. توصيل وطني، الدفع عند الاستلام."
+    "siteName": "MovieCam",
+    "homeTitle": "MovieCam — متجر كاميرات ومعدات سمعية بصرية في المغرب",
+    "homeDescription": "MovieCam (Movie Cam, moviecam.ma) — متجر كاميرات في المغرب. DJI، Sony، Canon، GoPro، معدات تصوير وصناعة أفلام. توصيل وطني، الدفع عند الاستلام.",
+    "homeKeywords": "MovieCam, Movie Cam, moviecam.ma, متجر كاميرات المغرب, camera store Morocco, boutique caméra Maroc, DJI المغرب, Sony المغرب, Canon المغرب, معدات تصوير المغرب",
+    "productsTitle": "جميع المنتجات — MovieCam متجر كاميرات المغرب",
+    "productsDescription": "تصفح منتجات MovieCam: كاميرات DJI وSony وGoPro، ميكروفونات، gimbals، إضاءة وإكسسوارات احترافية. متجر كاميرات في المغرب مع توصيل وطني.",
+    "collectionsTitle": "المجموعات — معدات تصوير MovieCam المغرب",
+    "collectionsDescription": "استكشف مجموعات MovieCam حسب الفئة: كاميرات، صوت، إضاءة، تثبيت. معدات تصوير احترافية في المغرب.",
+    "aboutTitle": "عن MovieCam — متجر كاميرات المغرب",
+    "aboutDescription": "MovieCam (Movie Cam) متجر كاميرات في أكادير، المغرب. معدات سمعية بصرية احترافية، استشارة خبراء وتوصيل وطني منذ 2023.",
+    "contactTitle": "اتصل بـ MovieCam — متجر كاميرات أكادير",
+    "contactDescription": "تواصل مع MovieCam لشراء الكاميرات وDJI وSony ومعدات التصوير في المغرب. واتساب، هاتف ومتجر في أكادير.",
+    "checkoutTitle": "إتمام الطلب",
+    "checkoutDescription": "أكمل طلبك من MovieCam — الدفع عند الاستلام في جميع أنحاء المغرب.",
+    "thankYouTitle": "تم تأكيد الطلب",
+    "thankYouDescription": "تم تأكيد طلبك من MovieCam. الدفع عند الاستلام.",
+    "notFoundTitle": "الصفحة غير موجودة",
+    "notFoundDescription": "هذه الصفحة غير موجودة على MovieCam (moviecam.ma). عد إلى متجر الكاميرات في المغرب.",
+    "organizationDescription": "MovieCam (Movie Cam, moviecam.ma) — معدات سمعية بصرية احترافية في المغرب: كاميرات، صوت، إضاءة وتثبيت.",
+    "storeDescription": "متجر MovieCam في أكادير — camera shop Morocco. DJI، Sony، Canon، GoPro ومعدات صناعة الأفلام. توصيل وطني."
   }
 }

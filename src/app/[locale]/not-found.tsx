@@ -1,5 +1,19 @@
 import { Link } from "@/i18n/navigation";
-import { getTranslations } from "next-intl/server";
+import { buildPageMetadata } from "@/lib/seo";
+import type { Metadata } from "next";
+import { getLocale, getTranslations } from "next-intl/server";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getLocale();
+  const t = await getTranslations({ locale, namespace: "metadata" });
+
+  return buildPageMetadata({
+    title: t("notFoundTitle"),
+    description: t("notFoundDescription"),
+    locale,
+    noIndex: true,
+  });
+}
 
 export default async function NotFoundPage() {
   const t = await getTranslations("notFound");

@@ -1,4 +1,5 @@
 import { CodCheckoutForm } from "@/components/checkout/CodCheckoutForm";
+import { buildPageMetadata } from "@/lib/seo";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
@@ -8,8 +9,15 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "checkout" });
-  return { title: `${t("title")} | Moviecam` };
+  const t = await getTranslations({ locale, namespace: "metadata" });
+
+  return buildPageMetadata({
+    title: t("checkoutTitle"),
+    description: t("checkoutDescription"),
+    locale,
+    path: "/checkout",
+    noIndex: true,
+  });
 }
 
 export default async function CheckoutPage({
