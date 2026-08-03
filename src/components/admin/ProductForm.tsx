@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
+import { Textarea } from "@/components/ui/Textarea";
 import {
   AdminCategoryOption,
   AdminProductDetail,
@@ -29,6 +30,10 @@ function resolveAdminImageUrl(url: string): string {
   return url;
 }
 
+function autoSku(slug: string): string {
+  return slug.toUpperCase().replace(/-/g, "_");
+}
+
 export function ProductForm({
   categories,
   accessToken,
@@ -40,6 +45,9 @@ export function ProductForm({
   const defaultOffer = initial?.offers.find((o) => o.is_default) ?? initial?.offers[0];
   const defaultImage = initial?.images[0];
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const defaultCategoryId =
+    initial?.category_parent_id ?? initial?.category_id ?? "";
 
   const existingImageUrl = useMemo(
     () => (defaultImage?.url ? resolveAdminImageUrl(defaultImage.url) : null),
@@ -88,13 +96,19 @@ export function ProductForm({
     }
 
     const form = new FormData(e.currentTarget);
-    const name = String(form.get("name"));
-    const slug = String(form.get("slug") || slugify(name));
+    const name = String(form.get("name")).trim();
+    const description = String(form.get("description") ?? "").trim();
+    const slug = initial?.slug || slugify(name);
     const categoryId = String(form.get("category_id"));
     const price = Number(form.get("price"));
     const stock = Number(form.get("stock"));
-    const sku = String(form.get("sku") || slug.toUpperCase().replace(/-/g, "_"));
+    const sku = defaultOffer?.sku || autoSku(slug);
     const isActive = form.get("is_active") === "on";
+
+    if (!name) {
+      toast.error("Le nom du produit est obligatoire");
+      return;
+    }
 
     setSubmitting(true);
     try {
@@ -125,6 +139,8 @@ export function ProductForm({
             locale: "fr",
             name,
             headline: name,
+            description,
+            short_description: description.slice(0, 500) || name,
           },
         ],
         offers: [
@@ -167,39 +183,42 @@ export function ProductForm({
         />
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2">
-        <div>
-          <Label htmlFor="slug">Slug (URL)</Label>
-          <Input
-            id="slug"
-            name="slug"
-            defaultValue={initial?.slug ?? ""}
-            placeholder="auto depuis le nom"
-            className="border-zinc-300 bg-white"
-          />
-        </div>
-        <div>
-          <Label htmlFor="category_id">Catégorie</Label>
-          <select
-            id="category_id"
-            name="category_id"
-            required
-            defaultValue={initial?.category_id ?? ""}
-            className="h-10 w-full rounded-md border border-zinc-300 bg-white px-3 text-sm"
-          >
-            <option value="" disabled>
-              Choisir une catégorie
-            </option>
-            {categories.map((category) => (
-              <option key={category.id} value={category.id}>
-                {category.name}
-              </option>
-            ))}
-          </select>
-        </div>
+      <div>
+        <Label htmlFor="description">Description</Label>
+        <Textarea
+          id="description"
+          name="description"
+          rows={6}
+          defaultValue={frTranslation?.description ?? ""}
+          placeholder="Décrivez le produit : caractéristiques, contenu de la boîte, usage…"
+          className="min-h-[140px] border-zinc-300 bg-white text-zinc-900 placeholder:text-zinc-400"
+        />
+        <p className="mt-1.5 text-xs text-zinc-500">
+          Visible sur la page produit du site (français).
+        </p>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-3">
+      <div>
+        <Label htmlFor="category_id">Catégorie</Label>
+        <select
+          id="category_id"
+          name="category_id"
+          required
+          defaultValue={defaultCategoryId}
+          className="h-10 w-full rounded-md border border-zinc-300 bg-white px-3 text-sm"
+        >
+          <option value="" disabled>
+            Choisir une catégorie
+          </option>
+          {categories.map((category) => (
+            <option key={category.id} value={category.id}>
+              {category.name}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <div className="grid gap-4 sm:grid-cols-2">
         <div>
           <Label htmlFor="price">Prix (MAD)</Label>
           <Input
@@ -223,15 +242,6 @@ export function ProductForm({
             step="1"
             required
             defaultValue={defaultOffer?.stock ?? 6}
-            className="border-zinc-300 bg-white"
-          />
-        </div>
-        <div>
-          <Label htmlFor="sku">SKU</Label>
-          <Input
-            id="sku"
-            name="sku"
-            defaultValue={defaultOffer?.sku ?? ""}
             className="border-zinc-300 bg-white"
           />
         </div>

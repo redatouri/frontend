@@ -87,6 +87,7 @@ export interface AdminProductDetail {
   slug: string;
   category_id: string;
   category_slug: string | null;
+  category_parent_id?: string | null;
   is_active: boolean;
   is_featured: boolean;
   sort_order: number;
