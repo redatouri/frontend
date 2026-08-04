@@ -102,6 +102,7 @@ export default async function HomePage({
         desktopTagline={t("heroDesktopTagline")}
         mobileSlides={HOME_IMAGES.hero.mobileSlides}
         desktopVideos={HOME_IMAGES.hero.desktopVideos}
+        desktopPoster={HOME_IMAGES.hero.desktopPoster}
         mobileImageHasCopy
       />
 

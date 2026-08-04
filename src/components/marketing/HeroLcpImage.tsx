@@ -28,6 +28,7 @@ export function HeroImagePreload({ slide }: { slide: HeroMobileSlide }) {
       href={props.src}
       imageSrcSet={props.srcSet}
       imageSizes="100vw"
+      media="(max-width: 767px)"
       fetchPriority="high"
     />
   );

@@ -22,6 +22,8 @@ interface HeroSectionClientProps {
   imageAlt?: string;
   mobileImageHasCopy?: boolean;
   lcpBackground?: ReactNode;
+  desktopPoster?: { src: string; alt: string };
+  desktopLcpBackground?: ReactNode;
 }
 
 export function HeroSectionClient({
@@ -36,11 +38,14 @@ export function HeroSectionClient({
   imageAlt = "Professional cinema camera equipment",
   mobileImageHasCopy = false,
   lcpBackground,
+  desktopPoster,
+  desktopLcpBackground,
 }: HeroSectionClientProps) {
   const ref = useRef<HTMLElement>(null);
   const reduced = useReducedMotion();
   const isDesktop = useIsDesktop();
   const [mobileSlideIndex, setMobileSlideIndex] = useState(0);
+  const [desktopVideoPlaying, setDesktopVideoPlaying] = useState(false);
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end start"],
@@ -108,11 +113,22 @@ export function HeroSectionClient({
       ref={ref}
       className="relative -mt-16 min-h-[100svh] w-full overflow-hidden bg-white pt-16 md:-mt-[72px] md:pt-[72px]"
     >
-      {(hasMobileSlides || hasDesktopVideos || imageDesktop || lcpBackground) && (
+      {(hasMobileSlides || hasDesktopVideos || imageDesktop || lcpBackground || desktopLcpBackground) && (
         <motion.div
           className="absolute inset-0 max-md:[transform:none]"
           style={disableParallax ? undefined : { y: imageY, scale: imageScale }}
         >
+          {desktopLcpBackground ? (
+            <div
+              className={
+                desktopVideoPlaying
+                  ? "pointer-events-none opacity-0 transition-opacity duration-700"
+                  : undefined
+              }
+            >
+              {desktopLcpBackground}
+            </div>
+          ) : null}
           {lcpBackground ? (
             <div
               className={
@@ -132,7 +148,13 @@ export function HeroSectionClient({
               onIndexChange={setMobileSlideIndex}
             />
           )}
-          {hasDesktopVideos && <HeroDesktopVideosLazy videos={desktopVideos} />}
+          {hasDesktopVideos && (
+            <HeroDesktopVideosLazy
+              videos={desktopVideos}
+              posterSrc={desktopPoster?.src}
+              onPlaying={() => setDesktopVideoPlaying(true)}
+            />
+          )}
           {imageDesktop && (
             <Image
               src={imageDesktop}
