@@ -19,6 +19,8 @@ const spaceGrotesk = Space_Grotesk({
   weight: ["400", "500", "600", "700"],
   variable: "--font-space-grotesk",
   display: "swap",
+  preload: true,
+  adjustFontFallback: true,
 });
 
 const inter = Inter({
@@ -26,6 +28,8 @@ const inter = Inter({
   weight: ["400", "500", "600"],
   variable: "--font-inter",
   display: "swap",
+  preload: true,
+  adjustFontFallback: true,
 });
 
 const tajawal = Tajawal({
@@ -33,6 +37,8 @@ const tajawal = Tajawal({
   weight: ["400", "500", "700"],
   variable: "--font-tajawal",
   display: "swap",
+  preload: false,
+  adjustFontFallback: true,
 });
 
 export function generateStaticParams() {

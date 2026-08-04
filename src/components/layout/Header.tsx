@@ -6,16 +6,21 @@ import { CartButton } from "./CartButton";
 import { HeaderIconButton } from "./HeaderIconButton";
 import { LocaleSwitcher } from "./LocaleSwitcher";
 import { MobileMenu } from "./MobileMenu";
-import { SearchOverlay } from "./SearchOverlay";
 import { useCartStore } from "@/lib/stores/cart";
 import { useWishlistStore } from "@/lib/stores/wishlist";
 import type { Category } from "@/types/category";
 import { useTranslations } from "next-intl";
 import { ChevronDown, Heart, Search } from "lucide-react";
 import { usePathname } from "@/i18n/navigation";
+import dynamic from "next/dynamic";
 import { useRef, useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { Logo } from "./Logo";
+
+const SearchOverlay = dynamic(
+  () => import("./SearchOverlay").then((m) => ({ default: m.SearchOverlay })),
+  { ssr: false },
+);
 
 interface HeaderProps {
   categories: Category[];
@@ -73,7 +78,7 @@ export function Header({ categories }: HeaderProps) {
             className="transition-opacity hover:opacity-85"
             aria-label="Movie Cam home"
           >
-            <Logo height={38} priority />
+            <Logo height={38} priority={!isHome} />
           </Link>
         </div>
 
@@ -172,7 +177,9 @@ export function Header({ categories }: HeaderProps) {
         </div>
       </div>
     </header>
-    <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
+    {searchOpen ? (
+      <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
+    ) : null}
     </>
   );
 }

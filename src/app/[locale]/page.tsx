@@ -1,12 +1,5 @@
-import { BrandShowcases } from "@/components/marketing/BrandShowcases";
-import { BestSellersSection } from "@/components/marketing/BestSellersSection";
-import { FeaturedBrandsStrip } from "@/components/marketing/FeaturedBrandsStrip";
-import {
-  ServicesSection,
-  TestimonialsSection,
-} from "@/components/marketing/HomeSections";
-import { InstagramSection } from "@/components/marketing/InstagramSection";
 import { HeroSection } from "@/components/marketing/HeroSection";
+import { HomeBelowFold } from "@/components/marketing/HomeBelowFold";
 import { OrganizationJsonLd } from "@/components/seo/OrganizationJsonLd";
 import { StoreJsonLd } from "@/components/seo/StoreJsonLd";
 import { WebSiteJsonLd } from "@/components/seo/WebSiteJsonLd";
@@ -17,6 +10,7 @@ import { buildPageMetadata } from "@/lib/seo";
 import { Camera, Headphones, Truck } from "lucide-react";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { Suspense } from "react";
 
 export const revalidate = 60;
 
@@ -111,39 +105,31 @@ export default async function HomePage({
         mobileImageHasCopy
       />
 
-      <BestSellersSection
-        title={t("bestSellers")}
-        subtitle={t("bestSellersSubtitle")}
-        products={bestSellers}
-        viewAllLabel={t("bestSellersCta")}
-      />
-
-      <FeaturedBrandsStrip
-        title={t("featuredBrandsTitle")}
-        subtitle={t("featuredBrandsSubtitle")}
-      />
-
-      <BrandShowcases
-        title={t("brandsTitle")}
-        subtitle={t("brandsSubtitle")}
-        groups={brandGroups.slice(0, 3)}
-        brandLabel={t("brandLabel")}
-        viewAllLabel={(brand) => t("viewAllBrand", { brand })}
-      />
-
-      <ServicesSection
-        title={t("servicesTitle")}
-        subtitle={t("servicesSubtitle")}
-        items={services}
-      />
-
-      <TestimonialsSection title={t("testimonials")} items={testimonials} />
-
-      <InstagramSection
-        title={t("instagramTitle")}
-        subtitle={t("instagramSubtitle")}
-        cta={t("instagramCta")}
-      />
+      <Suspense fallback={null}>
+        <HomeBelowFold
+          bestSellers={bestSellers}
+          brandGroups={brandGroups.slice(0, 3)}
+          services={services}
+          testimonials={testimonials}
+          labels={{
+            bestSellers: t("bestSellers"),
+            bestSellersSubtitle: t("bestSellersSubtitle"),
+            bestSellersCta: t("bestSellersCta"),
+            featuredBrandsTitle: t("featuredBrandsTitle"),
+            featuredBrandsSubtitle: t("featuredBrandsSubtitle"),
+            brandsTitle: t("brandsTitle"),
+            brandsSubtitle: t("brandsSubtitle"),
+            brandLabel: t("brandLabel"),
+            viewAllBrand: (brand) => t("viewAllBrand", { brand }),
+            servicesTitle: t("servicesTitle"),
+            servicesSubtitle: t("servicesSubtitle"),
+            testimonials: t("testimonials"),
+            instagramTitle: t("instagramTitle"),
+            instagramSubtitle: t("instagramSubtitle"),
+            instagramCta: t("instagramCta"),
+          }}
+        />
+      </Suspense>
     </>
   );
 }

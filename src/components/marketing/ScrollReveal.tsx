@@ -1,6 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
+import { useIsDesktop } from "@/hooks/use-media-query";
 import { motion, useReducedMotion } from "framer-motion";
 import type { ReactNode } from "react";
 
@@ -18,6 +19,7 @@ export function ScrollReveal({
   direction = "up",
 }: ScrollRevealProps) {
   const reduced = useReducedMotion();
+  const isDesktop = useIsDesktop();
 
   const offsets = {
     up: { y: 32, x: 0 },
@@ -29,7 +31,7 @@ export function ScrollReveal({
 
   const offset = offsets[direction];
 
-  if (reduced) {
+  if (reduced || !isDesktop) {
     return <div className={className}>{children}</div>;
   }
 

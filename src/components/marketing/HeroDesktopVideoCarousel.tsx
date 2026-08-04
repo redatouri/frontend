@@ -18,8 +18,20 @@ interface HeroDesktopVideoCarouselProps {
 export function HeroDesktopVideoCarousel({ videos }: HeroDesktopVideoCarouselProps) {
   const reduced = useReducedMotion();
   const [index, setIndex] = useState(0);
+  const [loadedVideos, setLoadedVideos] = useState(() => new Set([0]));
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
   const count = videos.length;
+
+  useEffect(() => {
+    setLoadedVideos((prev) => {
+      const nextIndex = (index + 1) % count;
+      if (prev.has(index) && prev.has(nextIndex)) return prev;
+      const next = new Set(prev);
+      next.add(index);
+      next.add(nextIndex);
+      return next;
+    });
+  }, [count, index]);
 
   const goToNext = useCallback(() => {
     setIndex((current) => (current + 1) % count);
@@ -84,11 +96,11 @@ export function HeroDesktopVideoCarousel({ videos }: HeroDesktopVideoCarouselPro
           ref={(element) => {
             videoRefs.current[videoIndex] = element;
           }}
-          src={video.src}
+          src={loadedVideos.has(videoIndex) ? video.src : undefined}
           muted
           playsInline
           autoPlay={videoIndex === 0}
-          preload={videoIndex === 0 ? "auto" : "metadata"}
+          preload={videoIndex === 0 ? "auto" : "none"}
           aria-label={video.label}
           aria-hidden={videoIndex !== index}
           className={cn(
