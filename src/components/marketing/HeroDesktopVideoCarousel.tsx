@@ -13,19 +13,12 @@ export interface HeroDesktopVideo {
 
 interface HeroDesktopVideoCarouselProps {
   videos: HeroDesktopVideo[];
-  posterSrc?: string;
-  onPlaying?: () => void;
 }
 
-export function HeroDesktopVideoCarousel({
-  videos,
-  posterSrc,
-  onPlaying,
-}: HeroDesktopVideoCarouselProps) {
+export function HeroDesktopVideoCarousel({ videos }: HeroDesktopVideoCarouselProps) {
   const reduced = useReducedMotion();
   const [index, setIndex] = useState(0);
   const [loadedVideos, setLoadedVideos] = useState(() => new Set([0]));
-  const [hasNotifiedPlaying, setHasNotifiedPlaying] = useState(false);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
   const count = videos.length;
 
@@ -40,34 +33,25 @@ export function HeroDesktopVideoCarousel({
     });
   }, [count, index]);
 
-  const notifyPlaying = useCallback(() => {
-    if (hasNotifiedPlaying) return;
-    setHasNotifiedPlaying(true);
-    onPlaying?.();
-  }, [hasNotifiedPlaying, onPlaying]);
-
   const goToNext = useCallback(() => {
     setIndex((current) => (current + 1) % count);
   }, [count]);
 
-  const playVideo = useCallback(
-    (video: HTMLVideoElement, startAt = 0) => {
-      const seekToStart = () => {
-        if (startAt > 0 && Number.isFinite(video.duration) && startAt < video.duration) {
-          video.currentTime = startAt;
-        }
-      };
-
-      if (video.readyState >= 1) {
-        seekToStart();
-      } else {
-        video.addEventListener("loadedmetadata", seekToStart, { once: true });
+  const playVideo = useCallback((video: HTMLVideoElement, startAt = 0) => {
+    const seekToStart = () => {
+      if (startAt > 0 && Number.isFinite(video.duration) && startAt < video.duration) {
+        video.currentTime = startAt;
       }
+    };
 
-      void video.play().then(() => notifyPlaying()).catch(() => {});
-    },
-    [notifyPlaying],
-  );
+    if (video.readyState >= 1) {
+      seekToStart();
+    } else {
+      video.addEventListener("loadedmetadata", seekToStart, { once: true });
+    }
+
+    void video.play().catch(() => {});
+  }, []);
 
   useEffect(() => {
     if (count === 0) return;
@@ -113,11 +97,10 @@ export function HeroDesktopVideoCarousel({
             videoRefs.current[videoIndex] = element;
           }}
           src={loadedVideos.has(videoIndex) ? video.src : undefined}
-          poster={videoIndex === 0 ? posterSrc : undefined}
           muted
           playsInline
           autoPlay={videoIndex === 0}
-          preload="none"
+          preload={videoIndex === 0 ? "auto" : "none"}
           aria-label={video.label}
           aria-hidden={videoIndex !== index}
           className={cn(

@@ -60,16 +60,16 @@ function isExcludedProductImage(productSlug: string, url: string): boolean {
   return EXCLUDED_PRODUCT_IMAGE_FILES[productSlug]?.includes(filename) ?? false;
 }
 
-export function sanitizeProductImages<T extends { url: string; sort_order?: number }>(
-  images: T[],
-  productSlug?: string,
-): T[] {
-  if (!productSlug) return images;
+export function sanitizeProductImages<
+  T extends { url: string; sort_order?: number; is_lifestyle?: boolean },
+>(images: T[], productSlug?: string): T[] {
+  if (!productSlug) return images.slice(0, 1);
 
   const seen = new Set<string>();
-  return [...images]
+  const cleaned = [...images]
     .sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0))
     .filter((image) => {
+      if (image.is_lifestyle) return false;
       const url = getMediaUrl(image.url, productSlug);
       if (
         !url ||
@@ -82,6 +82,9 @@ export function sanitizeProductImages<T extends { url: string; sort_order?: numb
       seen.add(url);
       return true;
     });
+
+  // Gallery: keep only the primary product shot (white-background hero).
+  return cleaned.slice(0, 1);
 }
 
 export function getWhatsAppUrl(message?: string): string {
